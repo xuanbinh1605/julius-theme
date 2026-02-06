@@ -1,0 +1,36 @@
+# WordPress
+*.log
+.htaccess
+
+# Operating System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*~
+
+# IDE Files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Node modules (if using npm/gulp/webpack)
+node_modules/
+package-lock.json
+
+# Sass/SCSS cache
+.sass-cache/
+*.css.map
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+
+# Build files
+/dist/
+/build/
