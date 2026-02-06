@@ -43,6 +43,9 @@ add_action( 'after_setup_theme', 'julius_theme_setup' );
  * Enqueue Scripts and Styles
  */
 function julius_enqueue_scripts() {
+    // Google Fonts
+    wp_enqueue_style( 'julius-google-fonts', 'https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Fira+Sans:wght@300;400;500;600;700&display=swap', array(), null );
+    
     // Styles
     wp_enqueue_style( 'julius-style', get_stylesheet_uri(), array(), JULIUS_THEME_VERSION );
     
