@@ -11,9 +11,13 @@ jQuery(document).ready(function($) {
             '<label><strong>Option Name</strong></label>' +
             '<input type="text" name="pricing_option_name[]" value="" class="widefat" placeholder="e.g., Basic Package, Premium Package">' +
             '</div>' +
-            '<div style="width: 200px;">' +
+            '<div style="width: 150px;">' +
+            '<label><strong>Time (min)</strong></label>' +
+            '<input type="number" name="pricing_option_time[]" value="" class="widefat" placeholder="e.g., 60">' +
+            '</div>' +
+            '<div style="width: 150px;">' +
             '<label><strong>Price</strong></label>' +
-            '<input type="text" name="pricing_option_price[]" value="" class="widefat" placeholder="e.g., $50, 500,000 VND">' +
+            '<input type="text" name="pricing_option_price[]" value="" class="widefat" placeholder="e.g., $25">' +
             '</div>' +
             '<button type="button" class="button remove-pricing-option" style="margin-top: 22px;">Remove</button>' +
             '</div>' +

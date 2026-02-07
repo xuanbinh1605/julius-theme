@@ -139,9 +139,13 @@ function julius_service_pricing_callback( $post ) {
                                 <label><strong><?php _e( 'Option Name', 'julius-theme' ); ?></strong></label>
                                 <input type="text" name="pricing_option_name[]" value="<?php echo esc_attr( $option['name'] ?? '' ); ?>" class="widefat" placeholder="e.g., Basic Package, Premium Package">
                             </div>
-                            <div style="width: 200px;">
+                            <div style="width: 150px;">
+                                <label><strong><?php _e( 'Time (min)', 'julius-theme' ); ?></strong></label>
+                                <input type="number" name="pricing_option_time[]" value="<?php echo esc_attr( $option['time'] ?? '' ); ?>" class="widefat" placeholder="e.g., 60">
+                            </div>
+                            <div style="width: 150px;">
                                 <label><strong><?php _e( 'Price', 'julius-theme' ); ?></strong></label>
-                                <input type="text" name="pricing_option_price[]" value="<?php echo esc_attr( $option['price'] ?? '' ); ?>" class="widefat" placeholder="e.g., $50, 500,000 VND">
+                                <input type="text" name="pricing_option_price[]" value="<?php echo esc_attr( $option['price'] ?? '' ); ?>" class="widefat" placeholder="e.g., $25">
                             </div>
                             <button type="button" class="button remove-pricing-option" style="margin-top: 22px;"><?php _e( 'Remove', 'julius-theme' ); ?></button>
                         </div>
@@ -277,11 +281,13 @@ function julius_save_service_meta( $post_id ) {
         $pricing_options = array();
         $names = $_POST['pricing_option_name'];
         $prices = $_POST['pricing_option_price'];
+        $times = isset( $_POST['pricing_option_time'] ) ? $_POST['pricing_option_time'] : array();
         
         for ( $i = 0; $i < count( $names ); $i++ ) {
             if ( ! empty( $names[$i] ) || ! empty( $prices[$i] ) ) {
                 $pricing_options[] = array(
                     'name'  => sanitize_text_field( $names[$i] ),
+                    'time'  => isset( $times[$i] ) ? absint( $times[$i] ) : 0,
                     'price' => sanitize_text_field( $prices[$i] ),
                 );
             }
