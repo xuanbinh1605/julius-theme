@@ -187,5 +187,88 @@ function julius_frontpage_customizer_register( $wp_customize ) {
         'priority' => 110,
     ) );
 
+    // Our Services Section
+    $wp_customize->add_section( 'julius_services_section', array(
+        'title'    => __( 'Our Services Settings', 'julius-theme' ),
+        'panel'    => 'julius_homepage_panel',
+        'priority' => 20,
+    ) );
+
+    // Services Subtitle
+    $wp_customize->add_setting( 'julius_services_subtitle', array(
+        'default'           => 'Our Services',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_services_subtitle', array(
+        'label'    => __( 'Services Subtitle', 'julius-theme' ),
+        'section'  => 'julius_services_section',
+        'type'     => 'text',
+        'priority' => 10,
+    ) );
+
+    // Services Title
+    $wp_customize->add_setting( 'julius_services_title', array(
+        'default'           => 'Signature Spa Treatments',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_services_title', array(
+        'label'    => __( 'Services Title', 'julius-theme' ),
+        'section'  => 'julius_services_section',
+        'type'     => 'text',
+        'priority' => 20,
+    ) );
+
+    // Services Description
+    $wp_customize->add_setting( 'julius_services_description', array(
+        'default'           => 'Discover our range of authentic Vietnamese spa treatments designed to restore your body and mind to perfect harmony.',
+        'sanitize_callback' => 'sanitize_textarea_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_services_description', array(
+        'label'    => __( 'Services Description', 'julius-theme' ),
+        'section'  => 'julius_services_section',
+        'type'     => 'textarea',
+        'priority' => 30,
+    ) );
+
+    // Services Count
+    $wp_customize->add_setting( 'julius_services_count', array(
+        'default'           => 4,
+        'sanitize_callback' => 'absint',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_services_count', array(
+        'label'       => __( 'Number of Services to Display', 'julius-theme' ),
+        'description' => __( 'How many services should be shown on the homepage?', 'julius-theme' ),
+        'section'     => 'julius_services_section',
+        'type'        => 'number',
+        'input_attrs' => array(
+            'min'  => 1,
+            'max'  => 12,
+            'step' => 1,
+        ),
+        'priority'    => 40,
+    ) );
+
+    // Services Button Text
+    $wp_customize->add_setting( 'julius_services_button_text', array(
+        'default'           => 'View All Services',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_services_button_text', array(
+        'label'    => __( 'Button Text', 'julius-theme' ),
+        'section'  => 'julius_services_section',
+        'type'     => 'text',
+        'priority' => 50,
+    ) );
+
 }
 add_action( 'customize_register', 'julius_frontpage_customizer_register' );

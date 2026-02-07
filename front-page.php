@@ -162,9 +162,9 @@ get_header();
     <section class="py-20 md:py-28 bg-secondary/30">
         <div class="container mx-auto px-4">
             <div class="text-center mb-16">
-                <p class="text-primary text-sm md:text-base tracking-[0.3em] uppercase mb-3">Our Services</p>
-                <h2 class="text-3xl md:text-5xl font-semibold text-foreground mb-4 text-balance">Signature Spa Treatments</h2>
-                <p class="text-muted-foreground text-lg max-w-2xl mx-auto">Discover our range of authentic Vietnamese spa treatments designed to restore your body and mind to perfect harmony.</p>
+                <p class="text-primary text-sm md:text-base tracking-[0.3em] uppercase mb-3"><?php echo esc_html( get_theme_mod( 'julius_services_subtitle', 'Our Services' ) ); ?></p>
+                <h2 class="text-3xl md:text-5xl font-semibold text-foreground mb-4 text-balance"><?php echo esc_html( get_theme_mod( 'julius_services_title', 'Signature Spa Treatments' ) ); ?></h2>
+                <p class="text-muted-foreground text-lg max-w-2xl mx-auto"><?php echo esc_html( get_theme_mod( 'julius_services_description', 'Discover our range of authentic Vietnamese spa treatments designed to restore your body and mind to perfect harmony.' ) ); ?></p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -172,7 +172,7 @@ get_header();
                 // Query services
                 $services_args = array(
                     'post_type'      => 'service',
-                    'posts_per_page' => 4,
+                    'posts_per_page' => get_theme_mod( 'julius_services_count', 4 ),
                     'orderby'        => 'menu_order',
                     'order'          => 'ASC',
                 );
@@ -303,7 +303,7 @@ get_header();
 
             <div class="text-center mt-12">
                 <a href="<?php echo esc_url( get_post_type_archive_link( 'service' ) ); ?>" data-slot="button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-10 rounded-md has-[>svg]:px-4 bg-primary hover:bg-primary/90 text-primary-foreground px-8">
-                    View All Services
+                    <?php echo esc_html( get_theme_mod( 'julius_services_button_text', 'View All Services' ) ); ?>
                 </a>
             </div>
         </div>
