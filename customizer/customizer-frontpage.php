@@ -947,5 +947,156 @@ function julius_frontpage_customizer_register( $wp_customize ) {
         'priority'    => 40,
     ) );
 
+    // ===========================
+    // CTA Section
+    // ===========================
+    $wp_customize->add_section( 'julius_cta_section', array(
+        'title'    => __( 'CTA Section', 'julius-theme' ),
+        'panel'    => 'julius_homepage_panel',
+        'priority' => 60,
+    ) );
+
+    // CTA Background Image
+    $wp_customize->add_setting( 'julius_cta_image', array(
+        'default'           => 24,
+        'sanitize_callback' => 'absint',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( new WP_Customize_Media_Control( $wp_customize, 'julius_cta_image', array(
+        'label'       => __( 'Background Image', 'julius-theme' ),
+        'description' => __( 'Upload or select the CTA background image', 'julius-theme' ),
+        'section'     => 'julius_cta_section',
+        'mime_type'   => 'image',
+        'priority'    => 10,
+    ) ) );
+
+    // CTA Badge Text
+    $wp_customize->add_setting( 'julius_cta_badge', array(
+        'default'           => 'Special Offer: 15% OFF First Visit',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_cta_badge', array(
+        'label'    => __( 'Badge Text', 'julius-theme' ),
+        'section'  => 'julius_cta_section',
+        'type'     => 'text',
+        'priority' => 20,
+    ) );
+
+    // CTA Heading Part 1
+    $wp_customize->add_setting( 'julius_cta_heading_1', array(
+        'default'           => 'Ready to Experience',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_cta_heading_1', array(
+        'label'    => __( 'Heading Part 1', 'julius-theme' ),
+        'section'  => 'julius_cta_section',
+        'type'     => 'text',
+        'priority' => 30,
+    ) );
+
+    // CTA Heading Part 2 (Accent)
+    $wp_customize->add_setting( 'julius_cta_heading_2', array(
+        'default'           => 'True Relaxation?',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_cta_heading_2', array(
+        'label'       => __( 'Heading Part 2 (Accent)', 'julius-theme' ),
+        'description' => __( 'This text will be displayed in the accent color', 'julius-theme' ),
+        'section'     => 'julius_cta_section',
+        'type'        => 'text',
+        'priority'    => 40,
+    ) );
+
+    // CTA Description
+    $wp_customize->add_setting( 'julius_cta_description', array(
+        'default'           => 'Book your appointment today and let our expert therapists transport you to a world of tranquility and wellness.',
+        'sanitize_callback' => 'sanitize_textarea_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_cta_description', array(
+        'label'    => __( 'Description', 'julius-theme' ),
+        'section'  => 'julius_cta_section',
+        'type'     => 'textarea',
+        'priority' => 50,
+    ) );
+
+    // CTA Phone Number
+    $wp_customize->add_setting( 'julius_cta_phone', array(
+        'default'           => '+84 123 456 789',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_cta_phone', array(
+        'label'    => __( 'Phone Number', 'julius-theme' ),
+        'section'  => 'julius_cta_section',
+        'type'     => 'text',
+        'priority' => 60,
+    ) );
+
+    // CTA Open Hours
+    $wp_customize->add_setting( 'julius_cta_hours', array(
+        'default'           => '9:00 AM - 10:00 PM',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_cta_hours', array(
+        'label'    => __( 'Open Hours', 'julius-theme' ),
+        'section'  => 'julius_cta_section',
+        'type'     => 'text',
+        'priority' => 70,
+    ) );
+
+    // CTA Book Now Button Text
+    $wp_customize->add_setting( 'julius_cta_button_1_text', array(
+        'default'           => 'Book Now',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_cta_button_1_text', array(
+        'label'    => __( 'Book Now Button Text', 'julius-theme' ),
+        'section'  => 'julius_cta_section',
+        'type'     => 'text',
+        'priority' => 80,
+    ) );
+
+    // CTA Book Now Button Link
+    $wp_customize->add_setting( 'julius_cta_button_1_link', array(
+        'default'           => '/contact',
+        'sanitize_callback' => 'esc_url_raw',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_cta_button_1_link', array(
+        'label'    => __( 'Book Now Button Link', 'julius-theme' ),
+        'section'  => 'julius_cta_section',
+        'type'     => 'url',
+        'priority' => 90,
+    ) );
+
+    // CTA View Menu Button Text
+    $wp_customize->add_setting( 'julius_cta_button_2_text', array(
+        'default'           => 'View Menu',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_cta_button_2_text', array(
+        'label'    => __( 'View Menu Button Text', 'julius-theme' ),
+        'section'  => 'julius_cta_section',
+        'type'     => 'text',
+        'priority' => 100,
+    ) );
+
 }
 add_action( 'customize_register', 'julius_frontpage_customizer_register' );

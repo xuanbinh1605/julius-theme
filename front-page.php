@@ -741,9 +741,10 @@ get_header();
     <section class="relative py-20 md:py-28 overflow-hidden">
         <div class="absolute inset-0">
             <?php
-            $cta_image_url = wp_get_attachment_image_url( 24, 'full' );
+            $cta_image_id = get_theme_mod( 'julius_cta_image', 24 );
+            $cta_image_url = wp_get_attachment_image_url( $cta_image_id, 'full' );
             if ( $cta_image_url ) {
-                $cta_image_alt = get_post_meta( 24, '_wp_attachment_image_alt', true );
+                $cta_image_alt = get_post_meta( $cta_image_id, '_wp_attachment_image_alt', true );
                 if ( empty( $cta_image_alt ) ) {
                     $cta_image_alt = 'Julius Spa at night';
                 }
@@ -772,16 +773,16 @@ get_header();
                         <path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"></path>
                         <path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"></path>
                     </svg>
-                    <span class="text-primary font-medium">Special Offer: 15% OFF First Visit</span>
+                    <span class="text-primary font-medium"><?php echo esc_html( get_theme_mod( 'julius_cta_badge', 'Special Offer: 15% OFF First Visit' ) ); ?></span>
                 </div>
                 
                 <h2 class="text-3xl md:text-5xl lg:text-6xl font-semibold text-white mb-6 text-balance">
-                    Ready to Experience
-                    <span class="block text-accent">True Relaxation?</span>
+                    <?php echo esc_html( get_theme_mod( 'julius_cta_heading_1', 'Ready to Experience' ) ); ?>
+                    <span class="block text-accent"><?php echo esc_html( get_theme_mod( 'julius_cta_heading_2', 'True Relaxation?' ) ); ?></span>
                 </h2>
                 
                 <p class="text-white/80 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
-                    Book your appointment today and let our expert therapists transport you to a world of tranquility and wellness.
+                    <?php echo esc_html( get_theme_mod( 'julius_cta_description', 'Book your appointment today and let our expert therapists transport you to a world of tranquility and wellness.' ) ); ?>
                 </p>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-lg mx-auto mb-10">
@@ -791,7 +792,7 @@ get_header();
                         </svg>
                         <div class="text-left">
                             <p class="text-white/60 text-sm">Call Us</p>
-                            <p class="text-white font-medium">+84 123 456 789</p>
+                            <p class="text-white font-medium"><?php echo esc_html( get_theme_mod( 'julius_cta_phone', '+84 123 456 789' ) ); ?></p>
                         </div>
                     </div>
                     
@@ -802,17 +803,17 @@ get_header();
                         </svg>
                         <div class="text-left">
                             <p class="text-white/60 text-sm">Open Hours</p>
-                            <p class="text-white font-medium">9:00 AM - 10:00 PM</p>
+                            <p class="text-white font-medium"><?php echo esc_html( get_theme_mod( 'julius_cta_hours', '9:00 AM - 10:00 PM' ) ); ?></p>
                         </div>
                     </div>
                 </div>
                 
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <a href="/contact" data-slot="button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-10 rounded-md has-[>svg]:px-4 bg-primary hover:bg-primary/90 text-primary-foreground px-10 py-6 text-lg">
-                        Book Now
+                    <a href="<?php echo esc_url( get_theme_mod( 'julius_cta_button_1_link', '/contact' ) ); ?>" data-slot="button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-10 rounded-md has-[>svg]:px-4 bg-primary hover:bg-primary/90 text-primary-foreground px-10 py-6 text-lg">
+                        <?php echo esc_html( get_theme_mod( 'julius_cta_button_1_text', 'Book Now' ) ); ?>
                     </a>
                     <a href="<?php echo esc_url( get_post_type_archive_link( 'service' ) ); ?>" data-slot="button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive shadow-xs dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-10 rounded-md has-[>svg]:px-4 border-2 border-white text-white hover:bg-white hover:text-foreground px-10 py-6 text-lg bg-transparent">
-                        View Menu
+                        <?php echo esc_html( get_theme_mod( 'julius_cta_button_2_text', 'View Menu' ) ); ?>
                     </a>
                 </div>
             </div>
