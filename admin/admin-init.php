@@ -68,3 +68,10 @@ add_action( 'admin_enqueue_scripts', 'julius_enqueue_admin_scripts' );
 if ( file_exists( get_template_directory() . '/admin/admin-sample-generator.php' ) ) {
     require_once get_template_directory() . '/admin/admin-sample-generator.php';
 }
+
+/**
+ * Include Gallery Admin
+ */
+if ( file_exists( get_template_directory() . '/admin/admin-gallery.php' ) ) {
+    require_once get_template_directory() . '/admin/admin-gallery.php';
+}

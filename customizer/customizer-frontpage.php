@@ -927,145 +927,25 @@ function julius_frontpage_customizer_register( $wp_customize ) {
         'priority' => 30,
     ) );
 
-    // Gallery Image 1
-    $wp_customize->add_setting( 'julius_gallery_image_1', array(
-        'default'           => 45,
+    // Gallery Images Count
+    $wp_customize->add_setting( 'julius_gallery_count', array(
+        'default'           => 10,
         'sanitize_callback' => 'absint',
         'transport'         => 'refresh',
     ) );
 
-    $wp_customize->add_control( new WP_Customize_Media_Control( $wp_customize, 'julius_gallery_image_1', array(
-        'label'     => __( 'Gallery Image 1 (Featured - Large)', 'julius-theme' ),
-        'section'   => 'julius_gallery_section',
-        'mime_type' => 'image',
-        'priority'  => 40,
-    ) ) );
-
-    // Gallery Image 2
-    $wp_customize->add_setting( 'julius_gallery_image_2', array(
-        'default'           => 46,
-        'sanitize_callback' => 'absint',
-        'transport'         => 'refresh',
+    $wp_customize->add_control( 'julius_gallery_count', array(
+        'label'       => __( 'Number of Images to Display', 'julius-theme' ),
+        'description' => __( 'Manage gallery images from Gallery admin menu. This setting controls how many images are displayed.', 'julius-theme' ),
+        'section'     => 'julius_gallery_section',
+        'type'        => 'number',
+        'input_attrs' => array(
+            'min'  => 1,
+            'max'  => 50,
+            'step' => 1,
+        ),
+        'priority'    => 40,
     ) );
-
-    $wp_customize->add_control( new WP_Customize_Media_Control( $wp_customize, 'julius_gallery_image_2', array(
-        'label'     => __( 'Gallery Image 2', 'julius-theme' ),
-        'section'   => 'julius_gallery_section',
-        'mime_type' => 'image',
-        'priority'  => 50,
-    ) ) );
-
-    // Gallery Image 3
-    $wp_customize->add_setting( 'julius_gallery_image_3', array(
-        'default'           => 47,
-        'sanitize_callback' => 'absint',
-        'transport'         => 'refresh',
-    ) );
-
-    $wp_customize->add_control( new WP_Customize_Media_Control( $wp_customize, 'julius_gallery_image_3', array(
-        'label'     => __( 'Gallery Image 3', 'julius-theme' ),
-        'section'   => 'julius_gallery_section',
-        'mime_type' => 'image',
-        'priority'  => 60,
-    ) ) );
-
-    // Gallery Image 4
-    $wp_customize->add_setting( 'julius_gallery_image_4', array(
-        'default'           => 48,
-        'sanitize_callback' => 'absint',
-        'transport'         => 'refresh',
-    ) );
-
-    $wp_customize->add_control( new WP_Customize_Media_Control( $wp_customize, 'julius_gallery_image_4', array(
-        'label'     => __( 'Gallery Image 4', 'julius-theme' ),
-        'section'   => 'julius_gallery_section',
-        'mime_type' => 'image',
-        'priority'  => 70,
-    ) ) );
-
-    // Gallery Image 5
-    $wp_customize->add_setting( 'julius_gallery_image_5', array(
-        'default'           => 49,
-        'sanitize_callback' => 'absint',
-        'transport'         => 'refresh',
-    ) );
-
-    $wp_customize->add_control( new WP_Customize_Media_Control( $wp_customize, 'julius_gallery_image_5', array(
-        'label'     => __( 'Gallery Image 5 (Wide)', 'julius-theme' ),
-        'section'   => 'julius_gallery_section',
-        'mime_type' => 'image',
-        'priority'  => 80,
-    ) ) );
-
-    // Gallery Image 6
-    $wp_customize->add_setting( 'julius_gallery_image_6', array(
-        'default'           => 50,
-        'sanitize_callback' => 'absint',
-        'transport'         => 'refresh',
-    ) );
-
-    $wp_customize->add_control( new WP_Customize_Media_Control( $wp_customize, 'julius_gallery_image_6', array(
-        'label'     => __( 'Gallery Image 6', 'julius-theme' ),
-        'section'   => 'julius_gallery_section',
-        'mime_type' => 'image',
-        'priority'  => 90,
-    ) ) );
-
-    // Gallery Image 7
-    $wp_customize->add_setting( 'julius_gallery_image_7', array(
-        'default'           => 51,
-        'sanitize_callback' => 'absint',
-        'transport'         => 'refresh',
-    ) );
-
-    $wp_customize->add_control( new WP_Customize_Media_Control( $wp_customize, 'julius_gallery_image_7', array(
-        'label'     => __( 'Gallery Image 7', 'julius-theme' ),
-        'section'   => 'julius_gallery_section',
-        'mime_type' => 'image',
-        'priority'  => 100,
-    ) ) );
-
-    // Gallery Image 8
-    $wp_customize->add_setting( 'julius_gallery_image_8', array(
-        'default'           => 52,
-        'sanitize_callback' => 'absint',
-        'transport'         => 'refresh',
-    ) );
-
-    $wp_customize->add_control( new WP_Customize_Media_Control( $wp_customize, 'julius_gallery_image_8', array(
-        'label'     => __( 'Gallery Image 8 (Wide)', 'julius-theme' ),
-        'section'   => 'julius_gallery_section',
-        'mime_type' => 'image',
-        'priority'  => 110,
-    ) ) );
-
-    // Gallery Image 9
-    $wp_customize->add_setting( 'julius_gallery_image_9', array(
-        'default'           => 53,
-        'sanitize_callback' => 'absint',
-        'transport'         => 'refresh',
-    ) );
-
-    $wp_customize->add_control( new WP_Customize_Media_Control( $wp_customize, 'julius_gallery_image_9', array(
-        'label'     => __( 'Gallery Image 9', 'julius-theme' ),
-        'section'   => 'julius_gallery_section',
-        'mime_type' => 'image',
-        'priority'  => 120,
-    ) ) );
-
-    // Gallery Image 10
-    $wp_customize->add_setting( 'julius_gallery_image_10', array(
-        'default'           => 54,
-        'sanitize_callback' => 'absint',
-        'transport'         => 'refresh',
-    ) );
-
-    $wp_customize->add_control( new WP_Customize_Media_Control( $wp_customize, 'julius_gallery_image_10', array(
-        'label'     => __( 'Gallery Image 10', 'julius-theme' ),
-        'section'   => 'julius_gallery_section',
-        'mime_type' => 'image',
-        'priority'  => 130,
-    ) ) );
 
 }
 add_action( 'customize_register', 'julius_frontpage_customizer_register' );

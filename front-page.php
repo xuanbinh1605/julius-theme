@@ -664,295 +664,75 @@ get_header();
             </div>
 
             <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 auto-rows-[180px] md:auto-rows-[220px]">
-                <!-- Gallery Item 1 - Large (2x2) -->
-                <div class="relative overflow-hidden rounded-lg cursor-pointer group md:col-span-2 md:row-span-2">
-                    <?php
-                    $gallery_image_1_id = get_theme_mod( 'julius_gallery_image_1', 45 );
-                    $gallery_image_1_url = wp_get_attachment_image_url( $gallery_image_1_id, 'large' );
-                    if ( $gallery_image_1_url ) {
-                        $gallery_image_1_alt = get_post_meta( $gallery_image_1_id, '_wp_attachment_image_alt', true );
-                        if ( empty( $gallery_image_1_alt ) ) {
-                            $gallery_image_1_alt = 'Julius Spa exterior at night with neon sign';
+                <?php
+                // Get gallery images from admin
+                $gallery_images = get_option( 'julius_gallery_images', array() );
+                $gallery_count = get_theme_mod( 'julius_gallery_count', 10 );
+                
+                // Limit images to display count
+                $gallery_images = array_slice( $gallery_images, 0, $gallery_count );
+                
+                // Define special layout positions (1-based index)
+                $large_positions = array( 1 ); // First image is large (2x2)
+                $wide_positions = array( 5, 8 ); // Wide images (2x1)
+                
+                if ( ! empty( $gallery_images ) ) {
+                    $index = 1;
+                    foreach ( $gallery_images as $image_id ) {
+                        $image_url = wp_get_attachment_image_url( $image_id, 'medium_large' );
+                        if ( ! $image_url ) {
+                            continue;
+                        }
+                        
+                        // Determine grid span classes
+                        $grid_class = '';
+                        if ( in_array( $index, $large_positions ) ) {
+                            $grid_class = 'md:col-span-2 md:row-span-2';
+                            $image_size = 'large';
+                        } elseif ( in_array( $index, $wide_positions ) ) {
+                            $grid_class = 'md:col-span-2';
+                            $image_size = 'large';
+                        } else {
+                            $image_size = 'medium_large';
+                        }
+                        
+                        // Get proper size image
+                        $image_url = wp_get_attachment_image_url( $image_id, $image_size );
+                        
+                        // Get alt text
+                        $image_alt = get_post_meta( $image_id, '_wp_attachment_image_alt', true );
+                        if ( empty( $image_alt ) ) {
+                            $image_alt = 'Julius Spa gallery image';
                         }
                         ?>
-                        <img 
-                            alt="<?php echo esc_attr( $gallery_image_1_alt ); ?>" 
-                            loading="lazy" 
-                            decoding="async" 
-                            data-nimg="fill" 
-                            class="object-cover group-hover:scale-110 transition-transform duration-500" 
-                            style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" 
-                            src="<?php echo esc_url( $gallery_image_1_url ); ?>"
-                        >
+                        <div class="relative overflow-hidden rounded-lg cursor-pointer group <?php echo esc_attr( $grid_class ); ?>">
+                            <img 
+                                alt="<?php echo esc_attr( $image_alt ); ?>" 
+                                loading="lazy" 
+                                decoding="async" 
+                                data-nimg="fill" 
+                                class="object-cover group-hover:scale-110 transition-transform duration-500" 
+                                style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" 
+                                src="<?php echo esc_url( $image_url ); ?>"
+                            >
+                            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300"></div>
+                            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <span class="text-white text-lg font-medium">View</span>
+                            </div>
+                        </div>
                         <?php
+                        $index++;
                     }
+                } else {
                     ?>
-                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300"></div>
-                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <span class="text-white text-lg font-medium">View</span>
+                    <div class="col-span-2 md:col-span-4 text-center py-12">
+                        <p class="text-muted-foreground">
+                            <?php _e( 'No gallery images yet. Add images from the Gallery admin menu.', 'julius-theme' ); ?>
+                        </p>
                     </div>
-                </div>
-
-                <!-- Gallery Item 2 -->
-                <div class="relative overflow-hidden rounded-lg cursor-pointer group">
                     <?php
-                    $gallery_image_2_id = get_theme_mod( 'julius_gallery_image_2', 46 );
-                    $gallery_image_2_url = wp_get_attachment_image_url( $gallery_image_2_id, 'medium_large' );
-                    if ( $gallery_image_2_url ) {
-                        $gallery_image_2_alt = get_post_meta( $gallery_image_2_id, '_wp_attachment_image_alt', true );
-                        if ( empty( $gallery_image_2_alt ) ) {
-                            $gallery_image_2_alt = 'Massage room with arched doorways';
-                        }
-                        ?>
-                        <img 
-                            alt="<?php echo esc_attr( $gallery_image_2_alt ); ?>" 
-                            loading="lazy" 
-                            decoding="async" 
-                            data-nimg="fill" 
-                            class="object-cover group-hover:scale-110 transition-transform duration-500" 
-                            style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" 
-                            src="<?php echo esc_url( $gallery_image_2_url ); ?>"
-                        >
-                        <?php
-                    }
-                    ?>
-                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300"></div>
-                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <span class="text-white text-lg font-medium">View</span>
-                    </div>
-                </div>
-
-                <!-- Gallery Item 3 -->
-                <div class="relative overflow-hidden rounded-lg cursor-pointer group">
-                    <?php
-                    $gallery_image_3_id = get_theme_mod( 'julius_gallery_image_3', 47 );
-                    $gallery_image_3_url = wp_get_attachment_image_url( $gallery_image_3_id, 'medium_large' );
-                    if ( $gallery_image_3_url ) {
-                        $gallery_image_3_alt = get_post_meta( $gallery_image_3_id, '_wp_attachment_image_alt', true );
-                        if ( empty( $gallery_image_3_alt ) ) {
-                            $gallery_image_3_alt = 'Cozy massage room with wall art';
-                        }
-                        ?>
-                        <img 
-                            alt="<?php echo esc_attr( $gallery_image_3_alt ); ?>" 
-                            loading="lazy" 
-                            decoding="async" 
-                            data-nimg="fill" 
-                            class="object-cover group-hover:scale-110 transition-transform duration-500" 
-                            style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" 
-                            src="<?php echo esc_url( $gallery_image_3_url ); ?>"
-                        >
-                        <?php
-                    }
-                    ?>
-                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300"></div>
-                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <span class="text-white text-lg font-medium">View</span>
-                    </div>
-                </div>
-
-                <!-- Gallery Item 4 -->
-                <div class="relative overflow-hidden rounded-lg cursor-pointer group">
-                    <?php
-                    $gallery_image_4_id = get_theme_mod( 'julius_gallery_image_4', 48 );
-                    $gallery_image_4_url = wp_get_attachment_image_url( $gallery_image_4_id, 'medium_large' );
-                    if ( $gallery_image_4_url ) {
-                        $gallery_image_4_alt = get_post_meta( $gallery_image_4_id, '_wp_attachment_image_alt', true );
-                        if ( empty( $gallery_image_4_alt ) ) {
-                            $gallery_image_4_alt = 'Spacious massage room with mirror';
-                        }
-                        ?>
-                        <img 
-                            alt="<?php echo esc_attr( $gallery_image_4_alt ); ?>" 
-                            loading="lazy" 
-                            decoding="async" 
-                            data-nimg="fill" 
-                            class="object-cover group-hover:scale-110 transition-transform duration-500" 
-                            style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" 
-                            src="<?php echo esc_url( $gallery_image_4_url ); ?>"
-                        >
-                        <?php
-                    }
-                    ?>
-                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300"></div>
-                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <span class="text-white text-lg font-medium">View</span>
-                    </div>
-                </div>
-
-                <!-- Gallery Item 5 - Wide (2x1) -->
-                <div class="relative overflow-hidden rounded-lg cursor-pointer group md:col-span-2">
-                    <?php
-                    $gallery_image_5_id = get_theme_mod( 'julius_gallery_image_5', 49 );
-                    $gallery_image_5_url = wp_get_attachment_image_url( $gallery_image_5_id, 'large' );
-                    if ( $gallery_image_5_url ) {
-                        $gallery_image_5_alt = get_post_meta( $gallery_image_5_id, '_wp_attachment_image_alt', true );
-                        if ( empty( $gallery_image_5_alt ) ) {
-                            $gallery_image_5_alt = 'Street view of Julius Spa at night';
-                        }
-                        ?>
-                        <img 
-                            alt="<?php echo esc_attr( $gallery_image_5_alt ); ?>" 
-                            loading="lazy" 
-                            decoding="async" 
-                            data-nimg="fill" 
-                            class="object-cover group-hover:scale-110 transition-transform duration-500" 
-                            style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" 
-                            src="<?php echo esc_url( $gallery_image_5_url ); ?>"
-                        >
-                        <?php
-                    }
-                    ?>
-                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300"></div>
-                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <span class="text-white text-lg font-medium">View</span>
-                    </div>
-                </div>
-
-                <!-- Gallery Item 6 -->
-                <div class="relative overflow-hidden rounded-lg cursor-pointer group">
-                    <?php
-                    $gallery_image_6_id = get_theme_mod( 'julius_gallery_image_6', 50 );
-                    $gallery_image_6_url = wp_get_attachment_image_url( $gallery_image_6_id, 'medium_large' );
-                    if ( $gallery_image_6_url ) {
-                        $gallery_image_6_alt = get_post_meta( $gallery_image_6_id, '_wp_attachment_image_alt', true );
-                        if ( empty( $gallery_image_6_alt ) ) {
-                            $gallery_image_6_alt = 'Large group massage room';
-                        }
-                        ?>
-                        <img 
-                            alt="<?php echo esc_attr( $gallery_image_6_alt ); ?>" 
-                            loading="lazy" 
-                            decoding="async" 
-                            data-nimg="fill" 
-                            class="object-cover group-hover:scale-110 transition-transform duration-500" 
-                            style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" 
-                            src="<?php echo esc_url( $gallery_image_6_url ); ?>"
-                        >
-                        <?php
-                    }
-                    ?>
-                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300"></div>
-                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <span class="text-white text-lg font-medium">View</span>
-                    </div>
-                </div>
-
-                <!-- Gallery Item 7 -->
-                <div class="relative overflow-hidden rounded-lg cursor-pointer group">
-                    <?php
-                    $gallery_image_7_id = get_theme_mod( 'julius_gallery_image_7', 51 );
-                    $gallery_image_7_url = wp_get_attachment_image_url( $gallery_image_7_id, 'medium_large' );
-                    if ( $gallery_image_7_url ) {
-                        $gallery_image_7_alt = get_post_meta( $gallery_image_7_id, '_wp_attachment_image_alt', true );
-                        if ( empty( $gallery_image_7_alt ) ) {
-                            $gallery_image_7_alt = 'Julius branded towel with frangipani flower';
-                        }
-                        ?>
-                        <img 
-                            alt="<?php echo esc_attr( $gallery_image_7_alt ); ?>" 
-                            loading="lazy" 
-                            decoding="async" 
-                            data-nimg="fill" 
-                            class="object-cover group-hover:scale-110 transition-transform duration-500" 
-                            style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" 
-                            src="<?php echo esc_url( $gallery_image_7_url ); ?>"
-                        >
-                        <?php
-                    }
-                    ?>
-                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300"></div>
-                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <span class="text-white text-lg font-medium">View</span>
-                    </div>
-                </div>
-
-                <!-- Gallery Item 8 - Wide (2x1) -->
-                <div class="relative overflow-hidden rounded-lg cursor-pointer group md:col-span-2">
-                    <?php
-                    $gallery_image_8_id = get_theme_mod( 'julius_gallery_image_8', 52 );
-                    $gallery_image_8_url = wp_get_attachment_image_url( $gallery_image_8_id, 'large' );
-                    if ( $gallery_image_8_url ) {
-                        $gallery_image_8_alt = get_post_meta( $gallery_image_8_id, '_wp_attachment_image_alt', true );
-                        if ( empty( $gallery_image_8_alt ) ) {
-                            $gallery_image_8_alt = 'Group massage room with curtains';
-                        }
-                        ?>
-                        <img 
-                            alt="<?php echo esc_attr( $gallery_image_8_alt ); ?>" 
-                            loading="lazy" 
-                            decoding="async" 
-                            data-nimg="fill" 
-                            class="object-cover group-hover:scale-110 transition-transform duration-500" 
-                            style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" 
-                            src="<?php echo esc_url( $gallery_image_8_url ); ?>"
-                        >
-                        <?php
-                    }
-                    ?>
-                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300"></div>
-                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <span class="text-white text-lg font-medium">View</span>
-                    </div>
-                </div>
-
-                <!-- Gallery Item 9 -->
-                <div class="relative overflow-hidden rounded-lg cursor-pointer group">
-                    <?php
-                    $gallery_image_9_id = get_theme_mod( 'julius_gallery_image_9', 53 );
-                    $gallery_image_9_url = wp_get_attachment_image_url( $gallery_image_9_id, 'medium_large' );
-                    if ( $gallery_image_9_url ) {
-                        $gallery_image_9_alt = get_post_meta( $gallery_image_9_id, '_wp_attachment_image_alt', true );
-                        if ( empty( $gallery_image_9_alt ) ) {
-                            $gallery_image_9_alt = 'Massage room with warm lighting';
-                        }
-                        ?>
-                        <img 
-                            alt="<?php echo esc_attr( $gallery_image_9_alt ); ?>" 
-                            loading="lazy" 
-                            decoding="async" 
-                            data-nimg="fill" 
-                            class="object-cover group-hover:scale-110 transition-transform duration-500" 
-                            style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" 
-                            src="<?php echo esc_url( $gallery_image_9_url ); ?>"
-                        >
-                        <?php
-                    }
-                    ?>
-                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300"></div>
-                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <span class="text-white text-lg font-medium">View</span>
-                    </div>
-                </div>
-
-                <!-- Gallery Item 10 -->
-                <div class="relative overflow-hidden rounded-lg cursor-pointer group">
-                    <?php
-                    $gallery_image_10_id = get_theme_mod( 'julius_gallery_image_10', 54 );
-                    $gallery_image_10_url = wp_get_attachment_image_url( $gallery_image_10_id, 'medium_large' );
-                    if ( $gallery_image_10_url ) {
-                        $gallery_image_10_alt = get_post_meta( $gallery_image_10_id, '_wp_attachment_image_alt', true );
-                        if ( empty( $gallery_image_10_alt ) ) {
-                            $gallery_image_10_alt = 'Julius branded towel close-up';
-                        }
-                        ?>
-                        <img 
-                            alt="<?php echo esc_attr( $gallery_image_10_alt ); ?>" 
-                            loading="lazy" 
-                            decoding="async" 
-                            data-nimg="fill" 
-                            class="object-cover group-hover:scale-110 transition-transform duration-500" 
-                            style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" 
-                            src="<?php echo esc_url( $gallery_image_10_url ); ?>"
-                        >
-                        <?php
-                    }
-                    ?>
-                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300"></div>
-                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <span class="text-white text-lg font-medium">View</span>
-                    </div>
-                </div>
+                }
+                ?>
             </div>
         </div>
     </section>
