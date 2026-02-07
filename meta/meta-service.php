@@ -88,8 +88,17 @@ function julius_service_details_callback( $post ) {
     $duration = get_post_meta( $post->ID, '_julius_service_duration', true );
     $service_included = get_post_meta( $post->ID, '_julius_service_included', true );
     $phone = get_post_meta( $post->ID, '_julius_service_phone', true );
+    $featured = get_post_meta( $post->ID, '_julius_service_featured', true );
     ?>
     <div class="julius-meta-box">
+        <p>
+            <label for="julius_service_featured">
+                <input type="checkbox" id="julius_service_featured" name="julius_service_featured" value="1" <?php checked( $featured, '1' ); ?>>
+                <strong><?php _e( 'Featured Service', 'julius-theme' ); ?></strong>
+            </label><br>
+            <span class="description"><?php _e( 'Mark this service as featured to highlight it on the website', 'julius-theme' ); ?></span>
+        </p>
+        
         <p>
             <label for="julius_service_duration"><strong><?php _e( 'Duration', 'julius-theme' ); ?></strong></label><br>
             <input type="text" id="julius_service_duration" name="julius_service_duration" value="<?php echo esc_attr( $duration ); ?>" class="widefat" placeholder="e.g., 60 minutes, 90 minutes">
@@ -245,6 +254,12 @@ function julius_save_service_meta( $post_id ) {
     }
     
     // Save Service Details
+    if ( isset( $_POST['julius_service_featured'] ) ) {
+        update_post_meta( $post_id, '_julius_service_featured', '1' );
+    } else {
+        delete_post_meta( $post_id, '_julius_service_featured' );
+    }
+    
     if ( isset( $_POST['julius_service_duration'] ) ) {
         update_post_meta( $post_id, '_julius_service_duration', sanitize_text_field( $_POST['julius_service_duration'] ) );
     }
