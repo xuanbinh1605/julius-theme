@@ -5598,8 +5598,11 @@ Tags: custom
     padding: 0;
 }
 
-#primary-menu li {
+#primary-menu li,
+#primary-menu .menu-item {
     margin: 0;
+    list-style: none !important;
+    list-style-type: none !important;
 }
 
 #primary-menu a {
@@ -5612,12 +5615,24 @@ Tags: custom
     padding: 0;
 }
 
-#mobile-menu li {
+#mobile-menu li,
+#mobile-menu .menu-item {
     margin: 0;
+    list-style: none !important;
+    list-style-type: none !important;
 }
 
 #mobile-menu a {
     text-decoration: none;
+}
+
+/* Remove bullet points from all menu items globally */
+.menu,
+.menu ul,
+.menu li,
+.menu-item {
+    list-style: none !important;
+    list-style-type: none !important;
 }
 
 /* Logo Styles */
