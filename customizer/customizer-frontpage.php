@@ -270,5 +270,348 @@ function julius_frontpage_customizer_register( $wp_customize ) {
         'priority' => 50,
     ) );
 
+    // Special Offers Section
+    $wp_customize->add_section( 'julius_offers_section', array(
+        'title'    => __( 'Special Offers Settings', 'julius-theme' ),
+        'panel'    => 'julius_homepage_panel',
+        'priority' => 30,
+    ) );
+
+    // Offers Subtitle
+    $wp_customize->add_setting( 'julius_offers_subtitle', array(
+        'default'           => 'Special Offers',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_offers_subtitle', array(
+        'label'    => __( 'Section Subtitle', 'julius-theme' ),
+        'section'  => 'julius_offers_section',
+        'type'     => 'text',
+        'priority' => 10,
+    ) );
+
+    // Offers Title
+    $wp_customize->add_setting( 'julius_offers_title', array(
+        'default'           => 'Julius Promotion',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_offers_title', array(
+        'label'    => __( 'Section Title', 'julius-theme' ),
+        'section'  => 'julius_offers_section',
+        'type'     => 'text',
+        'priority' => 20,
+    ) );
+
+    // Offers Description
+    $wp_customize->add_setting( 'julius_offers_description', array(
+        'default'           => 'Julius 1 & Julius Signature (Julius 2)',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_offers_description', array(
+        'label'    => __( 'Section Description', 'julius-theme' ),
+        'section'  => 'julius_offers_section',
+        'type'     => 'text',
+        'priority' => 30,
+    ) );
+
+    // Happy Hour Time
+    $wp_customize->add_setting( 'julius_offers_happy_time', array(
+        'default'           => '9:00 - 18:00',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_offers_happy_time', array(
+        'label'    => __( 'Happy Hour Time', 'julius-theme' ),
+        'section'  => 'julius_offers_section',
+        'type'     => 'text',
+        'priority' => 40,
+    ) );
+
+    // Happy Hour Feature 1
+    $wp_customize->add_setting( 'julius_offers_happy_feature1', array(
+        'default'           => '40% OFF all services',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_offers_happy_feature1', array(
+        'label'    => __( 'Happy Hour Feature 1', 'julius-theme' ),
+        'section'  => 'julius_offers_section',
+        'type'     => 'text',
+        'priority' => 50,
+    ) );
+
+    // Happy Hour Feature 2
+    $wp_customize->add_setting( 'julius_offers_happy_feature2', array(
+        'default'           => 'No pick-drop service',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_offers_happy_feature2', array(
+        'label'    => __( 'Happy Hour Feature 2', 'julius-theme' ),
+        'section'  => 'julius_offers_section',
+        'type'     => 'text',
+        'priority' => 60,
+    ) );
+
+    // Happy Hour Feature 3
+    $wp_customize->add_setting( 'julius_offers_happy_feature3', array(
+        'default'           => 'Aroma 90min only 294,000 VND (Tip separate)',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_offers_happy_feature3', array(
+        'label'    => __( 'Happy Hour Feature 3', 'julius-theme' ),
+        'section'  => 'julius_offers_section',
+        'type'     => 'text',
+        'priority' => 70,
+    ) );
+
+    // Evening Time
+    $wp_customize->add_setting( 'julius_offers_evening_time', array(
+        'default'           => '18:01 - 22:00',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_offers_evening_time', array(
+        'label'    => __( 'Evening Time', 'julius-theme' ),
+        'section'  => 'julius_offers_section',
+        'type'     => 'text',
+        'priority' => 80,
+    ) );
+
+    // Evening Option 1
+    $wp_customize->add_setting( 'julius_offers_evening_option1', array(
+        'default'           => 'Option 1: 20% OFF all courses on menu (No pick-drop)',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_offers_evening_option1', array(
+        'label'    => __( 'Evening Option 1', 'julius-theme' ),
+        'section'  => 'julius_offers_section',
+        'type'     => 'text',
+        'priority' => 90,
+    ) );
+
+    // Evening Option 2
+    $wp_customize->add_setting( 'julius_offers_evening_option2', array(
+        'default'           => 'Option 2: FREE pick-drop for 2+ people within Da Nang (No discount)',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_offers_evening_option2', array(
+        'label'    => __( 'Evening Option 2', 'julius-theme' ),
+        'section'  => 'julius_offers_section',
+        'type'     => 'text',
+        'priority' => 100,
+    ) );
+
+    // Late Night Time
+    $wp_customize->add_setting( 'julius_offers_late_time', array(
+        'default'           => 'After 22:00',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_offers_late_time', array(
+        'label'    => __( 'Late Night Time', 'julius-theme' ),
+        'section'  => 'julius_offers_section',
+        'type'     => 'text',
+        'priority' => 110,
+    ) );
+
+    // Late Night Info
+    $wp_customize->add_setting( 'julius_offers_late_info', array(
+        'default'           => 'No discount & No pick-drop service',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_offers_late_info', array(
+        'label'    => __( 'Late Night Info', 'julius-theme' ),
+        'section'  => 'julius_offers_section',
+        'type'     => 'text',
+        'priority' => 120,
+    ) );
+
+    // Group Special Info
+    $wp_customize->add_setting( 'julius_offers_group_info', array(
+        'default'           => 'FREE pickup within Da Nang for group of 4 | FREE 1 person for group of 5+',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_offers_group_info', array(
+        'label'    => __( 'Group Special Info', 'julius-theme' ),
+        'section'  => 'julius_offers_section',
+        'type'     => 'textarea',
+        'priority' => 130,
+    ) );
+
+    // Benefit 1
+    $wp_customize->add_setting( 'julius_offers_benefit1', array(
+        'default'           => '5% more discount for re-visit (not for happy hour)',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_offers_benefit1', array(
+        'label'    => __( 'Benefit 1', 'julius-theme' ),
+        'section'  => 'julius_offers_section',
+        'type'     => 'text',
+        'priority' => 140,
+    ) );
+
+    // Benefit 2
+    $wp_customize->add_setting( 'julius_offers_benefit2', array(
+        'default'           => '5% more discount if you leave a review (not for re-visit)',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_offers_benefit2', array(
+        'label'    => __( 'Benefit 2', 'julius-theme' ),
+        'section'  => 'julius_offers_section',
+        'type'     => 'text',
+        'priority' => 150,
+    ) );
+
+    // Benefit 3
+    $wp_customize->add_setting( 'julius_offers_benefit3', array(
+        'default'           => 'Car surcharge for pick-drop outside Da Nang city',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_offers_benefit3', array(
+        'label'    => __( 'Benefit 3', 'julius-theme' ),
+        'section'  => 'julius_offers_section',
+        'type'     => 'text',
+        'priority' => 160,
+    ) );
+
+    // Location 1 Name
+    $wp_customize->add_setting( 'julius_offers_location1_name', array(
+        'default'           => 'Julius 1',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_offers_location1_name', array(
+        'label'    => __( 'Location 1 Name', 'julius-theme' ),
+        'section'  => 'julius_offers_section',
+        'type'     => 'text',
+        'priority' => 170,
+    ) );
+
+    // Location 1 Address
+    $wp_customize->add_setting( 'julius_offers_location1_address', array(
+        'default'           => '05 An Thuong 38, Da Nang',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_offers_location1_address', array(
+        'label'    => __( 'Location 1 Address', 'julius-theme' ),
+        'section'  => 'julius_offers_section',
+        'type'     => 'text',
+        'priority' => 180,
+    ) );
+
+    // Location 1 Phone
+    $wp_customize->add_setting( 'julius_offers_location1_phone', array(
+        'default'           => '0775 509 057',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_offers_location1_phone', array(
+        'label'    => __( 'Location 1 Phone', 'julius-theme' ),
+        'section'  => 'julius_offers_section',
+        'type'     => 'text',
+        'priority' => 190,
+    ) );
+
+    // Location 2 Name
+    $wp_customize->add_setting( 'julius_offers_location2_name', array(
+        'default'           => 'Julius 2',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_offers_location2_name', array(
+        'label'    => __( 'Location 2 Name', 'julius-theme' ),
+        'section'  => 'julius_offers_section',
+        'type'     => 'text',
+        'priority' => 200,
+    ) );
+
+    // Location 2 Address
+    $wp_customize->add_setting( 'julius_offers_location2_address', array(
+        'default'           => '61 Ta My Duat, Da Nang',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_offers_location2_address', array(
+        'label'    => __( 'Location 2 Address', 'julius-theme' ),
+        'section'  => 'julius_offers_section',
+        'type'     => 'text',
+        'priority' => 210,
+    ) );
+
+    // Location 2 Phone
+    $wp_customize->add_setting( 'julius_offers_location2_phone', array(
+        'default'           => '0787 509 157',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_offers_location2_phone', array(
+        'label'    => __( 'Location 2 Phone', 'julius-theme' ),
+        'section'  => 'julius_offers_section',
+        'type'     => 'text',
+        'priority' => 220,
+    ) );
+
+    // Book Now Button Text
+    $wp_customize->add_setting( 'julius_offers_button_text', array(
+        'default'           => 'Book Now',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_offers_button_text', array(
+        'label'    => __( 'Book Now Button Text', 'julius-theme' ),
+        'section'  => 'julius_offers_section',
+        'type'     => 'text',
+        'priority' => 230,
+    ) );
+
+    // Book Now Button Link
+    $wp_customize->add_setting( 'julius_offers_button_link', array(
+        'default'           => '/contact',
+        'sanitize_callback' => 'esc_url_raw',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_offers_button_link', array(
+        'label'    => __( 'Book Now Button Link', 'julius-theme' ),
+        'section'  => 'julius_offers_section',
+        'type'     => 'url',
+        'priority' => 240,
+    ) );
+
 }
 add_action( 'customize_register', 'julius_frontpage_customizer_register' );
