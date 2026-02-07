@@ -38,6 +38,86 @@
             }
         });
 
+        // Hero Slider
+        let currentSlide = 0;
+        const slides = $('.hero-slide');
+        const indicators = $('.hero-indicator');
+        const totalSlides = slides.length;
+        let autoplayInterval;
+
+        function showSlide(index) {
+            // Ensure index is within bounds
+            if (index >= totalSlides) {
+                index = 0;
+            } else if (index < 0) {
+                index = totalSlides - 1;
+            }
+
+            currentSlide = index;
+
+            // Hide all slides
+            slides.removeClass('opacity-100').addClass('opacity-0');
+            
+            // Show current slide
+            slides.eq(currentSlide).removeClass('opacity-0').addClass('opacity-100');
+
+            // Update indicators
+            indicators.each(function(i) {
+                if (i === currentSlide) {
+                    $(this).removeClass('bg-white/50 w-3').addClass('bg-primary w-8');
+                } else {
+                    $(this).removeClass('bg-primary w-8').addClass('bg-white/50 w-3');
+                }
+            });
+        }
+
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            showSlide(currentSlide - 1);
+        }
+
+        function startAutoplay() {
+            autoplayInterval = setInterval(nextSlide, 5000); // Change slide every 5 seconds
+        }
+
+        function stopAutoplay() {
+            clearInterval(autoplayInterval);
+        }
+
+        // Next button
+        $('.hero-next').on('click', function() {
+            stopAutoplay();
+            nextSlide();
+            startAutoplay();
+        });
+
+        // Previous button
+        $('.hero-prev').on('click', function() {
+            stopAutoplay();
+            prevSlide();
+            startAutoplay();
+        });
+
+        // Indicator buttons
+        indicators.on('click', function() {
+            stopAutoplay();
+            const slideIndex = $(this).data('slide');
+            showSlide(slideIndex);
+            startAutoplay();
+        });
+
+        // Start autoplay if slides exist
+        if (slides.length > 0) {
+            startAutoplay();
+
+            // Pause on hover
+            $('.hero-slider').on('mouseenter', stopAutoplay);
+            $('.hero-slider').on('mouseleave', startAutoplay);
+        }
+
         console.log('Julius Theme loaded');
     });
 

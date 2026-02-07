@@ -91,3 +91,10 @@ function julius_customize_register( $wp_customize ) {
     ) ) );
 }
 add_action( 'customize_register', 'julius_customize_register' );
+
+/**
+ * Include Front Page Customizer Settings
+ */
+if ( file_exists( JULIUS_THEME_DIR . '/customizer/customizer-frontpage.php' ) ) {
+    require_once JULIUS_THEME_DIR . '/customizer/customizer-frontpage.php';
+}
