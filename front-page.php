@@ -737,6 +737,88 @@ get_header();
         </div>
     </section>
 
+    <!-- CTA Section -->
+    <section class="relative py-20 md:py-28 overflow-hidden">
+        <div class="absolute inset-0">
+            <?php
+            $cta_image_url = wp_get_attachment_image_url( 24, 'full' );
+            if ( $cta_image_url ) {
+                $cta_image_alt = get_post_meta( 24, '_wp_attachment_image_alt', true );
+                if ( empty( $cta_image_alt ) ) {
+                    $cta_image_alt = 'Julius Spa at night';
+                }
+                ?>
+                <img 
+                    alt="<?php echo esc_attr( $cta_image_alt ); ?>" 
+                    loading="lazy" 
+                    decoding="async" 
+                    data-nimg="fill" 
+                    class="object-cover" 
+                    style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" 
+                    src="<?php echo esc_url( $cta_image_url ); ?>"
+                >
+                <?php
+            }
+            ?>
+            <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/70 to-black/80"></div>
+        </div>
+        
+        <div class="relative z-10 container mx-auto px-4">
+            <div class="max-w-4xl mx-auto text-center">
+                <div class="inline-flex items-center gap-2 bg-primary/20 backdrop-blur-sm border border-primary/50 rounded-full px-4 py-2 mb-8">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-gift w-5 h-5 text-primary">
+                        <rect x="3" y="8" width="18" height="4" rx="1"></rect>
+                        <path d="M12 8v13"></path>
+                        <path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"></path>
+                        <path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"></path>
+                    </svg>
+                    <span class="text-primary font-medium">Special Offer: 15% OFF First Visit</span>
+                </div>
+                
+                <h2 class="text-3xl md:text-5xl lg:text-6xl font-semibold text-white mb-6 text-balance">
+                    Ready to Experience
+                    <span class="block text-accent">True Relaxation?</span>
+                </h2>
+                
+                <p class="text-white/80 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+                    Book your appointment today and let our expert therapists transport you to a world of tranquility and wellness.
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-lg mx-auto mb-10">
+                    <div class="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-lg p-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone w-6 h-6 text-primary">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                        </svg>
+                        <div class="text-left">
+                            <p class="text-white/60 text-sm">Call Us</p>
+                            <p class="text-white font-medium">+84 123 456 789</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-lg p-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock w-6 h-6 text-primary">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        <div class="text-left">
+                            <p class="text-white/60 text-sm">Open Hours</p>
+                            <p class="text-white font-medium">9:00 AM - 10:00 PM</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="/contact" data-slot="button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-10 rounded-md has-[>svg]:px-4 bg-primary hover:bg-primary/90 text-primary-foreground px-10 py-6 text-lg">
+                        Book Now
+                    </a>
+                    <a href="<?php echo esc_url( get_post_type_archive_link( 'service' ) ); ?>" data-slot="button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive shadow-xs dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-10 rounded-md has-[>svg]:px-4 border-2 border-white text-white hover:bg-white hover:text-foreground px-10 py-6 text-lg bg-transparent">
+                        View Menu
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
 </main>
 
 <?php
