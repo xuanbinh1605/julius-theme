@@ -613,5 +613,267 @@ function julius_frontpage_customizer_register( $wp_customize ) {
         'priority' => 240,
     ) );
 
+    // ========================================
+    // About Us Section
+    // ========================================
+    
+    $wp_customize->add_section( 'julius_about_section', array(
+        'title'    => __( 'About Us Section', 'julius-theme' ),
+        'panel'    => 'julius_homepage_panel',
+        'priority' => 40,
+    ) );
+
+    // About Image 1
+    $wp_customize->add_setting( 'julius_about_image_1', array(
+        'default'           => 41,
+        'sanitize_callback' => 'absint',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( new WP_Customize_Media_Control( $wp_customize, 'julius_about_image_1', array(
+        'label'     => __( 'About Image 1 (Top Left)', 'julius-theme' ),
+        'section'   => 'julius_about_section',
+        'mime_type' => 'image',
+        'priority'  => 10,
+    ) ) );
+
+    // About Image 2
+    $wp_customize->add_setting( 'julius_about_image_2', array(
+        'default'           => 42,
+        'sanitize_callback' => 'absint',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( new WP_Customize_Media_Control( $wp_customize, 'julius_about_image_2', array(
+        'label'     => __( 'About Image 2 (Top Right)', 'julius-theme' ),
+        'section'   => 'julius_about_section',
+        'mime_type' => 'image',
+        'priority'  => 20,
+    ) ) );
+
+    // About Image 3
+    $wp_customize->add_setting( 'julius_about_image_3', array(
+        'default'           => 43,
+        'sanitize_callback' => 'absint',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( new WP_Customize_Media_Control( $wp_customize, 'julius_about_image_3', array(
+        'label'     => __( 'About Image 3 (Bottom Left)', 'julius-theme' ),
+        'section'   => 'julius_about_section',
+        'mime_type' => 'image',
+        'priority'  => 30,
+    ) ) );
+
+    // About Image 4
+    $wp_customize->add_setting( 'julius_about_image_4', array(
+        'default'           => 44,
+        'sanitize_callback' => 'absint',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( new WP_Customize_Media_Control( $wp_customize, 'julius_about_image_4', array(
+        'label'     => __( 'About Image 4 (Bottom Right)', 'julius-theme' ),
+        'section'   => 'julius_about_section',
+        'mime_type' => 'image',
+        'priority'  => 40,
+    ) ) );
+
+    // About Subtitle
+    $wp_customize->add_setting( 'julius_about_subtitle', array(
+        'default'           => 'About Us',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_about_subtitle', array(
+        'label'    => __( 'Subtitle', 'julius-theme' ),
+        'section'  => 'julius_about_section',
+        'type'     => 'text',
+        'priority' => 50,
+    ) );
+
+    // About Title
+    $wp_customize->add_setting( 'julius_about_title', array(
+        'default'           => 'A Sanctuary of Peace & Wellness',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_about_title', array(
+        'label'    => __( 'Title', 'julius-theme' ),
+        'section'  => 'julius_about_section',
+        'type'     => 'text',
+        'priority' => 60,
+    ) );
+
+    // About Description 1
+    $wp_customize->add_setting( 'julius_about_description_1', array(
+        'default'           => 'Nestled in the heart of Da Nang, Julius Spa offers an authentic Vietnamese wellness experience. Our beautifully designed space, adorned with traditional lanterns and warm yellow walls, creates the perfect atmosphere for relaxation.',
+        'sanitize_callback' => 'sanitize_textarea_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_about_description_1', array(
+        'label'    => __( 'Description Paragraph 1', 'julius-theme' ),
+        'section'  => 'julius_about_section',
+        'type'     => 'textarea',
+        'priority' => 70,
+    ) );
+
+    // About Description 2
+    $wp_customize->add_setting( 'julius_about_description_2', array(
+        'default'           => 'Our skilled therapists combine ancient Vietnamese techniques with modern wellness practices to deliver treatments that rejuvenate both body and soul. From body massage to foot reflexology, each service is tailored to your needs.',
+        'sanitize_callback' => 'sanitize_textarea_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_about_description_2', array(
+        'label'    => __( 'Description Paragraph 2', 'julius-theme' ),
+        'section'  => 'julius_about_section',
+        'type'     => 'textarea',
+        'priority' => 80,
+    ) );
+
+    // Stat 1 Value
+    $wp_customize->add_setting( 'julius_about_stat_1_value', array(
+        'default'           => '5+',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_about_stat_1_value', array(
+        'label'    => __( 'Stat 1 Value', 'julius-theme' ),
+        'section'  => 'julius_about_section',
+        'type'     => 'text',
+        'priority' => 90,
+    ) );
+
+    // Stat 1 Label
+    $wp_customize->add_setting( 'julius_about_stat_1_label', array(
+        'default'           => 'Years Experience',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_about_stat_1_label', array(
+        'label'    => __( 'Stat 1 Label', 'julius-theme' ),
+        'section'  => 'julius_about_section',
+        'type'     => 'text',
+        'priority' => 100,
+    ) );
+
+    // Stat 2 Value
+    $wp_customize->add_setting( 'julius_about_stat_2_value', array(
+        'default'           => '10,000+',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_about_stat_2_value', array(
+        'label'    => __( 'Stat 2 Value', 'julius-theme' ),
+        'section'  => 'julius_about_section',
+        'type'     => 'text',
+        'priority' => 110,
+    ) );
+
+    // Stat 2 Label
+    $wp_customize->add_setting( 'julius_about_stat_2_label', array(
+        'default'           => 'Happy Clients',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_about_stat_2_label', array(
+        'label'    => __( 'Stat 2 Label', 'julius-theme' ),
+        'section'  => 'julius_about_section',
+        'type'     => 'text',
+        'priority' => 120,
+    ) );
+
+    // Stat 3 Value
+    $wp_customize->add_setting( 'julius_about_stat_3_value', array(
+        'default'           => '9AM-10PM',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_about_stat_3_value', array(
+        'label'    => __( 'Stat 3 Value', 'julius-theme' ),
+        'section'  => 'julius_about_section',
+        'type'     => 'text',
+        'priority' => 130,
+    ) );
+
+    // Stat 3 Label
+    $wp_customize->add_setting( 'julius_about_stat_3_label', array(
+        'default'           => 'Open Daily',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_about_stat_3_label', array(
+        'label'    => __( 'Stat 3 Label', 'julius-theme' ),
+        'section'  => 'julius_about_section',
+        'type'     => 'text',
+        'priority' => 140,
+    ) );
+
+    // Stat 4 Value
+    $wp_customize->add_setting( 'julius_about_stat_4_value', array(
+        'default'           => '100%',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_about_stat_4_value', array(
+        'label'    => __( 'Stat 4 Value', 'julius-theme' ),
+        'section'  => 'julius_about_section',
+        'type'     => 'text',
+        'priority' => 150,
+    ) );
+
+    // Stat 4 Label
+    $wp_customize->add_setting( 'julius_about_stat_4_label', array(
+        'default'           => 'Satisfaction',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_about_stat_4_label', array(
+        'label'    => __( 'Stat 4 Label', 'julius-theme' ),
+        'section'  => 'julius_about_section',
+        'type'     => 'text',
+        'priority' => 160,
+    ) );
+
+    // About Button Text
+    $wp_customize->add_setting( 'julius_about_button_text', array(
+        'default'           => 'Learn More About Us',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_about_button_text', array(
+        'label'    => __( 'Button Text', 'julius-theme' ),
+        'section'  => 'julius_about_section',
+        'type'     => 'text',
+        'priority' => 170,
+    ) );
+
+    // About Button Link
+    $wp_customize->add_setting( 'julius_about_button_link', array(
+        'default'           => '/about',
+        'sanitize_callback' => 'esc_url_raw',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_about_button_link', array(
+        'label'    => __( 'Button Link', 'julius-theme' ),
+        'section'  => 'julius_about_section',
+        'type'     => 'url',
+        'priority' => 180,
+    ) );
+
 }
 add_action( 'customize_register', 'julius_frontpage_customizer_register' );

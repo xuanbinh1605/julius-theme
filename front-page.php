@@ -498,9 +498,10 @@ get_header();
                         <div class="space-y-4">
                             <div class="relative h-48 md:h-64 rounded-lg overflow-hidden">
                                 <?php
-                                $about_image_1_url = wp_get_attachment_image_url( 41, 'medium_large' );
+                                $about_image_1_id = get_theme_mod( 'julius_about_image_1', 41 );
+                                $about_image_1_url = wp_get_attachment_image_url( $about_image_1_id, 'medium_large' );
                                 if ( $about_image_1_url ) {
-                                    $about_image_1_alt = get_post_meta( 41, '_wp_attachment_image_alt', true );
+                                    $about_image_1_alt = get_post_meta( $about_image_1_id, '_wp_attachment_image_alt', true );
                                     if ( empty( $about_image_1_alt ) ) {
                                         $about_image_1_alt = 'Julius Spa entrance';
                                     }
@@ -509,7 +510,7 @@ get_header();
                                         alt="<?php echo esc_attr( $about_image_1_alt ); ?>" 
                                         loading="lazy" 
                                         decoding="async" 
-                                        da  a-nimg="fill" 
+                                        data-nimg="fill" 
                                         class="object-cover" 
                                         style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" 
                                         src="<?php echo esc_url( $about_image_1_url ); ?>"
@@ -520,9 +521,10 @@ get_header();
                             </div>
                             <div class="relative h-32 md:h-48 rounded-lg overflow-hidden">
                                 <?php
-                                $about_image_2_url = wp_get_attachment_image_url( 42, 'medium_large' );
+                                $about_image_2_id = get_theme_mod( 'julius_about_image_2', 42 );
+                                $about_image_2_url = wp_get_attachment_image_url( $about_image_2_id, 'medium_large' );
                                 if ( $about_image_2_url ) {
-                                    $about_image_2_alt = get_post_meta( 42, '_wp_attachment_image_alt', true );
+                                    $about_image_2_alt = get_post_meta( $about_image_2_id, '_wp_attachment_image_alt', true );
                                     if ( empty( $about_image_2_alt ) ) {
                                         $about_image_2_alt = 'Traditional staircase';
                                     }
@@ -544,9 +546,10 @@ get_header();
                         <div class="space-y-4 pt-8">
                             <div class="relative h-32 md:h-48 rounded-lg overflow-hidden">
                                 <?php
-                                $about_image_3_url = wp_get_attachment_image_url( 43, 'medium_large' );
+                                $about_image_3_id = get_theme_mod( 'julius_about_image_3', 43 );
+                                $about_image_3_url = wp_get_attachment_image_url( $about_image_3_id, 'medium_large' );
                                 if ( $about_image_3_url ) {
-                                    $about_image_3_alt = get_post_meta( 43, '_wp_attachment_image_alt', true );
+                                    $about_image_3_alt = get_post_meta( $about_image_3_id, '_wp_attachment_image_alt', true );
                                     if ( empty( $about_image_3_alt ) ) {
                                         $about_image_3_alt = 'Elegant staircase with lanterns';
                                     }
@@ -566,9 +569,10 @@ get_header();
                             </div>
                             <div class="relative h-48 md:h-64 rounded-lg overflow-hidden">
                                 <?php
-                                $about_image_4_url = wp_get_attachment_image_url( 44, 'medium_large' );
+                                $about_image_4_id = get_theme_mod( 'julius_about_image_4', 44 );
+                                $about_image_4_url = wp_get_attachment_image_url( $about_image_4_id, 'medium_large' );
                                 if ( $about_image_4_url ) {
-                                    $about_image_4_alt = get_post_meta( 44, '_wp_attachment_image_alt', true );
+                                    $about_image_4_alt = get_post_meta( $about_image_4_id, '_wp_attachment_image_alt', true );
                                     if ( empty( $about_image_4_alt ) ) {
                                         $about_image_4_alt = 'Massage room';
                                     }
@@ -594,16 +598,15 @@ get_header();
 
                 <!-- Content -->
                 <div>
-                    <p class="text-primary text-sm md:text-base tracking-[0.3em] uppercase mb-3">About Us</p>
+                    <p class="text-primary text-sm md:text-base tracking-[0.3em] uppercase mb-3"><?php echo esc_html( get_theme_mod( 'julius_about_subtitle', 'About Us' ) ); ?></p>
                     <h2 class="text-3xl md:text-5xl font-semibold text-foreground mb-6 text-balance leading-tight">
-                        A Sanctuary of
-                        <span class="text-primary block">Peace &amp; Wellness</span>
+                        <?php echo esc_html( get_theme_mod( 'julius_about_title', 'A Sanctuary of Peace & Wellness' ) ); ?>
                     </h2>
                     <p class="text-muted-foreground text-lg mb-6 leading-relaxed">
-                        Nestled in the heart of Da Nang, Julius Spa offers an authentic Vietnamese wellness experience. Our beautifully designed space, adorned with traditional lanterns and warm yellow walls, creates the perfect atmosphere for relaxation.
+                        <?php echo esc_html( get_theme_mod( 'julius_about_description_1', 'Nestled in the heart of Da Nang, Julius Spa offers an authentic Vietnamese wellness experience. Our beautifully designed space, adorned with traditional lanterns and warm yellow walls, creates the perfect atmosphere for relaxation.' ) ); ?>
                     </p>
                     <p class="text-muted-foreground text-lg mb-8 leading-relaxed">
-                        Our skilled therapists combine ancient Vietnamese techniques with modern wellness practices to deliver treatments that rejuvenate both body and soul. From body massage to foot reflexology, each service is tailored to your needs.
+                        <?php echo esc_html( get_theme_mod( 'julius_about_description_2', 'Our skilled therapists combine ancient Vietnamese techniques with modern wellness practices to deliver treatments that rejuvenate both body and soul. From body massage to foot reflexology, each service is tailored to your needs.' ) ); ?>
                     </p>
 
                     <!-- Stats Grid -->
@@ -613,8 +616,8 @@ get_header();
                                 <path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"></path>
                                 <circle cx="12" cy="8" r="6"></circle>
                             </svg>
-                            <div class="text-xl font-bold text-foreground mb-1">5+</div>
-                            <div class="text-xs md:text-sm text-muted-foreground">Years Experience</div>
+                            <div class="text-xl font-bold text-foreground mb-1"><?php echo esc_html( get_theme_mod( 'julius_about_stat_1_value', '5+' ) ); ?></div>
+                            <div class="text-xs md:text-sm text-muted-foreground"><?php echo esc_html( get_theme_mod( 'julius_about_stat_1_label', 'Years Experience' ) ); ?></div>
                         </div>
                         <div class="text-center p-5 md:p-6 rounded-xl bg-secondary/50 border border-border/50">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users w-7 h-7 md:w-8 md:h-8 text-primary mx-auto mb-3">
@@ -623,29 +626,29 @@ get_header();
                                 <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
                                 <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                             </svg>
-                            <div class="text-xl font-bold text-foreground mb-1">10,000+</div>
-                            <div class="text-xs md:text-sm text-muted-foreground">Happy Clients</div>
+                            <div class="text-xl font-bold text-foreground mb-1"><?php echo esc_html( get_theme_mod( 'julius_about_stat_2_value', '10,000+' ) ); ?></div>
+                            <div class="text-xs md:text-sm text-muted-foreground"><?php echo esc_html( get_theme_mod( 'julius_about_stat_2_label', 'Happy Clients' ) ); ?></div>
                         </div>
                         <div class="text-center p-5 md:p-6 rounded-xl bg-secondary/50 border border-border/50">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock w-7 h-7 md:w-8 md:h-8 text-primary mx-auto mb-3">
                                 <circle cx="12" cy="12" r="10"></circle>
                                 <polyline points="12 6 12 12 16 14"></polyline>
                             </svg>
-                            <div class="text-xl font-bold text-foreground mb-1">9AM-10PM</div>
-                            <div class="text-xs md:text-sm text-muted-foreground">Open Daily</div>
+                            <div class="text-xl font-bold text-foreground mb-1"><?php echo esc_html( get_theme_mod( 'julius_about_stat_3_value', '9AM-10PM' ) ); ?></div>
+                            <div class="text-xs md:text-sm text-muted-foreground"><?php echo esc_html( get_theme_mod( 'julius_about_stat_3_label', 'Open Daily' ) ); ?></div>
                         </div>
                         <div class="text-center p-5 md:p-6 rounded-xl bg-secondary/50 border border-border/50">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart w-7 h-7 md:w-8 md:h-8 text-primary mx-auto mb-3">
                                 <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
                             </svg>
-                            <div class="text-xl font-bold text-foreground mb-1">100%</div>
-                            <div class="text-xs md:text-sm text-muted-foreground">Satisfaction</div>
+                            <div class="text-xl font-bold text-foreground mb-1"><?php echo esc_html( get_theme_mod( 'julius_about_stat_4_value', '100%' ) ); ?></div>
+                            <div class="text-xs md:text-sm text-muted-foreground"><?php echo esc_html( get_theme_mod( 'julius_about_stat_4_label', 'Satisfaction' ) ); ?></div>
                         </div>
                     </div>
 
-                    <button data-slot="button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-10 rounded-md has-[>svg]:px-4 bg-primary hover:bg-primary/90 text-primary-foreground px-8">
-                        Learn More About Us
-                    </button>
+                    <a href="<?php echo esc_url( get_theme_mod( 'julius_about_button_link', '/about' ) ); ?>" data-slot="button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-10 rounded-md has-[>svg]:px-4 bg-primary hover:bg-primary/90 text-primary-foreground px-8">
+                        <?php echo esc_html( get_theme_mod( 'julius_about_button_text', 'Learn More About Us' ) ); ?>
+                    </a>
                 </div>
             </div>
         </div>
