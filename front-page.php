@@ -184,7 +184,7 @@ get_header();
                         // Get featured image
                         $service_image_url = get_the_post_thumbnail_url( get_the_ID(), 'medium_large' );
                         if ( ! $service_image_url ) {
-                            $service_image_url = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600"%3E%3Crect width="800" height="600" fill="%23f3f4f6"/%3E%3Cg opacity="0.3"%3E%3Cpath d="M400 200c-55.2 0-100 44.8-100 100s44.8 100 100 100 100-44.8 100-100-44.8-100-100-100zm0 160c-33.1 0-60-26.9-60-60s26.9-60 60-60 60 26.9 60 60-26.9 60-60 60z" fill="%239ca3af"/%3E%3Cpath d="M400 280c-11 0-20 9-20 20s9 20 20 20 20-9 20-20-9-20-20-20z" fill="%239ca3af"/%3E%3C/g%3E%3Ctext x="400" y="450" font-family="Arial, sans-serif" font-size="20" fill="%239ca3af" text-anchor="middle"%3ENo Image%3C/text%3E%3C/svg%3E';
+                            $service_image_url = 'https://picsum.photos/800/600?random=' . get_the_ID();
                         }
                         
                         // Get service category
@@ -196,19 +196,21 @@ get_header();
                         
                         // Get pricing options
                         $pricing_options = get_post_meta( get_the_ID(), '_julius_pricing_options', true );
-                        $lowest_price = null;
+                        $lowest_price_value = null;
+                        $lowest_price_numeric = null;
                         $min_time = null;
                         $max_time = null;
                         
                         if ( is_array( $pricing_options ) && ! empty( $pricing_options ) ) {
                             foreach ( $pricing_options as $option ) {
-                                // Extract numeric price value
+                                // Extract numeric price value for comparison
                                 $price_value = isset( $option['price'] ) ? $option['price'] : '';
                                 $price_numeric = floatval( preg_replace( '/[^0-9.]/', '', $price_value ) );
                                 
                                 if ( $price_numeric > 0 ) {
-                                    if ( $lowest_price === null || $price_numeric < $lowest_price ) {
-                                        $lowest_price = $price_numeric;
+                                    if ( $lowest_price_numeric === null || $price_numeric < $lowest_price_numeric ) {
+                                        $lowest_price_numeric = $price_numeric;
+                                        $lowest_price_value = $price_value; // Store the actual price string
                                     }
                                 }
                                 
@@ -238,7 +240,7 @@ get_header();
                         // Check if featured
                         $is_featured = get_post_meta( get_the_ID(), '_julius_service_featured', true );
                         ?>
-                        <div data-slot="card" class="text-card-foreground flex flex-col gap-6 rounded-xl py-6 group overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-card">
+                        <div data-slot="card" class="text-card-foreground flex flex-col gap-6 rounded-xl group overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-card">
                             <div class="relative h-64 overflow-hidden">
                                 <img 
                                     alt="<?php echo esc_attr( get_the_title() ); ?>" 
@@ -282,8 +284,8 @@ get_header();
                                         </div>
                                     <?php endif; ?>
                                     
-                                    <?php if ( $lowest_price ) : ?>
-                                        <span class="text-primary font-semibold">From $<?php echo esc_html( number_format( $lowest_price, 0 ) ); ?></span>
+                                    <?php if ( $lowest_price_value ) : ?>
+                                        <span class="text-primary font-semibold">From <?php echo esc_html( $lowest_price_value ); ?></span>
                                     <?php endif; ?>
                                 </div>
                                 
