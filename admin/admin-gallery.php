@@ -19,6 +19,17 @@ function julius_gallery_admin_menu() {
 }
 add_action( 'admin_menu', 'julius_gallery_admin_menu' );
 
+// Enqueue scripts for gallery admin page
+function julius_gallery_admin_scripts( $hook ) {
+    if ( 'toplevel_page_julius-gallery' !== $hook ) {
+        return;
+    }
+    
+    wp_enqueue_media();
+    wp_enqueue_script( 'jquery-ui-sortable' );
+}
+add_action( 'admin_enqueue_scripts', 'julius_gallery_admin_scripts' );
+
 // Save gallery images
 function julius_save_gallery_images() {
     if ( ! isset( $_POST['julius_gallery_nonce'] ) || ! wp_verify_nonce( $_POST['julius_gallery_nonce'], 'julius_gallery_save' ) ) {
