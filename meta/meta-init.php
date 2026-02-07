@@ -69,3 +69,10 @@ function julius_save_meta_box( $post_id ) {
     }
 }
 add_action( 'save_post', 'julius_save_meta_box' );
+
+/**
+ * Include Service Meta Boxes
+ */
+if ( file_exists( JULIUS_THEME_DIR . '/meta/meta-service.php' ) ) {
+    require_once JULIUS_THEME_DIR . '/meta/meta-service.php';
+}
