@@ -21,6 +21,15 @@ function julius_add_admin_menu() {
         'julius-theme-settings',
         'julius_render_admin_page'
     );
+    
+    // Add Sample Generator submenu under Tools
+    add_management_page(
+        __( 'Services Sample Generator', 'julius-theme' ),
+        __( 'Services Generator', 'julius-theme' ),
+        'manage_options',
+        'julius-sample-generator',
+        'julius_render_sample_generator_page'
+    );
 }
 add_action( 'admin_menu', 'julius_add_admin_menu' );
 
@@ -52,3 +61,10 @@ function julius_enqueue_admin_scripts( $hook ) {
     // wp_enqueue_script( 'julius-admin', JULIUS_THEME_URI . '/admin/js/admin.js', array( 'jquery' ), JULIUS_THEME_VERSION, true );
 }
 add_action( 'admin_enqueue_scripts', 'julius_enqueue_admin_scripts' );
+
+/**
+ * Include Sample Generator
+ */
+if ( file_exists( get_template_directory() . '/admin/admin-sample-generator.php' ) ) {
+    require_once get_template_directory() . '/admin/admin-sample-generator.php';
+}
