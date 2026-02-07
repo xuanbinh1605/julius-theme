@@ -1,0 +1,42 @@
+/**
+ * Font Stylesheet
+ * 
+ * This file imports Google Fonts for the Julius Theme
+ * Fonts: Roboto (300, 400, 500, 700) and Fira Sans (300, 400, 500, 600, 700)
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Fira+Sans:wght@300;400;500;600;700&display=swap');
+
+/* Roboto Font Classes */
+.roboto_4daddfbb-module__1_N2QG__className {
+    font-family: Roboto, Roboto Fallback;
+    font-style: normal;
+}
+
+.roboto_4daddfbb-module__1_N2QG__variable {
+    --font-roboto: "Roboto", "Roboto Fallback";
+}
+
+/* Fira Sans Font Classes */
+.fira_sans_4d776e94-module__Tqes0q__className {
+    font-family: Fira Sans, Fira Sans Fallback;
+    font-style: normal;
+}
+
+.fira_sans_4d776e94-module__Tqes0q__variable {
+    --font-fira-sans: "Fira Sans", "Fira Sans Fallback";
+}
+
+/* Global Font Configuration */
+body,
+.julius-theme-fonts {
+    font-family: Roboto, "Roboto Fallback", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Apply both font variables globally */
+:root {
+    --font-roboto: "Roboto", "Roboto Fallback";
+    --font-fira-sans: "Fira Sans", "Fira Sans Fallback";
+}
