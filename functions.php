@@ -35,6 +35,8 @@ function julius_theme_setup() {
     // Register navigation menus
     register_nav_menus( array(
         'primary' => __( 'Primary Menu', 'julius-theme' ),
+        'footer-quick-links' => __( 'Footer Quick Links', 'julius-theme' ),
+        'footer-services' => __( 'Footer Our Services', 'julius-theme' ),
     ) );
 }
 add_action( 'after_setup_theme', 'julius_theme_setup' );

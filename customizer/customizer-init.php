@@ -61,7 +61,7 @@ function julius_customize_register( $wp_customize ) {
     
     // Opening Hours
     $wp_customize->add_setting( 'julius_opening_hours', array(
-        'default'           => 'Open: 9:00 AM - 10:00 PM',
+        'default'           => '9:00 AM - 10:00 PM',
         'sanitize_callback' => 'sanitize_text_field',
         'transport'         => 'refresh',
     ) );
@@ -70,6 +70,45 @@ function julius_customize_register( $wp_customize ) {
         'label'    => __( 'Opening Hours', 'julius-theme' ),
         'section'  => 'julius_general_settings',
         'type'     => 'text',
+    ) );
+    
+    // Email Address
+    $wp_customize->add_setting( 'julius_email', array(
+        'default'           => 'info@juliusspa.com',
+        'sanitize_callback' => 'sanitize_email',
+        'transport'         => 'refresh',
+    ) );
+    
+    $wp_customize->add_control( 'julius_email', array(
+        'label'    => __( 'Email Address', 'julius-theme' ),
+        'section'  => 'julius_general_settings',
+        'type'     => 'email',
+    ) );
+    
+    // Facebook URL
+    $wp_customize->add_setting( 'julius_facebook_url', array(
+        'default'           => '',
+        'sanitize_callback' => 'esc_url_raw',
+        'transport'         => 'refresh',
+    ) );
+    
+    $wp_customize->add_control( 'julius_facebook_url', array(
+        'label'    => __( 'Facebook URL', 'julius-theme' ),
+        'section'  => 'julius_general_settings',
+        'type'     => 'url',
+    ) );
+    
+    // Instagram URL
+    $wp_customize->add_setting( 'julius_instagram_url', array(
+        'default'           => '',
+        'sanitize_callback' => 'esc_url_raw',
+        'transport'         => 'refresh',
+    ) );
+    
+    $wp_customize->add_control( 'julius_instagram_url', array(
+        'label'    => __( 'Instagram URL', 'julius-theme' ),
+        'section'  => 'julius_general_settings',
+        'type'     => 'url',
     ) );
     
     // Theme Options Section
