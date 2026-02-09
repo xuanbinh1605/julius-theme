@@ -10,12 +10,16 @@ get_header();
 
 <!-- Hero Section -->
 <section class="relative h-[50vh] md:h-[60vh] flex items-center justify-center">
-    <img alt="Julius Spa Interior" decoding="async" data-nimg="fill" class="object-cover" style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" src="<?php echo esc_url( wp_get_attachment_image_url( 43, 'full' ) ); ?>">
+    <?php
+    $hero_image_id = get_theme_mod( 'julius_about_hero_image', 43 );
+    $hero_image_url = wp_get_attachment_image_url( $hero_image_id, 'full' );
+    ?>
+    <img alt="Julius Spa Interior" decoding="async" data-nimg="fill" class="object-cover" style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" src="<?php echo esc_url( $hero_image_url ); ?>">
     <div class="absolute inset-0 bg-black/60"></div>
     <div class="relative z-10 text-center text-white px-4">
-        <p class="text-primary text-sm md:text-base tracking-[0.3em] uppercase mb-4 font-medium">Our Story</p>
-        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">About Julius Spa</h1>
-        <p class="text-lg md:text-xl text-white/90 max-w-2xl mx-auto">Discover the heart and soul behind Da Nang's premier wellness destination</p>
+        <p class="text-primary text-sm md:text-base tracking-[0.3em] uppercase mb-4 font-medium"><?php echo esc_html( get_theme_mod( 'julius_about_hero_subtitle', 'Our Story' ) ); ?></p>
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4"><?php echo esc_html( get_theme_mod( 'julius_about_hero_title', 'About Julius Spa' ) ); ?></h1>
+        <p class="text-lg md:text-xl text-white/90 max-w-2xl mx-auto"><?php echo esc_html( get_theme_mod( 'julius_about_hero_description', 'Discover the heart and soul behind Da Nang\'s premier wellness destination' ) ); ?></p>
     </div>
 </section>
 
@@ -25,19 +29,23 @@ get_header();
         <div class="grid lg:grid-cols-2 gap-12 items-center">
             <div class="relative">
                 <div class="relative h-[400px] md:h-[500px] rounded-2xl overflow-hidden">
-                    <img alt="Julius Spa Exterior" loading="lazy" decoding="async" data-nimg="fill" class="object-cover" style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" src="<?php echo esc_url( wp_get_attachment_image_url( 44, 'full' ) ); ?>">
+                    <?php
+                    $journey_image_id = get_theme_mod( 'julius_about_journey_image', 44 );
+                    $journey_image_url = wp_get_attachment_image_url( $journey_image_id, 'full' );
+                    ?>
+                    <img alt="Julius Spa Exterior" loading="lazy" decoding="async" data-nimg="fill" class="object-cover" style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" src="<?php echo esc_url( $journey_image_url ); ?>">
                 </div>
                 <div class="absolute -bottom-6 -right-6 bg-primary text-primary-foreground p-6 rounded-xl shadow-lg hidden md:block">
-                    <div class="text-4xl font-bold">5+</div>
+                    <div class="text-4xl font-bold"><?php echo esc_html( get_theme_mod( 'julius_about_journey_years', '5+' ) ); ?></div>
                     <div class="text-sm">Years of Excellence</div>
                 </div>
             </div>
             <div>
-                <h2 class="text-3xl md:text-4xl font-bold text-foreground mb-6">A Journey of Wellness &amp; Tradition</h2>
+                <h2 class="text-3xl md:text-4xl font-bold text-foreground mb-6"><?php echo esc_html( get_theme_mod( 'julius_about_journey_title', 'A Journey of Wellness & Tradition' ) ); ?></h2>
                 <div class="space-y-4 text-muted-foreground leading-relaxed">
-                    <p>Founded in 2019, Julius Spa was born from a passion to share the ancient art of Vietnamese massage and wellness traditions with visitors and locals alike. Nestled in the heart of Da Nang, our spa has become a sanctuary for those seeking authentic relaxation experiences.</p>
-                    <p>Our founder, with over 15 years of experience in traditional Vietnamese healing practices, envisioned a space where guests could escape the hustle of daily life and immerse themselves in tranquility. Every detail of Julius Spa - from the warm golden walls to the handcrafted massage beds - reflects our commitment to creating an atmosphere of peace and rejuvenation.</p>
-                    <p>Today, we continue to honor these traditions while embracing modern wellness techniques, ensuring every guest receives a truly memorable spa experience.</p>
+                    <p><?php echo esc_html( get_theme_mod( 'julius_about_journey_para1', 'Founded in 2019, Julius Spa was born from a passion to share the ancient art of Vietnamese massage and wellness traditions with visitors and locals alike. Nestled in the heart of Da Nang, our spa has become a sanctuary for those seeking authentic relaxation experiences.' ) ); ?></p>
+                    <p><?php echo esc_html( get_theme_mod( 'julius_about_journey_para2', 'Our founder, with over 15 years of experience in traditional Vietnamese healing practices, envisioned a space where guests could escape the hustle of daily life and immerse themselves in tranquility. Every detail of Julius Spa - from the warm golden walls to the handcrafted massage beds - reflects our commitment to creating an atmosphere of peace and rejuvenation.' ) ); ?></p>
+                    <p><?php echo esc_html( get_theme_mod( 'julius_about_journey_para3', 'Today, we continue to honor these traditions while embracing modern wellness techniques, ensuring every guest receives a truly memorable spa experience.' ) ); ?></p>
                 </div>
                 <div class="mt-8">
                     <a href="<?php echo esc_url( home_url( '/services' ) ); ?>">
@@ -54,20 +62,20 @@ get_header();
     <div class="container mx-auto px-4">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
             <div class="text-center">
-                <div class="text-3xl md:text-4xl font-bold text-primary mb-2">5+</div>
-                <div class="text-sm md:text-base text-muted-foreground">Years Experience</div>
+                <div class="text-3xl md:text-4xl font-bold text-primary mb-2"><?php echo esc_html( get_theme_mod( 'julius_about_stat1_number', '5+' ) ); ?></div>
+                <div class="text-sm md:text-base text-muted-foreground"><?php echo esc_html( get_theme_mod( 'julius_about_stat1_label', 'Years Experience' ) ); ?></div>
             </div>
             <div class="text-center">
-                <div class="text-3xl md:text-4xl font-bold text-primary mb-2">10,000+</div>
-                <div class="text-sm md:text-base text-muted-foreground">Happy Customers</div>
+                <div class="text-3xl md:text-4xl font-bold text-primary mb-2"><?php echo esc_html( get_theme_mod( 'julius_about_stat2_number', '10,000+' ) ); ?></div>
+                <div class="text-sm md:text-base text-muted-foreground"><?php echo esc_html( get_theme_mod( 'julius_about_stat2_label', 'Happy Customers' ) ); ?></div>
             </div>
             <div class="text-center">
-                <div class="text-3xl md:text-4xl font-bold text-primary mb-2">15+</div>
-                <div class="text-sm md:text-base text-muted-foreground">Expert Therapists</div>
+                <div class="text-3xl md:text-4xl font-bold text-primary mb-2"><?php echo esc_html( get_theme_mod( 'julius_about_stat3_number', '15+' ) ); ?></div>
+                <div class="text-sm md:text-base text-muted-foreground"><?php echo esc_html( get_theme_mod( 'julius_about_stat3_label', 'Expert Therapists' ) ); ?></div>
             </div>
             <div class="text-center">
-                <div class="text-3xl md:text-4xl font-bold text-primary mb-2">100%</div>
-                <div class="text-sm md:text-base text-muted-foreground">Satisfaction Rate</div>
+                <div class="text-3xl md:text-4xl font-bold text-primary mb-2"><?php echo esc_html( get_theme_mod( 'julius_about_stat4_number', '100%' ) ); ?></div>
+                <div class="text-sm md:text-base text-muted-foreground"><?php echo esc_html( get_theme_mod( 'julius_about_stat4_label', 'Satisfaction Rate' ) ); ?></div>
             </div>
         </div>
     </div>
@@ -77,9 +85,9 @@ get_header();
 <section class="py-16 md:py-24 bg-background">
     <div class="container mx-auto px-4">
         <div class="text-center mb-12">
-            <p class="text-primary text-sm tracking-[0.2em] uppercase mb-3 font-medium">What We Believe</p>
-            <h2 class="text-3xl md:text-4xl font-bold text-foreground mb-4">Our Core Values</h2>
-            <p class="text-muted-foreground max-w-2xl mx-auto">These principles guide everything we do at Julius Spa</p>
+            <p class="text-primary text-sm tracking-[0.2em] uppercase mb-3 font-medium"><?php echo esc_html( get_theme_mod( 'julius_about_values_subtitle', 'What We Believe' ) ); ?></p>
+            <h2 class="text-3xl md:text-4xl font-bold text-foreground mb-4"><?php echo esc_html( get_theme_mod( 'julius_about_values_title', 'Our Core Values' ) ); ?></h2>
+            <p class="text-muted-foreground max-w-2xl mx-auto"><?php echo esc_html( get_theme_mod( 'julius_about_values_description', 'These principles guide everything we do at Julius Spa' ) ); ?></p>
         </div>
         <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div class="bg-card border border-border rounded-xl p-6 text-center hover:shadow-lg transition-shadow">
@@ -88,8 +96,8 @@ get_header();
                         <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
                     </svg>
                 </div>
-                <h3 class="text-lg font-semibold text-foreground mb-3">Passion for Wellness</h3>
-                <p class="text-muted-foreground text-sm leading-relaxed">We are dedicated to helping you achieve complete relaxation and rejuvenation through authentic Vietnamese spa traditions.</p>
+                <h3 class="text-lg font-semibold text-foreground mb-3"><?php echo esc_html( get_theme_mod( 'julius_about_value1_title', 'Passion for Wellness' ) ); ?></h3>
+                <p class="text-muted-foreground text-sm leading-relaxed"><?php echo esc_html( get_theme_mod( 'julius_about_value1_desc', 'We are dedicated to helping you achieve complete relaxation and rejuvenation through authentic Vietnamese spa traditions.' ) ); ?></p>
             </div>
             <div class="bg-card border border-border rounded-xl p-6 text-center hover:shadow-lg transition-shadow">
                 <div class="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -98,8 +106,8 @@ get_header();
                         <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
                     </svg>
                 </div>
-                <h3 class="text-lg font-semibold text-foreground mb-3">Natural Products</h3>
-                <p class="text-muted-foreground text-sm leading-relaxed">We use only premium natural oils, herbs, and organic ingredients sourced from local Vietnamese suppliers.</p>
+                <h3 class="text-lg font-semibold text-foreground mb-3"><?php echo esc_html( get_theme_mod( 'julius_about_value2_title', 'Natural Products' ) ); ?></h3>
+                <p class="text-muted-foreground text-sm leading-relaxed"><?php echo esc_html( get_theme_mod( 'julius_about_value2_desc', 'We use only premium natural oils, herbs, and organic ingredients sourced from local Vietnamese suppliers.' ) ); ?></p>
             </div>
             <div class="bg-card border border-border rounded-xl p-6 text-center hover:shadow-lg transition-shadow">
                 <div class="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -110,8 +118,8 @@ get_header();
                         <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                     </svg>
                 </div>
-                <h3 class="text-lg font-semibold text-foreground mb-3">Expert Therapists</h3>
-                <p class="text-muted-foreground text-sm leading-relaxed">Our skilled team has years of experience in traditional massage techniques, ensuring the highest quality service.</p>
+                <h3 class="text-lg font-semibold text-foreground mb-3"><?php echo esc_html( get_theme_mod( 'julius_about_value3_title', 'Expert Therapists' ) ); ?></h3>
+                <p class="text-muted-foreground text-sm leading-relaxed"><?php echo esc_html( get_theme_mod( 'julius_about_value3_desc', 'Our skilled team has years of experience in traditional massage techniques, ensuring the highest quality service.' ) ); ?></p>
             </div>
             <div class="bg-card border border-border rounded-xl p-6 text-center hover:shadow-lg transition-shadow">
                 <div class="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -119,8 +127,8 @@ get_header();
                         <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path>
                     </svg>
                 </div>
-                <h3 class="text-lg font-semibold text-foreground mb-3">Safe &amp; Hygienic</h3>
-                <p class="text-muted-foreground text-sm leading-relaxed">Your health is our priority. We maintain the highest standards of cleanliness and hygiene in all our facilities.</p>
+                <h3 class="text-lg font-semibold text-foreground mb-3"><?php echo esc_html( get_theme_mod( 'julius_about_value4_title', 'Safe & Hygienic' ) ); ?></h3>
+                <p class="text-muted-foreground text-sm leading-relaxed"><?php echo esc_html( get_theme_mod( 'julius_about_value4_desc', 'Your health is our priority. We maintain the highest standards of cleanliness and hygiene in all our facilities.' ) ); ?></p>
             </div>
         </div>
     </div>
@@ -131,8 +139,8 @@ get_header();
     <div class="container mx-auto px-4">
         <div class="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-                <p class="text-primary text-sm tracking-[0.2em] uppercase mb-3 font-medium">Why Julius Spa</p>
-                <h2 class="text-3xl md:text-4xl font-bold text-foreground mb-6">The Julius Spa Difference</h2>
+                <p class="text-primary text-sm tracking-[0.2em] uppercase mb-3 font-medium"><?php echo esc_html( get_theme_mod( 'julius_about_diff_subtitle', 'Why Julius Spa' ) ); ?></p>
+                <h2 class="text-3xl md:text-4xl font-bold text-foreground mb-6"><?php echo esc_html( get_theme_mod( 'julius_about_diff_title', 'The Julius Spa Difference' ) ); ?></h2>
                 <div class="space-y-6">
                     <div class="flex gap-4">
                         <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center shrink-0">
@@ -141,8 +149,8 @@ get_header();
                             </svg>
                         </div>
                         <div>
-                            <h3 class="font-semibold text-foreground mb-1">5-Star Service</h3>
-                            <p class="text-muted-foreground text-sm">Every guest receives personalized attention and premium care from arrival to departure.</p>
+                            <h3 class="font-semibold text-foreground mb-1"><?php echo esc_html( get_theme_mod( 'julius_about_diff1_title', '5-Star Service' ) ); ?></h3>
+                            <p class="text-muted-foreground text-sm"><?php echo esc_html( get_theme_mod( 'julius_about_diff1_desc', 'Every guest receives personalized attention and premium care from arrival to departure.' ) ); ?></p>
                         </div>
                     </div>
                     <div class="flex gap-4">
@@ -153,8 +161,8 @@ get_header();
                             </svg>
                         </div>
                         <div>
-                            <h3 class="font-semibold text-foreground mb-1">Award-Winning Quality</h3>
-                            <p class="text-muted-foreground text-sm">Recognized by Da Nang Tourism for excellence in spa services and customer satisfaction.</p>
+                            <h3 class="font-semibold text-foreground mb-1"><?php echo esc_html( get_theme_mod( 'julius_about_diff2_title', 'Award-Winning Quality' ) ); ?></h3>
+                            <p class="text-muted-foreground text-sm"><?php echo esc_html( get_theme_mod( 'julius_about_diff2_desc', 'Recognized by Da Nang Tourism for excellence in spa services and customer satisfaction.' ) ); ?></p>
                         </div>
                     </div>
                     <div class="flex gap-4">
@@ -165,8 +173,8 @@ get_header();
                             </svg>
                         </div>
                         <div>
-                            <h3 class="font-semibold text-foreground mb-1">Flexible Hours</h3>
-                            <p class="text-muted-foreground text-sm">Open from 9:00 AM to 10:00 PM daily to accommodate your busy schedule.</p>
+                            <h3 class="font-semibold text-foreground mb-1"><?php echo esc_html( get_theme_mod( 'julius_about_diff3_title', 'Flexible Hours' ) ); ?></h3>
+                            <p class="text-muted-foreground text-sm"><?php echo esc_html( get_theme_mod( 'julius_about_diff3_desc', 'Open from 9:00 AM to 10:00 PM daily to accommodate your busy schedule.' ) ); ?></p>
                         </div>
                     </div>
                     <div class="flex gap-4">
@@ -180,8 +188,8 @@ get_header();
                             </svg>
                         </div>
                         <div>
-                            <h3 class="font-semibold text-foreground mb-1">Authentic Experience</h3>
-                            <p class="text-muted-foreground text-sm">Traditional Vietnamese techniques combined with modern wellness practices.</p>
+                            <h3 class="font-semibold text-foreground mb-1"><?php echo esc_html( get_theme_mod( 'julius_about_diff4_title', 'Authentic Experience' ) ); ?></h3>
+                            <p class="text-muted-foreground text-sm"><?php echo esc_html( get_theme_mod( 'julius_about_diff4_desc', 'Traditional Vietnamese techniques combined with modern wellness practices.' ) ); ?></p>
                         </div>
                     </div>
                 </div>
@@ -212,9 +220,9 @@ get_header();
 <section class="py-16 md:py-24 bg-secondary/30">
     <div class="container mx-auto px-4">
         <div class="text-center mb-12">
-            <p class="text-primary text-sm tracking-[0.2em] uppercase mb-3 font-medium">Our Space</p>
-            <h2 class="text-3xl md:text-4xl font-bold text-foreground mb-4">Experience Julius Spa</h2>
-            <p class="text-muted-foreground max-w-2xl mx-auto">Step into our tranquil sanctuary designed for your complete relaxation</p>
+            <p class="text-primary text-sm tracking-[0.2em] uppercase mb-3 font-medium"><?php echo esc_html( get_theme_mod( 'julius_about_space_subtitle', 'Our Space' ) ); ?></p>
+            <h2 class="text-3xl md:text-4xl font-bold text-foreground mb-4"><?php echo esc_html( get_theme_mod( 'julius_about_space_title', 'Experience Julius Spa' ) ); ?></h2>
+            <p class="text-muted-foreground max-w-2xl mx-auto"><?php echo esc_html( get_theme_mod( 'julius_about_space_description', 'Step into our tranquil sanctuary designed for your complete relaxation' ) ); ?></p>
         </div>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
             <?php
@@ -255,14 +263,14 @@ get_header();
 <!-- CTA Section -->
 <section class="py-16 md:py-24 bg-primary text-primary-foreground">
     <div class="container mx-auto px-4 text-center">
-        <h2 class="text-3xl md:text-4xl font-bold mb-4">Ready to Experience True Relaxation?</h2>
-        <p class="text-primary-foreground/80 max-w-2xl mx-auto mb-8 text-lg">Book your appointment today and let our expert therapists transport you to a world of tranquility and wellness.</p>
+        <h2 class="text-3xl md:text-4xl font-bold mb-4"><?php echo esc_html( get_theme_mod( 'julius_about_cta_title', 'Ready to Experience True Relaxation?' ) ); ?></h2>
+        <p class="text-primary-foreground/80 max-w-2xl mx-auto mb-8 text-lg"><?php echo esc_html( get_theme_mod( 'julius_about_cta_description', 'Book your appointment today and let our expert therapists transport you to a world of tranquility and wellness.' ) ); ?></p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
             <a href="<?php echo esc_url( home_url( '/contact' ) ); ?>">
-                <button data-slot="button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-10 rounded-md has-[>svg]:px-4 bg-white text-primary hover:bg-white/90 px-8">Book Now</button>
+                <button data-slot="button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-10 rounded-md has-[>svg]:px-4 bg-white text-primary hover:bg-white/90 px-8"><?php echo esc_html( get_theme_mod( 'julius_about_cta_button1_text', 'Book Now' ) ); ?></button>
             </a>
             <a href="<?php echo esc_url( home_url( '/services' ) ); ?>">
-                <button data-slot="button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border shadow-xs hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-10 rounded-md has-[>svg]:px-4 border-white text-white hover:bg-white/10 px-8 bg-transparent">View Services</button>
+                <button data-slot="button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border shadow-xs hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-10 rounded-md has-[>svg]:px-4 border-white text-white hover:bg-white/10 px-8 bg-transparent"><?php echo esc_html( get_theme_mod( 'julius_about_cta_button2_text', 'View Services' ) ); ?></button>
             </a>
         </div>
     </div>

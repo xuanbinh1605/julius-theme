@@ -137,3 +137,10 @@ add_action( 'customize_register', 'julius_customize_register' );
 if ( file_exists( JULIUS_THEME_DIR . '/customizer/customizer-frontpage.php' ) ) {
     require_once JULIUS_THEME_DIR . '/customizer/customizer-frontpage.php';
 }
+
+/**
+ * Include About Us Page Customizer Settings
+ */
+if ( file_exists( JULIUS_THEME_DIR . '/customizer/customizer-about-us.php' ) ) {
+    require_once JULIUS_THEME_DIR . '/customizer/customizer-about-us.php';
+}
