@@ -9,8 +9,8 @@ get_header();
 ?>
 
 <!-- Hero Section -->
-<section class="relative h-[50vh] md:h-[60vh] flex items-center justify-center mt-[88px] md:mt-[136px]">
-    <img alt="Julius Spa Interior" decoding="async" data-nimg="fill" class="object-cover" style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" src="<?php echo get_template_directory_uri(); ?>/images/julius-group-room-2.jpg">
+<section class="relative h-[50vh] md:h-[60vh] flex items-center justify-center">
+    <img alt="Julius Spa Interior" decoding="async" data-nimg="fill" class="object-cover" style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" src="<?php echo esc_url( wp_get_attachment_image_url( 43, 'full' ) ); ?>">
     <div class="absolute inset-0 bg-black/60"></div>
     <div class="relative z-10 text-center text-white px-4">
         <p class="text-primary text-sm md:text-base tracking-[0.3em] uppercase mb-4 font-medium">Our Story</p>
@@ -25,7 +25,7 @@ get_header();
         <div class="grid lg:grid-cols-2 gap-12 items-center">
             <div class="relative">
                 <div class="relative h-[400px] md:h-[500px] rounded-2xl overflow-hidden">
-                    <img alt="Julius Spa Exterior" loading="lazy" decoding="async" data-nimg="fill" class="object-cover" style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" src="<?php echo get_template_directory_uri(); ?>/images/julius-exterior-night.jpg">
+                    <img alt="Julius Spa Exterior" loading="lazy" decoding="async" data-nimg="fill" class="object-cover" style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" src="<?php echo esc_url( wp_get_attachment_image_url( 44, 'full' ) ); ?>">
                 </div>
                 <div class="absolute -bottom-6 -right-6 bg-primary text-primary-foreground p-6 rounded-xl shadow-lg hidden md:block">
                     <div class="text-4xl font-bold">5+</div>
@@ -189,18 +189,18 @@ get_header();
             <div class="grid grid-cols-2 gap-4">
                 <div class="space-y-4">
                     <div class="relative h-48 rounded-xl overflow-hidden">
-                        <img alt="Massage Room" loading="lazy" decoding="async" data-nimg="fill" class="object-cover" style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" src="<?php echo get_template_directory_uri(); ?>/images/julius-massage-room-1.jpg">
+                        <img alt="Massage Room" loading="lazy" decoding="async" data-nimg="fill" class="object-cover" style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" src="<?php echo esc_url( wp_get_attachment_image_url( 45, 'full' ) ); ?>">
                     </div>
                     <div class="relative h-64 rounded-xl overflow-hidden">
-                        <img alt="Julius Branded Towel" loading="lazy" decoding="async" data-nimg="fill" class="object-cover" style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" src="<?php echo get_template_directory_uri(); ?>/images/julius-towel-bright.jpg">
+                        <img alt="Julius Branded Towel" loading="lazy" decoding="async" data-nimg="fill" class="object-cover" style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" src="<?php echo esc_url( wp_get_attachment_image_url( 46, 'full' ) ); ?>">
                     </div>
                 </div>
                 <div class="space-y-4 pt-8">
                     <div class="relative h-64 rounded-xl overflow-hidden">
-                        <img alt="Group Room" loading="lazy" decoding="async" data-nimg="fill" class="object-cover" style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" src="<?php echo get_template_directory_uri(); ?>/images/julius-group-room-1.jpg">
+                        <img alt="Group Room" loading="lazy" decoding="async" data-nimg="fill" class="object-cover" style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" src="<?php echo esc_url( wp_get_attachment_image_url( 47, 'full' ) ); ?>">
                     </div>
                     <div class="relative h-48 rounded-xl overflow-hidden">
-                        <img alt="Treatment Room" loading="lazy" decoding="async" data-nimg="fill" class="object-cover" style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" src="<?php echo get_template_directory_uri(); ?>/images/julius-massage-room-4.jpg">
+                        <img alt="Treatment Room" loading="lazy" decoding="async" data-nimg="fill" class="object-cover" style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" src="<?php echo esc_url( wp_get_attachment_image_url( 48, 'full' ) ); ?>">
                     </div>
                 </div>
             </div>
@@ -218,22 +218,22 @@ get_header();
         </div>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
             <div class="relative h-48 md:h-64 rounded-xl overflow-hidden col-span-2">
-                <img alt="Julius Spa Street View" loading="lazy" decoding="async" data-nimg="fill" class="object-cover hover:scale-105 transition-transform duration-500" style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" src="<?php echo get_template_directory_uri(); ?>/images/julius-street-view.jpg">
+                <img alt="Julius Spa Street View" loading="lazy" decoding="async" data-nimg="fill" class="object-cover hover:scale-105 transition-transform duration-500" style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" src="<?php echo esc_url( wp_get_attachment_image_url( 49, 'full' ) ); ?>">
             </div>
             <div class="relative h-48 md:h-64 rounded-xl overflow-hidden">
-                <img alt="Massage Room" loading="lazy" decoding="async" data-nimg="fill" class="object-cover hover:scale-105 transition-transform duration-500" style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" src="<?php echo get_template_directory_uri(); ?>/images/julius-massage-room-2.jpg">
+                <img alt="Massage Room" loading="lazy" decoding="async" data-nimg="fill" class="object-cover hover:scale-105 transition-transform duration-500" style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" src="<?php echo esc_url( wp_get_attachment_image_url( 50, 'full' ) ); ?>">
             </div>
             <div class="relative h-48 md:h-64 rounded-xl overflow-hidden">
-                <img alt="Treatment Room" loading="lazy" decoding="async" data-nimg="fill" class="object-cover hover:scale-105 transition-transform duration-500" style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" src="<?php echo get_template_directory_uri(); ?>/images/julius-massage-room-3.jpg">
+                <img alt="Treatment Room" loading="lazy" decoding="async" data-nimg="fill" class="object-cover hover:scale-105 transition-transform duration-500" style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" src="<?php echo esc_url( wp_get_attachment_image_url( 51, 'full' ) ); ?>">
             </div>
             <div class="relative h-48 md:h-64 rounded-xl overflow-hidden">
-                <img alt="Branded Towels" loading="lazy" decoding="async" data-nimg="fill" class="object-cover hover:scale-105 transition-transform duration-500" style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" src="<?php echo get_template_directory_uri(); ?>/images/julius-towel-detail.jpg">
+                <img alt="Branded Towels" loading="lazy" decoding="async" data-nimg="fill" class="object-cover hover:scale-105 transition-transform duration-500" style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" src="<?php echo esc_url( wp_get_attachment_image_url( 52, 'full' ) ); ?>">
             </div>
             <div class="relative h-48 md:h-64 rounded-xl overflow-hidden col-span-2">
-                <img alt="Group Treatment Room" loading="lazy" decoding="async" data-nimg="fill" class="object-cover hover:scale-105 transition-transform duration-500" style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" src="<?php echo get_template_directory_uri(); ?>/images/julius-group-room-2.jpg">
+                <img alt="Group Treatment Room" loading="lazy" decoding="async" data-nimg="fill" class="object-cover hover:scale-105 transition-transform duration-500" style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" src="<?php echo esc_url( wp_get_attachment_image_url( 53, 'full' ) ); ?>">
             </div>
             <div class="relative h-48 md:h-64 rounded-xl overflow-hidden">
-                <img alt="Night Exterior" loading="lazy" decoding="async" data-nimg="fill" class="object-cover hover:scale-105 transition-transform duration-500" style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" src="<?php echo get_template_directory_uri(); ?>/images/julius-exterior-night.jpg">
+                <img alt="Night Exterior" loading="lazy" decoding="async" data-nimg="fill" class="object-cover hover:scale-105 transition-transform duration-500" style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" src="<?php echo esc_url( wp_get_attachment_image_url( 54, 'full' ) ); ?>">
             </div>
         </div>
     </div>
