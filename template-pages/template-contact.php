@@ -130,19 +130,19 @@ get_header();
                 <div>
                     <label for="name" class="block text-sm font-medium text-foreground mb-2">Full Name *</label>
                     <input data-slot="input" class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 w-full min-w-0 rounded-md border px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-background border-border h-12" id="name" required placeholder="Enter your name" type="text" name="name">
-                    <p class="error-message text-red-600 text-sm mt-1 hidden"></p>
+                    <p class="error-message hidden"></p>
                 </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label for="email" class="block text-sm font-medium text-foreground mb-2">Email *</label>
                         <input data-slot="input" class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 w-full min-w-0 rounded-md border px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-background border-border h-12" id="email" required placeholder="your@email.com" type="email" name="email">
-                        <p class="error-message text-red-600 text-sm mt-1 hidden"></p>
+                        <p class="error-message hidden"></p>
                     </div>
                     <div>
                         <label for="phone" class="block text-sm font-medium text-foreground mb-2">Phone Number *</label>
                         <input data-slot="input" class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 w-full min-w-0 rounded-md border px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-background border-border h-12" id="phone" required placeholder="+84 xxx xxx xxx" type="tel" name="phone">
-                        <p class="error-message text-red-600 text-sm mt-1 hidden"></p>
+                        <p class="error-message hidden"></p>
                     </div>
                 </div>
                 
@@ -151,9 +151,9 @@ get_header();
                     <select id="branch" name="branch" required class="w-full h-12 px-4 rounded-md border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50">
                         <option value="">Choose a branch...</option>
                         <option value="julius-1">Julius 1 - 5 An Thuong 38, Da Nang (0775 509 057)</option>
-                    <p class="error-message text-red-600 text-sm mt-1 hidden"></p>
                         <option value="julius-2">Julius 2 - 61 Ta My Duat, Da Nang (0787 509 157)</option>
                     </select>
+                    <p class="error-message hidden"></p>
                 </div>
                 
                 <div>

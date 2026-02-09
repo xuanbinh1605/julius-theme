@@ -5665,3 +5665,18 @@ Tags: custom
     border: 1px solid #fca5a5;
     color: #991b1b;
 }
+
+/* Form Error Messages */
+.error-message {
+    color: #dc2626;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+.error-message.hidden {
+    display: none;
+}
+
+.hidden {
+    display: none;
+}
