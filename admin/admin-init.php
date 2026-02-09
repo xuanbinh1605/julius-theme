@@ -75,3 +75,10 @@ if ( file_exists( get_template_directory() . '/admin/admin-sample-generator.php'
 if ( file_exists( get_template_directory() . '/admin/admin-gallery.php' ) ) {
     require_once get_template_directory() . '/admin/admin-gallery.php';
 }
+
+/**
+ * Include Our Space Gallery Admin
+ */
+if ( file_exists( get_template_directory() . '/admin/admin-our-space.php' ) ) {
+    require_once get_template_directory() . '/admin/admin-our-space.php';
+}

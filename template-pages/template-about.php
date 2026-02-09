@@ -217,24 +217,37 @@ get_header();
             <p class="text-muted-foreground max-w-2xl mx-auto">Step into our tranquil sanctuary designed for your complete relaxation</p>
         </div>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
-            <div class="relative h-48 md:h-64 rounded-xl overflow-hidden col-span-2">
-                <img alt="Julius Spa Street View" loading="lazy" decoding="async" data-nimg="fill" class="object-cover hover:scale-105 transition-transform duration-500" style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" src="<?php echo esc_url( wp_get_attachment_image_url( 49, 'full' ) ); ?>">
-            </div>
-            <div class="relative h-48 md:h-64 rounded-xl overflow-hidden">
-                <img alt="Massage Room" loading="lazy" decoding="async" data-nimg="fill" class="object-cover hover:scale-105 transition-transform duration-500" style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" src="<?php echo esc_url( wp_get_attachment_image_url( 50, 'full' ) ); ?>">
-            </div>
-            <div class="relative h-48 md:h-64 rounded-xl overflow-hidden">
-                <img alt="Treatment Room" loading="lazy" decoding="async" data-nimg="fill" class="object-cover hover:scale-105 transition-transform duration-500" style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" src="<?php echo esc_url( wp_get_attachment_image_url( 51, 'full' ) ); ?>">
-            </div>
-            <div class="relative h-48 md:h-64 rounded-xl overflow-hidden">
-                <img alt="Branded Towels" loading="lazy" decoding="async" data-nimg="fill" class="object-cover hover:scale-105 transition-transform duration-500" style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" src="<?php echo esc_url( wp_get_attachment_image_url( 52, 'full' ) ); ?>">
-            </div>
-            <div class="relative h-48 md:h-64 rounded-xl overflow-hidden col-span-2">
-                <img alt="Group Treatment Room" loading="lazy" decoding="async" data-nimg="fill" class="object-cover hover:scale-105 transition-transform duration-500" style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" src="<?php echo esc_url( wp_get_attachment_image_url( 53, 'full' ) ); ?>">
-            </div>
-            <div class="relative h-48 md:h-64 rounded-xl overflow-hidden">
-                <img alt="Night Exterior" loading="lazy" decoding="async" data-nimg="fill" class="object-cover hover:scale-105 transition-transform duration-500" style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" src="<?php echo esc_url( wp_get_attachment_image_url( 54, 'full' ) ); ?>">
-            </div>
+            <?php
+            $our_space_images = get_option( 'julius_our_space_images', array( 49, 50, 51, 52, 53, 54 ) );
+            
+            if ( ! empty( $our_space_images ) ) :
+                foreach ( $our_space_images as $index => $image_id ) :
+                    $image_url = wp_get_attachment_image_url( $image_id, 'large' );
+                    $image_alt = get_post_meta( $image_id, '_wp_attachment_image_alt', true );
+                    
+                    if ( ! $image_url ) continue;
+                    
+                    // Determine column span class based on position
+                    $col_span_class = '';
+                    if ( $index === 0 || ( $index > 0 && ( $index + 1 ) % 5 === 0 ) ) {
+                        $col_span_class = 'col-span-2';
+                    }
+                    ?>
+                    <div class="relative h-48 md:h-64 rounded-xl overflow-hidden <?php echo esc_attr( $col_span_class ); ?>">
+                        <img 
+                            alt="<?php echo esc_attr( $image_alt ? $image_alt : 'Julius Spa Image' ); ?>" 
+                            loading="lazy" 
+                            decoding="async" 
+                            data-nimg="fill" 
+                            class="object-cover hover:scale-105 transition-transform duration-500" 
+                            style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent" 
+                            src="<?php echo esc_url( $image_url ); ?>"
+                        >
+                    </div>
+                <?php 
+                endforeach;
+            endif;
+            ?>
         </div>
     </div>
 </section>
