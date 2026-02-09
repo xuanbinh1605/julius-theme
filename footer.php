@@ -75,6 +75,10 @@
                 <h3 class="text-lg font-semibold mb-6 text-accent">Quick Links</h3>
                 <?php
                 if ( has_nav_menu( 'footer-quick-links' ) ) :
+                    add_filter( 'nav_menu_link_attributes', function( $atts ) {
+                        $atts['class'] = 'text-background/70 hover:text-primary transition-colors';
+                        return $atts;
+                    }, 10, 1 );
                     wp_nav_menu( array(
                         'theme_location' => 'footer-quick-links',
                         'menu_class'     => 'space-y-3',
@@ -85,6 +89,7 @@
                         'link_after'     => '',
                         'fallback_cb'    => false,
                     ) );
+                    remove_all_filters( 'nav_menu_link_attributes' );
                 else :
                 ?>
                     <ul class="space-y-3">
@@ -102,6 +107,10 @@
                 <h3 class="text-lg font-semibold mb-6 text-accent">Our Services</h3>
                 <?php
                 if ( has_nav_menu( 'footer-services' ) ) :
+                    add_filter( 'nav_menu_link_attributes', function( $atts ) {
+                        $atts['class'] = 'text-background/70 hover:text-primary transition-colors';
+                        return $atts;
+                    }, 10, 1 );
                     wp_nav_menu( array(
                         'theme_location' => 'footer-services',
                         'menu_class'     => 'space-y-3',
@@ -112,6 +121,7 @@
                         'link_after'     => '',
                         'fallback_cb'    => false,
                     ) );
+                    remove_all_filters( 'nav_menu_link_attributes' );
                 else :
                 ?>
                     <ul class="space-y-3">
