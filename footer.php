@@ -13,7 +13,7 @@
             <!-- Brand & Social -->
             <div class="lg:col-span-1">
                 <?php 
-                $logo_id = get_theme_mod( 'julius_logo_image', 0 );
+                $logo_id = get_theme_mod( 'julius_logo_image', 6 );
                 if ( $logo_id ) :
                     $logo = wp_get_attachment_image_src( $logo_id, 'full' );
                     if ( $logo ) :
