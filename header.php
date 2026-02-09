@@ -78,9 +78,9 @@
                         'theme_location' => 'primary',
                         'menu_id'        => 'primary-menu',
                         'container'      => false,
-                        'menu_class'     => '',
-                        'items_wrap'     => '%3$s',
-                        'fallback_cb'    => false,
+                        'menu_class'     => 'flex items-center gap-8',
+                        'items_wrap'     => '<ul id="%1$s" class="%2$s">%3$s</ul>',
+                        'fallback_cb'    => '__return_false',
                         'link_before'    => '<span class="text-foreground hover:text-primary transition-colors text-lg font-medium">',
                         'link_after'     => '</span>',
                     ) );
@@ -114,7 +114,8 @@
                     'menu_id'        => 'mobile-menu',
                     'container'      => false,
                     'menu_class'     => 'flex flex-col gap-4',
-                    'fallback_cb'    => false,
+                    'items_wrap'     => '<ul id="%1$s" class="%2$s">%3$s</ul>',
+                    'fallback_cb'    => '__return_false',
                     'link_before'    => '<span class="text-foreground hover:text-primary transition-colors text-lg font-medium block py-2">',
                     'link_after'     => '</span>',
                 ) );
