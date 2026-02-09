@@ -120,23 +120,29 @@ get_header();
             <h2 class="text-2xl md:text-3xl font-bold text-foreground mb-2">Book Your Session</h2>
             <p class="text-muted-foreground mb-8">Fill out the form below and we will contact you to confirm your booking.</p>
             
-            <form class="space-y-5" action="<?php echo esc_url( admin_url('admin-post.php') ); ?>" method="POST">
+            <form id="contact-form" class="space-y-5" action="<?php echo esc_url( admin_url('admin-post.php') ); ?>" method="POST">
                 <input type="hidden" name="action" value="julius_contact_form">
                 <?php wp_nonce_field( 'julius_contact_form', 'julius_contact_nonce' ); ?>
+                
+                <!-- Notification Area -->
+                <div id="form-notification" class="hidden p-4 rounded-md mb-4"></div>
                 
                 <div>
                     <label for="name" class="block text-sm font-medium text-foreground mb-2">Full Name *</label>
                     <input data-slot="input" class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 w-full min-w-0 rounded-md border px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-background border-border h-12" id="name" required placeholder="Enter your name" type="text" name="name">
+                    <p class="error-message text-red-600 text-sm mt-1 hidden"></p>
                 </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label for="email" class="block text-sm font-medium text-foreground mb-2">Email *</label>
                         <input data-slot="input" class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 w-full min-w-0 rounded-md border px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-background border-border h-12" id="email" required placeholder="your@email.com" type="email" name="email">
+                        <p class="error-message text-red-600 text-sm mt-1 hidden"></p>
                     </div>
                     <div>
                         <label for="phone" class="block text-sm font-medium text-foreground mb-2">Phone Number *</label>
                         <input data-slot="input" class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 w-full min-w-0 rounded-md border px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-background border-border h-12" id="phone" required placeholder="+84 xxx xxx xxx" type="tel" name="phone">
+                        <p class="error-message text-red-600 text-sm mt-1 hidden"></p>
                     </div>
                 </div>
                 
@@ -145,6 +151,7 @@ get_header();
                     <select id="branch" name="branch" required class="w-full h-12 px-4 rounded-md border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50">
                         <option value="">Choose a branch...</option>
                         <option value="julius-1">Julius 1 - 5 An Thuong 38, Da Nang (0775 509 057)</option>
+                    <p class="error-message text-red-600 text-sm mt-1 hidden"></p>
                         <option value="julius-2">Julius 2 - 61 Ta My Duat, Da Nang (0787 509 157)</option>
                     </select>
                 </div>
@@ -194,12 +201,16 @@ get_header();
                     <textarea data-slot="textarea" class="placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm bg-background border-border resize-none" id="message" name="message" rows="4" placeholder="Tell us your preferred date, time, or any special requests..."></textarea>
                 </div>
                 
-                <button data-slot="button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive px-4 py-2 has-[>svg]:px-3 w-full bg-primary hover:bg-primary/90 text-primary-foreground h-14 text-lg font-medium" type="submit">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send w-5 h-5 mr-2">
+                <button id="submit-btn" data-slot="button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive px-4 py-2 has-[>svg]:px-3 w-full bg-primary hover:bg-primary/90 text-primary-foreground h-14 text-lg font-medium" type="submit">
+                    <svg id="send-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send w-5 h-5 mr-2">
                         <path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"></path>
                         <path d="m21.854 2.147-10.94 10.939"></path>
                     </svg>
-                    Send Message
+                    <svg id="loading-icon" class="hidden animate-spin w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span id="button-text">Send Message</span>
                 </button>
                 
                 <p class="text-center text-sm text-muted-foreground">
@@ -247,7 +258,209 @@ get_header();
                     </svg>
                     Call Now
                 </button>
-            </a>
+ <style>
+    .error-border {
+        border-color: #ef4444 !important;
+    }
+    
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+    
+    .animate-spin {
+        animation: spin 1s linear infinite;
+    }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('contact-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const buttonText = document.getElementById('button-text');
+    const sendIcon = document.getElementById('send-icon');
+    const loadingIcon = document.getElementById('loading-icon');
+    const notification = document.getElementById('form-notification');
+    
+    // Required fields
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const phoneInput = document.getElementById('phone');
+    const branchSelect = document.getElementById('branch');
+    
+    // Validation functions
+    function validateName(input) {
+        const value = input.value.trim();
+        const errorMsg = input.parentElement.querySelector('.error-message');
+        
+        if (value === '') {
+            showError(input, errorMsg, 'Full name is required');
+            return false;
+        } else if (value.length < 2) {
+            showError(input, errorMsg, 'Name must be at least 2 characters');
+            return false;
+        } else {
+            clearError(input, errorMsg);
+            return true;
+        }
+    }
+    
+    function validateEmail(input) {
+        const value = input.value.trim();
+        const errorMsg = input.parentElement.querySelector('.error-message');
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        
+        if (value === '') {
+            showError(input, errorMsg, 'Email is required');
+            return false;
+        } else if (!emailRegex.test(value)) {
+            showError(input, errorMsg, 'Please enter a valid email address');
+            return false;
+        } else {
+            clearError(input, errorMsg);
+            return true;
+        }
+    }
+    
+    function validatePhone(input) {
+        const value = input.value.trim();
+        const errorMsg = input.parentElement.querySelector('.error-message');
+        
+        if (value === '') {
+            showError(input, errorMsg, 'Phone number is required');
+            return false;
+        } else if (value.length < 8) {
+            showError(input, errorMsg, 'Please enter a valid phone number');
+            return false;
+        } else {
+            clearError(input, errorMsg);
+            return true;
+        }
+    }
+    
+    function validateBranch(select) {
+        const value = select.value;
+        const errorMsg = select.parentElement.querySelector('.error-message');
+        
+        if (value === '') {
+            showError(select, errorMsg, 'Please select a branch');
+            return false;
+        } else {
+            clearError(select, errorMsg);
+            return true;
+        }
+    }
+    
+    function showError(element, errorMsg, message) {
+        element.classList.add('error-border');
+        errorMsg.textContent = message;
+        errorMsg.classList.remove('hidden');
+    }
+    
+    function clearError(element, errorMsg) {
+        element.classList.remove('error-border');
+        errorMsg.textContent = '';
+        errorMsg.classList.add('hidden');
+    }
+    
+    function showNotification(message, type) {
+        notification.className = 'p-4 rounded-md mb-4';
+        
+        if (type === 'success') {
+            notification.classList.add('bg-green-100', 'border', 'border-green-400', 'text-green-700');
+        } else {
+            notification.classList.add('bg-red-100', 'border', 'border-red-400', 'text-red-700');
+        }
+        
+        notification.textContent = message;
+        notification.classList.remove('hidden');
+        
+        // Scroll to notification
+        notification.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        
+        // Hide after 5 seconds
+        setTimeout(() => {
+            notification.classList.add('hidden');
+        }, 5000);
+    }
+    
+    // Live validation on blur
+    nameInput.addEventListener('blur', () => validateName(nameInput));
+    emailInput.addEventListener('blur', () => validateEmail(emailInput));
+    phoneInput.addEventListener('blur', () => validatePhone(phoneInput));
+    branchSelect.addEventListener('change', () => validateBranch(branchSelect));
+    
+    // Clear error on input
+    nameInput.addEventListener('input', function() {
+        if (this.classList.contains('error-border')) {
+            validateName(this);
+        }
+    });
+    
+    emailInput.addEventListener('input', function() {
+        if (this.classList.contains('error-border')) {
+            validateEmail(this);
+        }
+    });
+    
+    phoneInput.addEventListener('input', function() {
+        if (this.classList.contains('error-border')) {
+            validatePhone(this);
+        }
+    });
+    
+    // Form submission
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Validate all required fields
+        const isNameValid = validateName(nameInput);
+        const isEmailValid = validateEmail(emailInput);
+        const isPhoneValid = validatePhone(phoneInput);
+        const isBranchValid = validateBranch(branchSelect);
+        
+        if (!isNameValid || !isEmailValid || !isPhoneValid || !isBranchValid) {
+            showNotification('Please fix the errors before submitting', 'error');
+            return;
+        }
+        
+        // Show loading state
+        submitBtn.disabled = true;
+        buttonText.textContent = 'Sending...';
+        sendIcon.classList.add('hidden');
+        loadingIcon.classList.remove('hidden');
+        
+        // Get form data
+        const formData = new FormData(form);
+        
+        // Submit form via AJAX
+        fetch(form.action, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showNotification('Thank you! Your message has been sent successfully. We will contact you soon.', 'success');
+                form.reset();
+            } else {
+                showNotification(data.message || 'Something went wrong. Please try again.', 'error');
+            }
+        })
+        .catch(error => {
+            showNotification('Error sending message. Please try calling us directly.', 'error');
+        })
+        .finally(() => {
+            // Reset button state
+            submitBtn.disabled = false;
+            buttonText.textContent = 'Send Message';
+            sendIcon.classList.remove('hidden');
+            loadingIcon.classList.add('hidden');
+        });
+    });
+});
+</script>
+
+<           </a>
         </div>
     </div>
 </section>
