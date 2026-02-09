@@ -157,43 +157,51 @@ get_header();
                 </div>
                 
                 <div>
-                    <label for="service" class="block text-sm font-medium text-foreground mb-2">Select Service</label>
-                    <select id="service" name="service" class="w-full h-12 px-4 rounded-md border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50">
+                    <label for="service" class="block text-sm font-medium text-foreground mb-2">Select Service *</label>
+                    <select id="service" name="service" required class="w-full h-12 px-4 rounded-md border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50">
                         <option value="">Choose a service...</option>
-                        <optgroup label="Combo Packages">
-                            <option value="combo-refresh">Combo 1: Refresh (120min - 650k)</option>
-                            <option value="combo-relax">Combo 2: Relax (120min - 650k)</option>
-                            <option value="combo-rebalance">Combo 3: Rebalance (120min - 650k)</option>
-                            <option value="combo-release">Combo 4: Release (120min - 650k)</option>
-                        </optgroup>
-                        <optgroup label="Massage Therapy">
-                            <option value="aroma-massage">Aroma Massage</option>
-                            <option value="hot-stone-massage">Hot Stone Massage</option>
-                            <option value="aloe-massage">Aloe Massage</option>
-                            <option value="vietnamese-traditional">Vietnamese Traditional</option>
-                            <option value="herbal-massage">Herbal Massage</option>
-                            <option value="thai-massage">Thai Massage</option>
-                            <option value="pregnant-massage">Pregnant Massage</option>
-                            <option value="kid-massage">Kid Massage</option>
-                            <option value="foot-massage">Foot Massage</option>
-                        </optgroup>
-                        <optgroup label="Spa & Skincare">
-                            <option value="shampoo">Shampoo</option>
-                            <option value="facial-care">Facial Care</option>
-                        </optgroup>
-                        <optgroup label="Ear Cleaning">
-                            <option value="ear-cleaning-short">Short Service (60min)</option>
-                            <option value="ear-cleaning-full">Full Service (90min)</option>
-                            <option value="ear-cleaning-gold">Gold Service (120min)</option>
-                        </optgroup>
-                        <optgroup label="Nail Services">
-                            <option value="pedicure-manicure">Pedicure / Manicure</option>
-                            <option value="gel-nail">Gel Nail</option>
-                            <option value="gel-art-design">Gel Art Design</option>
-                            <option value="foot-scrub">Foot Scrub</option>
-                            <option value="foot-scrub-massage">Foot Scrub + Massage</option>
-                        </optgroup>
+                        <?php
+                        // Get all service categories
+                        $service_categories = get_terms( array(
+                            'taxonomy' => 'service_category',
+                            'hide_empty' => true,
+                            'orderby' => 'name',
+                            'order' => 'ASC'
+                        ) );
+                        
+                        if ( ! empty( $service_categories ) && ! is_wp_error( $service_categories ) ) :
+                            foreach ( $service_categories as $category ) :
+                                // Get services for this category
+                                $services = get_posts( array(
+                                    'post_type' => 'service',
+                                    'posts_per_page' => -1,
+                                    'orderby' => 'title',
+                                    'order' => 'ASC',
+                                    'tax_query' => array(
+                                        array(
+                                            'taxonomy' => 'service_category',
+                                            'field' => 'term_id',
+                                            'terms' => $category->term_id,
+                                        ),
+                                    ),
+                                ) );
+                                
+                                if ( ! empty( $services ) ) :
+                                    ?>
+                                    <optgroup label="<?php echo esc_attr( $category->name ); ?>">
+                                        <?php foreach ( $services as $service ) : ?>
+                                            <option value="<?php echo esc_attr( $service->ID ); ?>">
+                                                <?php echo esc_html( $service->post_title ); ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </optgroup>
+                                    <?php
+                                endif;
+                            endforeach;
+                        endif;
+                        ?>
                     </select>
+                    <p class="error-message hidden"></p>
                 </div>
                 
                 <div>
@@ -286,6 +294,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const emailInput = document.getElementById('email');
     const phoneInput = document.getElementById('phone');
     const branchSelect = document.getElementById('branch');
+    const serviceSelect = document.getElementById('service');
     
     // Validation functions
     function validateName(input) {
@@ -350,6 +359,19 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
+    function validateService(select) {
+        const value = select.value;
+        const errorMsg = select.parentElement.querySelector('.error-message');
+        
+        if (value === '') {
+            showError(select, errorMsg, 'Please select a service');
+            return false;
+        } else {
+            clearError(select, errorMsg);
+            return true;
+        }
+    }
+    
     function showError(element, errorMsg, message) {
         element.classList.add('error-border');
         errorMsg.textContent = message;
@@ -388,6 +410,7 @@ document.addEventListener('DOMContentLoaded', function() {
     emailInput.addEventListener('blur', () => validateEmail(emailInput));
     phoneInput.addEventListener('blur', () => validatePhone(phoneInput));
     branchSelect.addEventListener('change', () => validateBranch(branchSelect));
+    serviceSelect.addEventListener('change', () => validateService(serviceSelect));
     
     // Clear error on input
     nameInput.addEventListener('input', function() {
@@ -417,8 +440,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const isEmailValid = validateEmail(emailInput);
         const isPhoneValid = validatePhone(phoneInput);
         const isBranchValid = validateBranch(branchSelect);
+        const isServiceValid = validateService(serviceSelect);
         
-        if (!isNameValid || !isEmailValid || !isPhoneValid || !isBranchValid) {
+        if (!isNameValid || !isEmailValid || !isPhoneValid || !isBranchValid || !isServiceValid) {
             showNotification('Please fix the errors before submitting', 'error');
             return;
         }
