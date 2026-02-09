@@ -5676,3 +5676,31 @@ Tags: custom
 .error-message.hidden {
     display: none;
 }
+
+/* Contact page hero section spacing for fixed header */
+@media (min-width: 768px) {
+    .contact-hero-section {
+        margin-top: 136px;
+    }
+}
+
+/* Front page hero section spacing for fixed header */
+@media (min-width: 768px) {
+    .hero-section {
+        padding-top: 136px;
+    }
+}
+
+/* About page hero section spacing for fixed header */
+@media (min-width: 768px) {
+    .about-hero-section {
+        margin-top: 136px;
+    }
+}
+
+/* Main content spacing for fixed header */
+@media (min-width: 768px) {
+    .main-content {
+        padding-top: 136px;
+    }
+}

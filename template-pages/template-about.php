@@ -9,7 +9,7 @@ get_header();
 ?>
 
 <!-- Hero Section -->
-<section class="relative h-[50vh] md:h-[60vh] flex items-center justify-center mt-[136px]">
+<section class="relative h-[50vh] md:h-[60vh] flex items-center justify-center about-hero-section">
     <?php
     $hero_image_id = get_theme_mod( 'julius_about_hero_image', 43 );
     $hero_image_url = wp_get_attachment_image_url( $hero_image_id, 'full' );

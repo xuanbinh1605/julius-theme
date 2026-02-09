@@ -7,7 +7,7 @@
 
 get_header(); ?>
 
-<main id="main-content" class="site-main pt-[136px]">
+<main id="main-content" class="site-main main-content">
     <?php
     if ( have_posts() ) :
         while ( have_posts() ) :
