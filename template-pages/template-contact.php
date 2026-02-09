@@ -12,14 +12,15 @@ get_header();
 <section class="relative min-h-screen flex flex-col lg:flex-row lg:pt-[120px]">
     <!-- Left Side - Contact Info with Image -->
     <div class="relative w-full lg:w-1/2 min-h-[70vh] lg:h-auto lg:min-h-screen">
-        <img alt="Julius Spa Contact" decoding="async" data-nimg="fill" class="object-cover" src="<?php echo esc_url( wp_get_attachment_image_url( 46, 'full' ) ); ?>" style="position: absolute; height: 100%; width: 100%; inset: 0px; color: transparent;">
+        <?php $hero_image_id = get_theme_mod( 'julius_contact_hero_image', 46 ); ?>
+        <img alt="Julius Spa Contact" decoding="async" data-nimg="fill" class="object-cover" src="<?php echo esc_url( wp_get_attachment_image_url( $hero_image_id, 'full' ) ); ?>" style="position: absolute; height: 100%; width: 100%; inset: 0px; color: transparent;">
         <div class="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-r from-black/80 via-black/60 to-black/40"></div>
         
         <div class="absolute inset-0 flex flex-col justify-end lg:justify-center p-8 lg:p-12 xl:p-16 lg:pt-40">
             <div class="max-w-md">
-                <p class="text-primary text-sm tracking-[0.2em] uppercase mb-3 font-medium">Contact Us</p>
-                <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">Get In Touch</h1>
-                <p class="text-white/80 text-lg mb-8">Ready to experience ultimate relaxation? Book your appointment or ask us anything.</p>
+                <p class="text-primary text-sm tracking-[0.2em] uppercase mb-3 font-medium"><?php echo esc_html( get_theme_mod( 'julius_contact_hero_subtitle', 'Contact Us' ) ); ?></p>
+                <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4"><?php echo esc_html( get_theme_mod( 'julius_contact_hero_title', 'Get In Touch' ) ); ?></h1>
+                <p class="text-white/80 text-lg mb-8"><?php echo esc_html( get_theme_mod( 'julius_contact_hero_description', 'Ready to experience ultimate relaxation? Book your appointment or ask us anything.' ) ); ?></p>
                 
                 <div class="space-y-4">
                     <?php 
@@ -233,27 +234,35 @@ get_header();
 <section class="py-16 md:py-24 bg-secondary/30">
     <div class="container mx-auto px-4">
         <div class="text-center mb-12">
-            <p class="text-primary text-sm tracking-[0.2em] uppercase mb-3 font-medium">Our Location</p>
-            <h2 class="text-3xl md:text-4xl font-bold text-foreground mb-4">Find Us Here</h2>
-            <p class="text-muted-foreground max-w-2xl mx-auto">Located in the heart of An Thuong area, just minutes from the beautiful beaches of Da Nang.</p>
+            <p class="text-primary text-sm tracking-[0.2em] uppercase mb-3 font-medium"><?php echo esc_html( get_theme_mod( 'julius_contact_map_subtitle', 'Our Location' ) ); ?></p>
+            <h2 class="text-3xl md:text-4xl font-bold text-foreground mb-4"><?php echo esc_html( get_theme_mod( 'julius_contact_map_title', 'Find Us Here' ) ); ?></h2>
+            <p class="text-muted-foreground max-w-2xl mx-auto"><?php echo esc_html( get_theme_mod( 'julius_contact_map_description', 'Located in the heart of An Thuong area, just minutes from the beautiful beaches of Da Nang.' ) ); ?></p>
         </div>
         <div class="relative h-[400px] md:h-[500px] rounded-2xl overflow-hidden border border-border shadow-lg">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3834.0983994977997!2d108.24!3d16.05!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTbCsDAzJzAwLjAiTiAxMDjCsDE0JzI0LjAiRQ!5e0!3m2!1sen!2s!4v1234567890" width="100%" height="100%" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Julius Spa Location" style="border: 0px;"></iframe>
+            <?php $map_embed = get_theme_mod( 'julius_contact_map_embed', 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3834.0983994977997!2d108.24!3d16.05!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTbCsDAzJzAwLjAiTiAxMDjCsDE0JzI0LjAiRQ!5e0!3m2!1sen!2s!4v1234567890' ); ?>
+            <iframe src="<?php echo esc_url( $map_embed ); ?>" width="100%" height="100%" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Julius Spa Location" style="border: 0px;"></iframe>
         </div>
     </div>
 </section>
 
 <!-- CTA Section -->
 <section class="relative py-20 md:py-28">
-    <img alt="Julius Spa Interior" loading="lazy" decoding="async" data-nimg="fill" class="object-cover" src="<?php echo esc_url( wp_get_attachment_image_url( 47, 'full' ) ); ?>" style="position: absolute; height: 100%; width: 100%; inset: 0px; color: transparent;">
+    <?php $cta_image_id = get_theme_mod( 'julius_contact_cta_image', 47 ); ?>
+    <img alt="Julius Spa Interior" loading="lazy" decoding="async" data-nimg="fill" class="object-cover" src="<?php echo esc_url( wp_get_attachment_image_url( $cta_image_id, 'full' ) ); ?>" style="position: absolute; height: 100%; width: 100%; inset: 0px; color: transparent;">
     <div class="absolute inset-0 bg-black/70"></div>
     <div class="relative z-10 container mx-auto px-4 text-center">
-        <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">Ready to Experience True Relaxation?</h2>
-        <p class="text-white/80 text-lg max-w-2xl mx-auto mb-8">Book your appointment today and let our expert therapists transport you to a world of tranquility.</p>
+        <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6"><?php echo esc_html( get_theme_mod( 'julius_contact_cta_title', 'Ready to Experience True Relaxation?' ) ); ?></h2>
+        <p class="text-white/80 text-lg max-w-2xl mx-auto mb-8"><?php echo esc_html( get_theme_mod( 'julius_contact_cta_description', 'Book your appointment today and let our expert therapists transport you to a world of tranquility.' ) ); ?></p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="<?php echo esc_url( home_url( '/services' ) ); ?>">
+            <?php 
+            $button1_text = get_theme_mod( 'julius_contact_cta_button1_text', 'View Our Services' );
+            $button1_link = get_theme_mod( 'julius_contact_cta_button1_link', '/services' );
+            // If link is relative, convert to absolute
+            $button1_url = ( strpos( $button1_link, 'http' ) === 0 ) ? $button1_link : home_url( $button1_link );
+            ?>
+            <a href="<?php echo esc_url( $button1_url ); ?>">
                 <button data-slot="button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-10 rounded-md has-[>svg]:px-4 bg-primary hover:bg-primary/90 text-primary-foreground px-8">
-                    View Our Services
+                    <?php echo esc_html( $button1_text ); ?>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right w-4 h-4 ml-1">
                         <path d="m9 18 6-6-6-6"></path>
                     </svg>
@@ -264,7 +273,7 @@ get_header();
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone w-4 h-4 mr-2">
                         <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
                     </svg>
-                    Call Now
+                    <?php echo esc_html( get_theme_mod( 'julius_contact_cta_button2_text', 'Call Now' ) ); ?>
                 </button>
  <style>
     .error-border {

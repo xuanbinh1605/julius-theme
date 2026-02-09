@@ -144,3 +144,10 @@ if ( file_exists( JULIUS_THEME_DIR . '/customizer/customizer-frontpage.php' ) ) 
 if ( file_exists( JULIUS_THEME_DIR . '/customizer/customizer-about-us.php' ) ) {
     require_once JULIUS_THEME_DIR . '/customizer/customizer-about-us.php';
 }
+
+/**
+ * Include Contact Page Customizer Settings
+ */
+if ( file_exists( JULIUS_THEME_DIR . '/customizer/customizer-contact.php' ) ) {
+    require_once JULIUS_THEME_DIR . '/customizer/customizer-contact.php';
+}
