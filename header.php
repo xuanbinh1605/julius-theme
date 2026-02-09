@@ -74,6 +74,10 @@
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center gap-8">
                     <?php
+                    add_filter( 'nav_menu_link_attributes', function( $atts ) {
+                        $atts['class'] = 'text-foreground hover:text-primary transition-colors text-lg font-medium';
+                        return $atts;
+                    }, 10, 1 );
                     wp_nav_menu( array(
                         'theme_location' => 'primary',
                         'menu_id'        => 'primary-menu',
@@ -81,9 +85,8 @@
                         'menu_class'     => 'flex items-center gap-8',
                         'items_wrap'     => '<ul id="%1$s" class="%2$s">%3$s</ul>',
                         'fallback_cb'    => '__return_false',
-                        'link_before'    => '<span class="text-foreground hover:text-primary transition-colors text-lg font-medium">',
-                        'link_after'     => '</span>',
                     ) );
+                    remove_all_filters( 'nav_menu_link_attributes' );
                     ?>
                 </div>
 
@@ -109,6 +112,10 @@
         <div class="mobile-menu hidden md:hidden bg-background border-t border-border">
             <div class="container mx-auto px-4 py-4">
                 <?php
+                add_filter( 'nav_menu_link_attributes', function( $atts ) {
+                    $atts['class'] = 'text-foreground hover:text-primary transition-colors text-lg font-medium block py-2';
+                    return $atts;
+                }, 10, 1 );
                 wp_nav_menu( array(
                     'theme_location' => 'primary',
                     'menu_id'        => 'mobile-menu',
@@ -116,9 +123,8 @@
                     'menu_class'     => 'flex flex-col gap-4',
                     'items_wrap'     => '<ul id="%1$s" class="%2$s">%3$s</ul>',
                     'fallback_cb'    => '__return_false',
-                    'link_before'    => '<span class="text-foreground hover:text-primary transition-colors text-lg font-medium block py-2">',
-                    'link_after'     => '</span>',
                 ) );
+                remove_all_filters( 'nav_menu_link_attributes' );
                 ?>
                 <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-all disabled:pointer-events-none disabled:opacity-50 h-9 bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-2 text-lg w-full mt-4">
                     Book Now
