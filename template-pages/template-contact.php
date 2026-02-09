@@ -9,7 +9,7 @@ get_header();
 ?>
 
 <!-- Contact Hero & Form Section -->
-<section class="relative min-h-screen flex flex-col lg:flex-row lg:pt-[120px]">
+<section class="relative min-h-screen flex flex-col lg:flex-row" style="margin-top: 136px;">
     <!-- Left Side - Contact Info with Image -->
     <div class="relative w-full lg:w-1/2 min-h-[70vh] lg:h-auto lg:min-h-screen">
         <?php $hero_image_id = get_theme_mod( 'julius_contact_hero_image', 46 ); ?>

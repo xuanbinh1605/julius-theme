@@ -10,7 +10,7 @@ get_header();
 
 <main id="primary" class="site-main">
     <!-- Hero Section with Image Slider -->
-    <section class="relative h-screen min-h-[600px] overflow-hidden hero-slider">
+    <section class="relative h-screen min-h-[600px] overflow-hidden hero-slider pt-[136px]">
         <!-- Slide 1 -->
         <div class="hero-slide absolute inset-0 transition-opacity duration-1000 opacity-100">
             <?php
