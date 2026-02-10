@@ -5854,3 +5854,147 @@ html {
         display: none;
     }
 }
+/* Blog Post Content Styles */
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+    font-weight: 700;
+    color: inherit;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    line-height: 1.3;
+}
+
+.prose h1 {
+    font-size: 2.25rem;
+    margin-top: 0;
+}
+
+.prose h2 {
+    font-size: 1.875rem;
+    margin-top: 2em;
+    margin-bottom: 1rem;
+}
+
+.prose h3 {
+    font-size: 1.5rem;
+    margin-top: 1.75em;
+    margin-bottom: 0.75rem;
+}
+
+.prose h4 {
+    font-size: 1.25rem;
+}
+
+.prose h5 {
+    font-size: 1.125rem;
+}
+
+.prose h6 {
+    font-size: 1rem;
+}
+
+.prose p {
+    margin-bottom: 1.25em;
+    line-height: 1.75;
+}
+
+.prose ul,
+.prose ol {
+    margin-top: 1.25em;
+    margin-bottom: 1.25em;
+    padding-left: 1.625em;
+}
+
+.prose li {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+.prose strong,
+.prose b {
+    font-weight: 600;
+    color: inherit;
+}
+
+.prose a {
+    color: #e40014;
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+.prose a:hover {
+    opacity: 0.8;
+}
+
+.prose img {
+    margin-top: 2em;
+    margin-bottom: 2em;
+    border-radius: 0.5rem;
+}
+
+.prose blockquote {
+    font-style: italic;
+    border-left: 4px solid #e40014;
+    padding-left: 1em;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 1.6em;
+    margin-bottom: 1.6em;
+}
+
+.prose code {
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 0.2em 0.4em;
+    border-radius: 0.25rem;
+    font-size: 0.875em;
+}
+
+.prose pre {
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 1em;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    margin-top: 1.7em;
+    margin-bottom: 1.7em;
+}
+
+.prose pre code {
+    background-color: transparent;
+    padding: 0;
+}
+
+.prose hr {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    margin-top: 3em;
+    margin-bottom: 3em;
+}
+
+.prose table {
+    width: 100%;
+    margin-top: 2em;
+    margin-bottom: 2em;
+    border-collapse: collapse;
+}
+
+.prose th,
+.prose td {
+    padding: 0.75em;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.prose th {
+    font-weight: 600;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Ensure headings in prose don't inherit unwanted styles */
+.prose h1:first-child,
+.prose h2:first-child,
+.prose h3:first-child {
+    margin-top: 0;
+}
