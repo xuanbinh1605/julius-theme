@@ -219,7 +219,7 @@ while ( have_posts() ) : the_post();
                         </div>
 
                         <!-- Booking Form -->
-                        <div class="bg-card border border-border rounded-xl p-6">
+                        <div id="booking" class="bg-card border border-border rounded-xl p-6">
                             <h3 class="font-bold text-foreground mb-4">Book This Service</h3>
                             <form class="space-y-4 julius-booking-form" method="post" action="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>">
                                 <input type="hidden" name="action" value="julius_service_booking">

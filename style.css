@@ -5816,3 +5816,26 @@ html {
         margin-top: 98px !important;
     }
 }
+
+/* Scrollbar Hide Utility */
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+/* Services Archive - Category Filter Buttons */
+.julius-category-filter {
+    flex: 0 0 auto;
+}
+
+/* Line Clamp Utility */
+.line-clamp-1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
