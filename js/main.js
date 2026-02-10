@@ -267,8 +267,13 @@
             const $lightboxImage = $('#julius-lightbox-image');
             const $currentCounter = $('#julius-lightbox-current');
             const $totalCounter = $('#julius-lightbox-total');
+            const $header = $('header');
             
             if (galleryImages.length === 0) return;
+            
+            // Hide header and disable scrolling
+            $header.css('transform', 'translateY(-100%)');
+            $('body').css('overflow', 'hidden');
             
             // Set image and counter
             $lightboxImage.attr('src', galleryImages[currentImageIndex].url);
@@ -278,13 +283,17 @@
             
             // Show lightbox
             $lightbox.removeClass('hidden').css('display', 'flex');
-            $('body').css('overflow', 'hidden');
         }
 
         function closeLightbox() {
             const $lightbox = $('#julius-gallery-lightbox');
-            $lightbox.addClass('hidden').css('display', 'none');
+            const $header = $('header');
+            
+            // Show header and enable scrolling
+            $header.css('transform', 'translateY(0)');
             $('body').css('overflow', '');
+            
+            $lightbox.addClass('hidden').css('display', 'none');
         }
 
         function showNextImage() {

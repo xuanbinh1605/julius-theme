@@ -247,32 +247,77 @@ if ( get_theme_mod( 'julius_float_icons_enable', true ) ) :
 <?php endif; ?>
 
 <!-- Gallery Lightbox Modal -->
-<div id="julius-gallery-lightbox" class="fixed inset-0 z-[99999] hidden items-center justify-center bg-black/98 p-4" style="display: none;">
-    <button id="julius-lightbox-close" class="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors" aria-label="Close">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 text-white">
-            <path d="M18 6 6 18"></path>
-            <path d="m6 6 12 12"></path>
-        </svg>
-    </button>
+<div id="julius-gallery-lightbox" class="fixed inset-0 z-[99999] hidden items-center justify-center bg-black" style="display: none;">
+    <!-- Top Toolbar -->
+    <div class="absolute top-0 left-0 right-0 z-30 flex items-center justify-between px-6 py-4 bg-gradient-to-b from-black/80 to-transparent">
+        <!-- Counter - Left -->
+        <div class="text-white text-base font-medium">
+            <span id="julius-lightbox-current">1</span> / <span id="julius-lightbox-total">1</span>
+        </div>
+        
+        <!-- Toolbar Icons - Right -->
+        <div class="flex items-center gap-2">
+            <button id="julius-lightbox-zoom-out" class="p-2 hover:bg-white/10 rounded-lg transition-colors" aria-label="Zoom out" title="Zoom out">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.3-4.3"></path>
+                    <line x1="8" x2="14" y1="11" y2="11"></line>
+                </svg>
+            </button>
+            
+            <button id="julius-lightbox-zoom-in" class="p-2 hover:bg-white/10 rounded-lg transition-colors" aria-label="Zoom in" title="Zoom in">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.3-4.3"></path>
+                    <line x1="11" x2="11" y1="8" y2="14"></line>
+                    <line x1="8" x2="14" y1="11" y2="11"></line>
+                </svg>
+            </button>
+            
+            <button id="julius-lightbox-fullscreen" class="p-2 hover:bg-white/10 rounded-lg transition-colors" aria-label="Fullscreen" title="Fullscreen">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+                    <path d="M8 3H5a2 2 0 0 0-2 2v3"></path>
+                    <path d="M21 8V5a2 2 0 0 0-2-2h-3"></path>
+                    <path d="M3 16v3a2 2 0 0 0 2 2h3"></path>
+                    <path d="M16 21h3a2 2 0 0 0 2-2v-3"></path>
+                </svg>
+            </button>
+            
+            <button id="julius-lightbox-download" class="p-2 hover:bg-white/10 rounded-lg transition-colors" aria-label="Download" title="Download image">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" x2="12" y1="15" y2="3"></line>
+                </svg>
+            </button>
+            
+            <div class="w-px h-6 bg-white/20 mx-1"></div>
+            
+            <button id="julius-lightbox-close" class="p-2 hover:bg-white/10 rounded-lg transition-colors" aria-label="Close" title="Close (Esc)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+                    <path d="M18 6 6 18"></path>
+                    <path d="m6 6 12 12"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
     
-    <button id="julius-lightbox-prev" class="absolute left-4 top-1/2 -translate-y-1/2 z-10 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors" aria-label="Previous image">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-white">
+    <!-- Navigation Arrows -->
+    <button id="julius-lightbox-prev" class="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-3 hover:bg-white/10 rounded-full transition-colors" aria-label="Previous image" title="Previous (←)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
             <path d="m15 18-6-6 6-6"></path>
         </svg>
     </button>
     
-    <button id="julius-lightbox-next" class="absolute right-4 top-1/2 -translate-y-1/2 z-10 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors" aria-label="Next image">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-white">
+    <button id="julius-lightbox-next" class="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-3 hover:bg-white/10 rounded-full transition-colors" aria-label="Next image" title="Next (→)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
             <path d="m9 18 6-6-6-6"></path>
         </svg>
     </button>
     
-    <div class="relative max-w-7xl max-h-full w-full h-full flex items-center justify-center">
-        <img id="julius-lightbox-image" src="" alt="" class="max-w-full max-h-full object-contain">
-    </div>
-    
-    <div id="julius-lightbox-counter" class="absolute bottom-4 left-1/2 -translate-x-1/2 text-white text-sm bg-black/50 px-4 py-2 rounded-full">
-        <span id="julius-lightbox-current">1</span> / <span id="julius-lightbox-total">1</span>
+    <!-- Image Container -->
+    <div id="julius-lightbox-container" class="relative w-full h-full flex items-center justify-center overflow-hidden cursor-move">
+        <img id="julius-lightbox-image" src="" alt="" class="max-w-full max-h-full object-contain transition-transform duration-200" style="transform: scale(1) translate(0, 0);">
     </div>
 </div>
 
