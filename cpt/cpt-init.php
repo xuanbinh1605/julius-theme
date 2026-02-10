@@ -79,3 +79,9 @@ if ( file_exists( JULIUS_THEME_DIR . '/taxonomies/taxonomy-service.php' ) ) {
     require_once JULIUS_THEME_DIR . '/taxonomies/taxonomy-service.php';
 }
 
+/**
+ * Include Blog Post Type
+ */
+if ( file_exists( JULIUS_THEME_DIR . '/cpt/cpt-blog.php' ) ) {
+    require_once JULIUS_THEME_DIR . '/cpt/cpt-blog.php';
+}
