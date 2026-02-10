@@ -85,3 +85,10 @@ if ( file_exists( JULIUS_THEME_DIR . '/taxonomies/taxonomy-service.php' ) ) {
 if ( file_exists( JULIUS_THEME_DIR . '/cpt/cpt-blog.php' ) ) {
     require_once JULIUS_THEME_DIR . '/cpt/cpt-blog.php';
 }
+
+/**
+ * Include Blog Author Taxonomy
+ */
+if ( file_exists( JULIUS_THEME_DIR . '/taxonomies/taxonomy-blog-author.php' ) ) {
+    require_once JULIUS_THEME_DIR . '/taxonomies/taxonomy-blog-author.php';
+}

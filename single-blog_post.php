@@ -212,7 +212,18 @@ $share_title = urlencode( $post_title );
                 </div>
 
                 <!-- Author Bio -->
-                <?php if ( $author ) : ?>
+                <?php if ( $author ) : 
+                    // Get author avatar from term meta
+                    $avatar_id = get_term_meta( $author->term_id, 'author_avatar', true );
+                    $avatar_url = '';
+                    if ( $avatar_id ) {
+                        $avatar_url = wp_get_attachment_image_url( $avatar_id, 'thumbnail' );
+                    }
+                    // Fallback to Picsum if no avatar
+                    if ( ! $avatar_url ) {
+                        $avatar_url = 'https://picsum.photos/seed/author-' . $author->term_id . '/200/200';
+                    }
+                ?>
                     <div class="mt-8 p-6 bg-secondary/30 rounded-2xl">
                         <div class="flex flex-col sm:flex-row gap-4">
                             <div class="relative w-20 h-20 rounded-full overflow-hidden flex-shrink-0">
@@ -221,7 +232,7 @@ $share_title = urlencode( $post_title );
                                     loading="lazy" 
                                     decoding="async" 
                                     class="object-cover" 
-                                    src="https://picsum.photos/seed/author-<?php echo esc_attr( $author->term_id ); ?>/200/200" 
+                                    src="<?php echo esc_url( $avatar_url ); ?>" 
                                     style="position: absolute; height: 100%; width: 100%; inset: 0px; color: transparent;">
                             </div>
                             <div>
