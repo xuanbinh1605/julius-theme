@@ -161,13 +161,25 @@ function julius_filter_services_handler() {
         ) );
 
         if ( $services_query->have_posts() ) :
-            // Get category image from first service or placeholder
-            $cat_image = 'https://picsum.photos/seed/' . $category->term_id . '/800/400';
-            $first_post = $services_query->posts[0];
-            $cat_featured = get_the_post_thumbnail_url( $first_post->ID, 'medium_large' );
-            if ( $cat_featured ) {
-                $cat_image = $cat_featured;
+            // Get category featured image from term meta or first service or placeholder
+            $cat_image_id = get_term_meta( $category->term_id, 'category_featured_image', true );
+            if ( $cat_image_id ) {
+                $cat_image = wp_get_attachment_image_url( $cat_image_id, 'medium_large' );
+            } else {
+                $cat_image = 'https://picsum.photos/seed/' . $category->term_id . '/800/400';
+                $first_post = $services_query->posts[0];
+                $cat_featured = get_the_post_thumbnail_url( $first_post->ID, 'medium_large' );
+                if ( $cat_featured ) {
+                    $cat_image = $cat_featured;
+                }
             }
+            
+            // Get full service name or use default name
+            $category_full_name = get_term_meta( $category->term_id, 'category_full_name', true );
+            $category_display_name = $category_full_name ? $category_full_name : $category->name;
+            
+            // Get category tags
+            $category_tags = get_term_meta( $category->term_id, 'category_tags', true );
             ?>
             
             <div class="julius-category-group mb-8" data-category="<?php echo esc_attr( $category->term_id ); ?>">
@@ -197,9 +209,18 @@ function julius_filter_services_handler() {
                         </div>
                     </div>
                     <div class="flex-1">
-                        <h2 class="text-xl md:text-2xl font-bold text-foreground mb-1"><?php echo esc_html( $category->name ); ?></h2>
+                        <h2 class="text-xl md:text-2xl font-bold text-foreground mb-1"><?php echo esc_html( $category_display_name ); ?></h2>
                         <?php if ( $category->description ) : ?>
-                            <p class="text-muted-foreground text-sm mb-4"><?php echo esc_html( $category->description ); ?></p>
+                            <p class="text-muted-foreground text-sm mb-2"><?php echo esc_html( $category->description ); ?></p>
+                        <?php endif; ?>
+                        <?php if ( $category_tags ) : 
+                            $tags_array = array_map( 'trim', explode( ',', $category_tags ) );
+                        ?>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <?php foreach ( $tags_array as $tag ) : ?>
+                                    <span class="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full"><?php echo esc_html( $tag ); ?></span>
+                                <?php endforeach; ?>
+                            </div>
                         <?php endif; ?>
                     </div>
                 </div>
