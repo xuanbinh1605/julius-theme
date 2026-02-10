@@ -15,6 +15,7 @@ while ( have_posts() ) : the_post();
     $benefits = get_post_meta( get_the_ID(), '_julius_service_benefits', true );
     $included_items = get_post_meta( get_the_ID(), '_julius_service_whats_included', true );
     $service_note = get_post_meta( get_the_ID(), '_julius_service_note', true );
+    $service_included_text = get_post_meta( get_the_ID(), '_julius_service_included', true );
     
     // Get first pricing option for display
     $first_price = '';
@@ -49,7 +50,7 @@ while ( have_posts() ) : the_post();
         <div class="absolute inset-0 bg-black/60"></div>
         
         <!-- Breadcrumb -->
-        <div class="absolute top-32 left-0 right-0">
+        <div class="absolute top-32 left-0 right-0 z-10">
             <div class="container mx-auto px-4">
                 <nav class="flex items-center gap-2 text-sm text-white/80">
                     <a class="hover:text-primary transition-colors" href="<?php echo esc_url( home_url( '/' ) ); ?>">Home</a>
@@ -76,9 +77,9 @@ while ( have_posts() ) : the_post();
                 <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-3">
                     <?php the_title(); ?>
                 </h1>
-                <?php if ( has_excerpt() ) : ?>
+                <?php if ( $service_included_text ) : ?>
                     <p class="text-white/80 text-sm md:text-base mb-4 max-w-lg mx-auto">
-                        <?php echo esc_html( get_the_excerpt() ); ?>
+                        <?php echo esc_html( $service_included_text ); ?>
                     </p>
                 <?php endif; ?>
                 <div class="flex items-center justify-center gap-4 text-white/90 text-sm">
