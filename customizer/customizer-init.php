@@ -158,3 +158,17 @@ if ( file_exists( JULIUS_THEME_DIR . '/customizer/customizer-contact.php' ) ) {
 if ( file_exists( JULIUS_THEME_DIR . '/customizer/customizer-float-icons.php' ) ) {
     require_once JULIUS_THEME_DIR . '/customizer/customizer-float-icons.php';
 }
+
+/**
+ * Include Blog Archive Page Customizer Settings
+ */
+if ( file_exists( JULIUS_THEME_DIR . '/customizer/customizer-blog.php' ) ) {
+    require_once JULIUS_THEME_DIR . '/customizer/customizer-blog.php';
+}
+
+/**
+ * Include Service Archive Page Customizer Settings
+ */
+if ( file_exists( JULIUS_THEME_DIR . '/customizer/customizer-service.php' ) ) {
+    require_once JULIUS_THEME_DIR . '/customizer/customizer-service.php';
+}

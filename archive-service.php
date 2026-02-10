@@ -28,18 +28,23 @@ if ( ! empty( $first_service ) ) {
 
 <!-- Hero Section -->
 <section class="relative h-[40vh] min-h-[320px] flex items-end justify-center pb-10 mt-[120px] julius-hero-section">
+    <?php 
+    // Get custom hero image from customizer, fallback to first service image
+    $custom_hero_image = get_theme_mod( 'julius_service_hero_image', '' );
+    $hero_image_url = ! empty( $custom_hero_image ) ? esc_url( $custom_hero_image ) : esc_url( $hero_image );
+    ?>
     <img 
         alt="Julius Spa Services" 
         decoding="async" 
         class="object-cover" 
-        src="<?php echo esc_url( $hero_image ); ?>" 
+        src="<?php echo $hero_image_url; ?>" 
         style="position: absolute; height: 100%; width: 100%; inset: 0px; color: transparent;"
     >
     <div class="absolute inset-0 bg-black/60"></div>
     <div class="relative z-10 text-center px-4">
-        <p class="text-primary text-sm tracking-[0.2em] uppercase mb-2 font-medium">Julius Spa</p>
-        <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3">Our Services</h1>
-        <p class="text-white/80 text-sm md:text-base max-w-md mx-auto">Choose from our wide range of relaxation treatments</p>
+        <p class="text-primary text-sm tracking-[0.2em] uppercase mb-2 font-medium"><?php echo esc_html( get_theme_mod( 'julius_service_hero_subtitle', 'Julius Spa' ) ); ?></p>
+        <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3"><?php echo esc_html( get_theme_mod( 'julius_service_hero_title', 'Our Services' ) ); ?></h1>
+        <p class="text-white/80 text-sm md:text-base max-w-md mx-auto"><?php echo esc_html( get_theme_mod( 'julius_service_hero_description', 'Choose from our wide range of relaxation treatments' ) ); ?></p>
     </div>
 </section>
 
@@ -263,10 +268,10 @@ if ( ! empty( $first_service ) ) {
         <div class="max-w-5xl mx-auto mt-8">
             <div class="p-3 bg-secondary/30 rounded-lg border border-border">
                 <p class="text-xs text-muted-foreground text-center">
-                    <strong class="text-foreground">Note:</strong> Prices exclude TIP. +50,000 VND/hour after 10PM.
+                    <?php echo wp_kses_post( get_theme_mod( 'julius_service_note_line1', '<strong>Note:</strong> Prices exclude TIP. +50,000 VND/hour after 10PM.' ) ); ?>
                     <span class="hidden sm:inline"> | </span>
                     <br class="sm:hidden">
-                    <strong class="text-foreground">TIP:</strong> 60min: 50k | 90min: 70k | 120min: 100k VND
+                    <?php echo wp_kses_post( get_theme_mod( 'julius_service_note_line2', '<strong>TIP:</strong> 60min: 50k | 90min: 70k | 120min: 100k VND' ) ); ?>
                 </p>
             </div>
         </div>

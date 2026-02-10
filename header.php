@@ -92,9 +92,9 @@
 
                 <!-- Book Now Button (Desktop) -->
                 <div class="hidden md:block">
-                    <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] h-9 bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-2 text-lg">
+                    <a href="<?php echo esc_url( home_url( '/contact' ) ); ?>" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] h-9 bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-2 text-lg">
                         Book Now
-                    </button>
+                    </a>
                 </div>
 
                 <!-- Mobile Menu Toggle -->
@@ -126,9 +126,9 @@
                 ) );
                 remove_all_filters( 'nav_menu_link_attributes' );
                 ?>
-                <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-all disabled:pointer-events-none disabled:opacity-50 h-9 bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-2 text-lg w-full mt-4">
+                <a href="<?php echo esc_url( home_url( '/contact' ) ); ?>" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-all disabled:pointer-events-none disabled:opacity-50 h-9 bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-2 text-lg w-full mt-4">
                     Book Now
-                </button>
+                </a>
             </div>
         </div>
     </header>

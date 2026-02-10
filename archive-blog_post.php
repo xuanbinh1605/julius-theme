@@ -223,13 +223,13 @@ function julius_calculate_reading_time( $content ) {
         alt="Julius Spa Blog" 
         decoding="async" 
         class="object-cover" 
-        src="https://picsum.photos/seed/blog-hero/1920/800" 
+        src="<?php echo esc_url( get_theme_mod( 'julius_blog_hero_image', 'https://picsum.photos/seed/blog-hero/1920/800' ) ); ?>" 
         style="position: absolute; height: 100%; width: 100%; inset: 0px; color: transparent;">
     <div class="absolute inset-0 bg-black/60"></div>
     <div class="relative z-10 text-center text-white px-4">
-        <p class="text-primary text-sm tracking-[0.2em] uppercase mb-3 font-medium">Our Blog</p>
-        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">Wellness Insights</h1>
-        <p class="text-white/80 text-lg max-w-2xl mx-auto">Tips, guides, and inspiration for your wellness journey</p>
+        <p class="text-primary text-sm tracking-[0.2em] uppercase mb-3 font-medium"><?php echo esc_html( get_theme_mod( 'julius_blog_hero_subtitle', 'Our Blog' ) ); ?></p>
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4"><?php echo esc_html( get_theme_mod( 'julius_blog_hero_title', 'Wellness Insights' ) ); ?></h1>
+        <p class="text-white/80 text-lg max-w-2xl mx-auto"><?php echo esc_html( get_theme_mod( 'julius_blog_hero_description', 'Tips, guides, and inspiration for your wellness journey' ) ); ?></p>
     </div>
 </section>
 
@@ -566,14 +566,14 @@ function julius_calculate_reading_time( $content ) {
 <!-- CTA Section -->
 <section class="py-16 md:py-24 bg-secondary/30">
     <div class="container mx-auto px-4 text-center">
-        <h2 class="text-3xl md:text-4xl font-bold text-foreground mb-4">Ready to Experience True Relaxation?</h2>
-        <p class="text-muted-foreground text-lg max-w-2xl mx-auto mb-8">Book your appointment today and let our expert therapists help you unwind.</p>
+        <h2 class="text-3xl md:text-4xl font-bold text-foreground mb-4"><?php echo esc_html( get_theme_mod( 'julius_blog_cta_title', 'Ready to Experience True Relaxation?' ) ); ?></h2>
+        <p class="text-muted-foreground text-lg max-w-2xl mx-auto mb-8"><?php echo esc_html( get_theme_mod( 'julius_blog_cta_description', 'Book your appointment today and let our expert therapists help you unwind.' ) ); ?></p>
         <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
             <a href="<?php echo esc_url( home_url( '/contact' ) ); ?>" class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] h-10 rounded-md bg-primary hover:bg-primary/90 text-primary-foreground px-8">
-                Book Now
+                <?php echo esc_html( get_theme_mod( 'julius_blog_cta_button1_text', 'Book Now' ) ); ?>
             </a>
             <a href="<?php echo esc_url( get_post_type_archive_link( 'service' ) ); ?>" class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-10 rounded-md px-6">
-                View Services
+                <?php echo esc_html( get_theme_mod( 'julius_blog_cta_button2_text', 'View Services' ) ); ?>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right w-4 h-4 ml-1">
                     <path d="m9 18 6-6-6-6"></path>
                 </svg>
