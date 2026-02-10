@@ -37,19 +37,13 @@ if ( $paged === 1 ) {
 }
 
 // Calculate offset for regular posts
-// Page 1: Show 5 regular posts (0 offset)
-// Page 2: Show 6 regular posts (5 offset)
-// Page 3: Show 6 regular posts (11 offset)
-// Formula: offset = ($paged - 1) * 6 - ($paged > 1 && $featured_post ? 1 : 0)
+// Page 1: Show 6 regular posts (0 offset)
+// Page 2: Show 6 regular posts (6 offset)
+// Page 3: Show 6 regular posts (12 offset)
+// Featured article is not counted in the grid
 $posts_per_page = 6;
-$offset = 0;
-if ( $paged === 1 ) {
-    $offset = 0;
-    $posts_to_show = $featured_post ? 5 : 6;
-} else {
-    $offset = $featured_post ? (($paged - 1) * 6 - 1) : (($paged - 1) * 6);
-    $posts_to_show = 6;
-}
+$posts_to_show = 6;
+$offset = ($paged - 1) * 6;
 
 // Get regular posts (excluding featured post)
 $regular_args = array(
@@ -106,12 +100,8 @@ $count_query = new WP_Query( $count_args );
 $total_regular_posts = $count_query->found_posts;
 wp_reset_postdata();
 
-// Calculate max pages: first page shows 5 (if featured exists), rest show 6
-if ( $featured_post ) {
-    $max_num_pages = $total_regular_posts <= 5 ? 1 : 1 + ceil( ( $total_regular_posts - 5 ) / 6 );
-} else {
-    $max_num_pages = ceil( $total_regular_posts / 6 );
-}
+// Calculate max pages: Each page shows 6 posts (featured article doesn't count toward grid limit)
+$max_num_pages = ceil( $total_regular_posts / 6 );
 
 // Get categories with post count
 $categories = get_terms( array(
