@@ -221,11 +221,14 @@ while ( have_posts() ) : the_post();
                         <!-- Booking Form -->
                         <div id="booking" class="bg-card border border-border rounded-xl p-6">
                             <h3 class="font-bold text-foreground mb-4">Book This Service</h3>
-                            <form class="space-y-4 julius-booking-form" method="post" action="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>">
-                                <input type="hidden" name="action" value="julius_service_booking">
+                            <form id="service-booking-form" class="space-y-4 julius-booking-form" method="post" action="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>">
+                                <input type="hidden" name="action" value="julius_booking_submit">
                                 <input type="hidden" name="service_id" value="<?php echo get_the_ID(); ?>">
                                 <input type="hidden" name="service_name" value="<?php echo esc_attr( get_the_title() ); ?>">
                                 <?php wp_nonce_field( 'julius_booking_nonce', 'booking_nonce' ); ?>
+                                
+                                <!-- Notification Area -->
+                                <div id="booking-notification" class="hidden p-3 rounded-md text-sm"></div>
                                 
                                 <div>
                                     <label for="booking_name" class="block text-sm font-medium text-foreground mb-1">Full Name *</label>
@@ -237,6 +240,7 @@ while ( have_posts() ) : the_post();
                                         class="w-full h-10 px-3 rounded-md border border-border bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/50" 
                                         type="text"
                                     >
+                                    <p class="error-message hidden text-xs text-red-500 mt-1"></p>
                                 </div>
                                 
                                 <div>
@@ -249,6 +253,7 @@ while ( have_posts() ) : the_post();
                                         class="w-full h-10 px-3 rounded-md border border-border bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/50" 
                                         type="tel"
                                     >
+                                    <p class="error-message hidden text-xs text-red-500 mt-1"></p>
                                 </div>
                                 
                                 <div>
@@ -263,19 +268,23 @@ while ( have_posts() ) : the_post();
                                         <option value="julius-1">Julius 1 - 5 An Thuong 38</option>
                                         <option value="julius-2">Julius 2 - 61 Ta My Duat</option>
                                     </select>
+                                    <p class="error-message hidden text-xs text-red-500 mt-1"></p>
                                 </div>
                                 
-                                <div class="booking-response"></div>
-                                
                                 <button 
+                                    id="booking-submit-btn"
                                     class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 w-full gap-2" 
                                     type="submit"
                                 >
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send w-4 h-4">
+                                    <svg id="booking-send-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send w-4 h-4">
                                         <path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"></path>
                                         <path d="m21.854 2.147-10.94 10.939"></path>
                                     </svg>
-                                    Book Now
+                                    <svg id="booking-loading-icon" class="hidden animate-spin w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                    <span id="booking-button-text">Book Now</span>
                                 </button>
                             </form>
                         </div>
@@ -350,5 +359,197 @@ while ( have_posts() ) : the_post();
     <?php endif; ?>
 
 <?php endwhile; ?>
+
+<style>
+    .error-border {
+        border-color: #ef4444 !important;
+    }
+    
+    .notification-success {
+        background-color: #dcfce7;
+        border: 1px solid #86efac;
+        color: #166534;
+    }
+    
+    .notification-error {
+        background-color: #fee2e2;
+        border: 1px solid #fca5a5;
+        color: #991b1b;
+    }
+    
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+    
+    .animate-spin {
+        animation: spin 1s linear infinite;
+    }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('service-booking-form');
+    const submitBtn = document.getElementById('booking-submit-btn');
+    const buttonText = document.getElementById('booking-button-text');
+    const sendIcon = document.getElementById('booking-send-icon');
+    const loadingIcon = document.getElementById('booking-loading-icon');
+    const notification = document.getElementById('booking-notification');
+    
+    // Required fields
+    const nameInput = document.getElementById('booking_name');
+    const phoneInput = document.getElementById('booking_phone');
+    const branchSelect = document.getElementById('booking_branch');
+    
+    // Validation functions
+    function validateName(input) {
+        const value = input.value.trim();
+        const errorMsg = input.parentElement.querySelector('.error-message');
+        
+        if (value === '') {
+            showError(input, errorMsg, 'Full name is required');
+            return false;
+        } else if (value.length < 2) {
+            showError(input, errorMsg, 'Name must be at least 2 characters');
+            return false;
+        } else {
+            clearError(input, errorMsg);
+            return true;
+        }
+    }
+    
+    function validatePhone(input) {
+        const value = input.value.trim();
+        const errorMsg = input.parentElement.querySelector('.error-message');
+        
+        if (value === '') {
+            showError(input, errorMsg, 'Phone number is required');
+            return false;
+        } else if (value.length < 8) {
+            showError(input, errorMsg, 'Please enter a valid phone number');
+            return false;
+        } else {
+            clearError(input, errorMsg);
+            return true;
+        }
+    }
+    
+    function validateBranch(select) {
+        const value = select.value;
+        const errorMsg = select.parentElement.querySelector('.error-message');
+        
+        if (value === '') {
+            showError(select, errorMsg, 'Please select a branch');
+            return false;
+        } else {
+            clearError(select, errorMsg);
+            return true;
+        }
+    }
+    
+    function showError(element, errorMsg, message) {
+        element.classList.add('error-border');
+        errorMsg.textContent = message;
+        errorMsg.classList.remove('hidden');
+    }
+    
+    function clearError(element, errorMsg) {
+        element.classList.remove('error-border');
+        errorMsg.textContent = '';
+        errorMsg.classList.add('hidden');
+    }
+    
+    function showNotification(message, type) {
+        notification.className = '';
+        notification.classList.add('p-3', 'rounded-md', 'text-sm');
+        
+        if (type === 'success') {
+            notification.classList.add('notification-success');
+        } else {
+            notification.classList.add('notification-error');
+        }
+        
+        notification.textContent = message;
+        notification.classList.remove('hidden');
+        
+        // Scroll to notification
+        notification.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        
+        // Hide after 6 seconds
+        setTimeout(() => {
+            notification.classList.add('hidden');
+        }, 6000);
+    }
+    
+    // Live validation on blur
+    nameInput.addEventListener('blur', () => validateName(nameInput));
+    phoneInput.addEventListener('blur', () => validatePhone(phoneInput));
+    branchSelect.addEventListener('change', () => validateBranch(branchSelect));
+    
+    // Clear error on input
+    nameInput.addEventListener('input', function() {
+        if (this.classList.contains('error-border')) {
+            validateName(this);
+        }
+    });
+    
+    phoneInput.addEventListener('input', function() {
+        if (this.classList.contains('error-border')) {
+            validatePhone(this);
+        }
+    });
+    
+    // Form submission
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Validate all required fields
+        const isNameValid = validateName(nameInput);
+        const isPhoneValid = validatePhone(phoneInput);
+        const isBranchValid = validateBranch(branchSelect);
+        
+        if (!isNameValid || !isPhoneValid || !isBranchValid) {
+            showNotification('Please fix the errors before submitting', 'error');
+            return;
+        }
+        
+        // Show loading state
+        submitBtn.disabled = true;
+        buttonText.textContent = 'Sending...';
+        sendIcon.classList.add('hidden');
+        loadingIcon.classList.remove('hidden');
+        
+        // Get form data
+        const formData = new FormData(form);
+        
+        // Submit form via AJAX
+        fetch(form.action, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showNotification('Thank you! Your booking has been submitted successfully. We will contact you soon.', 'success');
+                form.reset();
+                // Clear any remaining error states
+                document.querySelectorAll('.error-border').forEach(el => el.classList.remove('error-border'));
+                document.querySelectorAll('.error-message').forEach(el => el.classList.add('hidden'));
+            } else {
+                showNotification(data.data.message || 'Something went wrong. Please try again.', 'error');
+            }
+        })
+        .catch(error => {
+            showNotification('Error submitting booking. Please try calling us directly.', 'error');
+        })
+        .finally(() => {
+            // Reset button state
+            submitBtn.disabled = false;
+            buttonText.textContent = 'Book Now';
+            sendIcon.classList.remove('hidden');
+            loadingIcon.classList.add('hidden');
+        });
+    });
+});
+</script>
 
 <?php get_footer(); ?>

@@ -123,6 +123,13 @@ if ( file_exists( JULIUS_THEME_DIR . '/newsletter/newsletter-init.php' ) ) {
 }
 
 /**
+ * Include Booking Module
+ */
+if ( file_exists( JULIUS_THEME_DIR . '/booking/booking-init.php' ) ) {
+    require_once JULIUS_THEME_DIR . '/booking/booking-init.php';
+}
+
+/**
  * Force blog archive template for tag/category filtering
  */
 function julius_force_blog_archive_template( $template ) {
