@@ -99,11 +99,11 @@ if ( ! empty( $first_service ) ) {
                         // Get category featured image from term meta or first service or placeholder
                         $cat_image_id = get_term_meta( $category->term_id, 'category_featured_image', true );
                         if ( $cat_image_id ) {
-                            $cat_image = wp_get_attachment_image_url( $cat_image_id, 'medium_large' );
+                            $cat_image = wp_get_attachment_image_url( $cat_image_id, 'full' );
                         } else {
                             $cat_image = 'https://picsum.photos/seed/' . $category->term_id . '/800/400';
                             $first_post = $services_query->posts[0];
-                            $cat_featured = get_the_post_thumbnail_url( $first_post->ID, 'medium_large' );
+                            $cat_featured = get_the_post_thumbnail_url( $first_post->ID, 'full' );
                             if ( $cat_featured ) {
                                 $cat_image = $cat_featured;
                             }

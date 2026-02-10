@@ -246,6 +246,36 @@ if ( get_theme_mod( 'julius_float_icons_enable', true ) ) :
 </div>
 <?php endif; ?>
 
+<!-- Gallery Lightbox Modal -->
+<div id="julius-gallery-lightbox" class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/95 p-4" style="display: none;">
+    <button id="julius-lightbox-close" class="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors" aria-label="Close">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 text-white">
+            <path d="M18 6 6 18"></path>
+            <path d="m6 6 12 12"></path>
+        </svg>
+    </button>
+    
+    <button id="julius-lightbox-prev" class="absolute left-4 top-1/2 -translate-y-1/2 z-10 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors" aria-label="Previous image">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-white">
+            <path d="m15 18-6-6 6-6"></path>
+        </svg>
+    </button>
+    
+    <button id="julius-lightbox-next" class="absolute right-4 top-1/2 -translate-y-1/2 z-10 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors" aria-label="Next image">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-white">
+            <path d="m9 18 6-6-6-6"></path>
+        </svg>
+    </button>
+    
+    <div class="relative max-w-7xl max-h-full w-full h-full flex items-center justify-center">
+        <img id="julius-lightbox-image" src="" alt="" class="max-w-full max-h-full object-contain">
+    </div>
+    
+    <div id="julius-lightbox-counter" class="absolute bottom-4 left-1/2 -translate-x-1/2 text-white text-sm bg-black/50 px-4 py-2 rounded-full">
+        <span id="julius-lightbox-current">1</span> / <span id="julius-lightbox-total">1</span>
+    </div>
+</div>
+
 </div><!-- #page -->
 
 <?php wp_footer(); ?>

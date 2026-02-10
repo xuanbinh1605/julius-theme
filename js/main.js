@@ -241,6 +241,91 @@
             });
         });
 
+        // Gallery Lightbox
+        let galleryImages = [];
+        let currentImageIndex = 0;
+
+        // Initialize gallery images
+        function initGalleryLightbox() {
+            galleryImages = [];
+            $('[data-gallery-image]').each(function(index) {
+                galleryImages.push({
+                    url: $(this).data('gallery-image'),
+                    alt: $(this).data('gallery-alt')
+                });
+                
+                // Add click handler
+                $(this).on('click', function() {
+                    currentImageIndex = index;
+                    openLightbox();
+                });
+            });
+        }
+
+        function openLightbox() {
+            const $lightbox = $('#julius-gallery-lightbox');
+            const $lightboxImage = $('#julius-lightbox-image');
+            const $currentCounter = $('#julius-lightbox-current');
+            const $totalCounter = $('#julius-lightbox-total');
+            
+            if (galleryImages.length === 0) return;
+            
+            // Set image and counter
+            $lightboxImage.attr('src', galleryImages[currentImageIndex].url);
+            $lightboxImage.attr('alt', galleryImages[currentImageIndex].alt);
+            $currentCounter.text(currentImageIndex + 1);
+            $totalCounter.text(galleryImages.length);
+            
+            // Show lightbox
+            $lightbox.removeClass('hidden').css('display', 'flex');
+            $('body').css('overflow', 'hidden');
+        }
+
+        function closeLightbox() {
+            const $lightbox = $('#julius-gallery-lightbox');
+            $lightbox.addClass('hidden').css('display', 'none');
+            $('body').css('overflow', '');
+        }
+
+        function showNextImage() {
+            currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
+            openLightbox();
+        }
+
+        function showPrevImage() {
+            currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
+            openLightbox();
+        }
+
+        // Lightbox controls
+        $('#julius-lightbox-close').on('click', closeLightbox);
+        $('#julius-lightbox-next').on('click', showNextImage);
+        $('#julius-lightbox-prev').on('click', showPrevImage);
+        
+        // Close on background click
+        $('#julius-gallery-lightbox').on('click', function(e) {
+            if (e.target === this) {
+                closeLightbox();
+            }
+        });
+        
+        // Keyboard navigation
+        $(document).on('keydown', function(e) {
+            const $lightbox = $('#julius-gallery-lightbox');
+            if (!$lightbox.hasClass('hidden')) {
+                if (e.key === 'Escape') {
+                    closeLightbox();
+                } else if (e.key === 'ArrowRight') {
+                    showNextImage();
+                } else if (e.key === 'ArrowLeft') {
+                    showPrevImage();
+                }
+            }
+        });
+
+        // Initialize gallery on page load
+        initGalleryLightbox();
+
         console.log('Julius Theme loaded');
     });
 

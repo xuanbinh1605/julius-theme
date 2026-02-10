@@ -182,7 +182,7 @@ get_header();
                 if ( $services_query->have_posts() ) :
                     while ( $services_query->have_posts() ) : $services_query->the_post();
                         // Get featured image
-                        $service_image_url = get_the_post_thumbnail_url( get_the_ID(), 'medium_large' );
+                        $service_image_url = get_the_post_thumbnail_url( get_the_ID(), 'full' );
                         if ( ! $service_image_url ) {
                             $service_image_url = 'https://picsum.photos/800/600?random=' . get_the_ID();
                         }
@@ -320,7 +320,7 @@ get_header();
                             <div class="relative h-48 md:h-64 rounded-lg overflow-hidden">
                                 <?php
                                 $about_image_1_id = get_theme_mod( 'julius_about_image_1', 41 );
-                                $about_image_1_url = wp_get_attachment_image_url( $about_image_1_id, 'medium_large' );
+                                $about_image_1_url = wp_get_attachment_image_url( $about_image_1_id, 'full' );
                                 if ( $about_image_1_url ) {
                                     $about_image_1_alt = get_post_meta( $about_image_1_id, '_wp_attachment_image_alt', true );
                                     if ( empty( $about_image_1_alt ) ) {
@@ -343,7 +343,7 @@ get_header();
                             <div class="relative h-32 md:h-48 rounded-lg overflow-hidden">
                                 <?php
                                 $about_image_2_id = get_theme_mod( 'julius_about_image_2', 42 );
-                                $about_image_2_url = wp_get_attachment_image_url( $about_image_2_id, 'medium_large' );
+                                $about_image_2_url = wp_get_attachment_image_url( $about_image_2_id, 'full' );
                                 if ( $about_image_2_url ) {
                                     $about_image_2_alt = get_post_meta( $about_image_2_id, '_wp_attachment_image_alt', true );
                                     if ( empty( $about_image_2_alt ) ) {
@@ -368,7 +368,7 @@ get_header();
                             <div class="relative h-32 md:h-48 rounded-lg overflow-hidden">
                                 <?php
                                 $about_image_3_id = get_theme_mod( 'julius_about_image_3', 43 );
-                                $about_image_3_url = wp_get_attachment_image_url( $about_image_3_id, 'medium_large' );
+                                $about_image_3_url = wp_get_attachment_image_url( $about_image_3_id, 'full' );
                                 if ( $about_image_3_url ) {
                                     $about_image_3_alt = get_post_meta( $about_image_3_id, '_wp_attachment_image_alt', true );
                                     if ( empty( $about_image_3_alt ) ) {
@@ -391,7 +391,7 @@ get_header();
                             <div class="relative h-48 md:h-64 rounded-lg overflow-hidden">
                                 <?php
                                 $about_image_4_id = get_theme_mod( 'julius_about_image_4', 44 );
-                                $about_image_4_url = wp_get_attachment_image_url( $about_image_4_id, 'medium_large' );
+                                $about_image_4_url = wp_get_attachment_image_url( $about_image_4_id, 'full' );
                                 if ( $about_image_4_url ) {
                                     $about_image_4_alt = get_post_meta( $about_image_4_id, '_wp_attachment_image_alt', true );
                                     if ( empty( $about_image_4_alt ) ) {
@@ -500,7 +500,7 @@ get_header();
                 if ( ! empty( $gallery_images ) ) {
                     $index = 1;
                     foreach ( $gallery_images as $image_id ) {
-                        $image_url = wp_get_attachment_image_url( $image_id, 'medium_large' );
+                        $image_url = wp_get_attachment_image_url( $image_id, 'full' );
                         if ( ! $image_url ) {
                             continue;
                         }
@@ -509,12 +509,12 @@ get_header();
                         $grid_class = '';
                         if ( in_array( $index, $large_positions ) ) {
                             $grid_class = 'md:col-span-2 md:row-span-2';
-                            $image_size = 'large';
+                            $image_size = 'full';
                         } elseif ( in_array( $index, $wide_positions ) ) {
                             $grid_class = 'md:col-span-2';
-                            $image_size = 'large';
+                            $image_size = 'full';
                         } else {
-                            $image_size = 'medium_large';
+                            $image_size = 'full';
                         }
                         
                         // Get proper size image
@@ -526,7 +526,7 @@ get_header();
                             $image_alt = 'Julius Spa gallery image';
                         }
                         ?>
-                        <div class="relative overflow-hidden rounded-lg cursor-pointer group <?php echo esc_attr( $grid_class ); ?>">
+                        <div class="relative overflow-hidden rounded-lg cursor-pointer group <?php echo esc_attr( $grid_class ); ?>" data-gallery-image="<?php echo esc_url( $image_url ); ?>" data-gallery-alt="<?php echo esc_attr( $image_alt ); ?>">
                             <img 
                                 alt="<?php echo esc_attr( $image_alt ); ?>" 
                                 loading="lazy" 
@@ -538,7 +538,10 @@ get_header();
                             >
                             <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300"></div>
                             <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <span class="text-white text-lg font-medium">View</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 text-white">
+                                    <path d="M21 21l-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z"></path>
+                                    <path d="M10 8v6m-3-3h6"></path>
+                                </svg>
                             </div>
                         </div>
                         <?php
