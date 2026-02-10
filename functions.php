@@ -48,11 +48,11 @@ function julius_enqueue_scripts() {
     // Fonts
     wp_enqueue_style( 'julius-fonts', JULIUS_THEME_URI . '/assets/css/font.css', array(), JULIUS_THEME_VERSION );
     
-    // Styles
-    wp_enqueue_style( 'julius-style', get_stylesheet_uri(), array(), JULIUS_THEME_VERSION );
+    // Styles - Use file modification time for cache busting
+    wp_enqueue_style( 'julius-style', get_stylesheet_uri(), array(), filemtime( get_stylesheet_directory() . '/style.css' ) );
     
-    // Scripts
-    wp_enqueue_script( 'julius-main', JULIUS_THEME_URI . '/js/main.js', array( 'jquery' ), JULIUS_THEME_VERSION, true );
+    // Scripts - Use file modification time for cache busting
+    wp_enqueue_script( 'julius-main', JULIUS_THEME_URI . '/js/main.js', array( 'jquery' ), filemtime( JULIUS_THEME_DIR . '/js/main.js' ), true );
     
     // Localize script for AJAX
     wp_localize_script( 'julius-main', 'juliusAjax', array(
