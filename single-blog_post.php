@@ -41,6 +41,12 @@ $author = $authors && ! is_wp_error( $authors ) ? $authors[0] : null;
 // Get tags
 $tags = get_the_terms( $post_id, 'blog_tag' );
 
+// Debug: Check if tags are being retrieved
+// Uncomment the following lines to debug:
+// echo '<pre>Tags Debug: ';
+// var_dump($tags);
+// echo '</pre>';
+
 // Get related posts (same category, excluding current post)
 $related_args = array(
     'post_type'      => 'blog_post',
@@ -160,14 +166,20 @@ $share_title = urlencode( $post_title );
                 </div>
 
                 <!-- Tags Section -->
-                <?php if ( $tags && ! is_wp_error( $tags ) ) : ?>
+                <?php 
+                // Get tags for display
+                $display_tags = get_the_terms( $post_id, 'blog_tag' );
+                
+                // Display section if tags exist
+                if ( $display_tags && ! is_wp_error( $display_tags ) ) : 
+                ?>
                     <div class="mt-8 pt-8 border-t border-border">
                         <div class="flex flex-wrap items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-tag w-5 h-5 text-primary">
                                 <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"></path>
                                 <circle cx="7.5" cy="7.5" r=".5" fill="currentColor"></circle>
                             </svg>
-                            <?php foreach ( $tags as $tag ) : 
+                            <?php foreach ( $display_tags as $tag ) : 
                                 $tag_url = add_query_arg( 'tag', $tag->slug, get_post_type_archive_link( 'blog_post' ) );
                             ?>
                                 <a class="px-3 py-1 bg-secondary text-secondary-foreground rounded-full text-sm hover:bg-primary hover:text-primary-foreground transition-colors" href="<?php echo esc_url( $tag_url ); ?>">
