@@ -39,7 +39,7 @@ $authors = get_the_terms( $post_id, 'blog_author' );
 $author = $authors && ! is_wp_error( $authors ) ? $authors[0] : null;
 
 // Get tags
-$tags = get_the_tags( $post_id );
+$tags = get_the_terms( $post_id, 'blog_tag' );
 
 // Get related posts (same category, excluding current post)
 $related_args = array(
@@ -167,8 +167,10 @@ $share_title = urlencode( $post_title );
                                 <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"></path>
                                 <circle cx="7.5" cy="7.5" r=".5" fill="currentColor"></circle>
                             </svg>
-                            <?php foreach ( $tags as $tag ) : ?>
-                                <a class="px-3 py-1 bg-secondary text-secondary-foreground rounded-full text-sm hover:bg-primary hover:text-primary-foreground transition-colors" href="<?php echo esc_url( get_tag_link( $tag->term_id ) ); ?>">
+                            <?php foreach ( $tags as $tag ) : 
+                                $tag_url = add_query_arg( 'tag', $tag->slug, get_post_type_archive_link( 'blog_post' ) );
+                            ?>
+                                <a class="px-3 py-1 bg-secondary text-secondary-foreground rounded-full text-sm hover:bg-primary hover:text-primary-foreground transition-colors" href="<?php echo esc_url( $tag_url ); ?>">
                                     <?php echo esc_html( $tag->name ); ?>
                                 </a>
                             <?php endforeach; ?>
@@ -292,8 +294,10 @@ $share_title = urlencode( $post_title );
                         <div class="bg-card border border-border rounded-2xl p-6">
                             <h3 class="text-lg font-bold text-foreground mb-4">Categories</h3>
                             <div class="space-y-2">
-                                <?php foreach ( $all_categories as $cat ) : ?>
-                                    <a class="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-secondary transition-colors group" href="<?php echo esc_url( get_term_link( $cat ) ); ?>">
+                                <?php foreach ( $all_categories as $cat ) : 
+                                    $cat_url = add_query_arg( 'category', $cat->slug, get_post_type_archive_link( 'blog_post' ) );
+                                ?>
+                                    <a class="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-secondary transition-colors group" href="<?php echo esc_url( $cat_url ); ?>">
                                         <span class="text-muted-foreground group-hover:text-foreground transition-colors">
                                             <?php echo esc_html( $cat->name ); ?>
                                         </span>
