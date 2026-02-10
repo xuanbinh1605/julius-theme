@@ -247,29 +247,29 @@ if ( get_theme_mod( 'julius_float_icons_enable', true ) ) :
 <?php endif; ?>
 
 <!-- Gallery Lightbox Modal -->
-<div id="julius-gallery-lightbox" class="fixed inset-0 z-[99999] hidden items-center justify-center bg-black" style="display: none;">
+<div id="julius-gallery-lightbox" class="julius-lightbox julius-lightbox-hidden">
     <!-- Dark overlay for zoom state -->
-    <div id="julius-lightbox-dark-overlay" class="absolute inset-0 bg-black/50 transition-opacity duration-300 opacity-0"></div>
+    <div id="julius-lightbox-dark-overlay" class="julius-lightbox-dark-overlay"></div>
     
     <!-- Top Toolbar -->
-    <div class="absolute top-0 left-0 right-0 z-30 flex items-center justify-between px-6 py-4 bg-gradient-to-b from-black/80 to-transparent">
+    <div class="julius-lightbox-toolbar">
         <!-- Counter - Left -->
-        <div class="text-white text-base font-medium">
+        <div class="julius-lightbox-counter">
             <span id="julius-lightbox-current">1</span> / <span id="julius-lightbox-total">1</span>
         </div>
         
         <!-- Toolbar Icons - Right -->
-        <div class="flex items-center gap-2">
-            <button id="julius-lightbox-zoom-out" class="p-2 hover:bg-white/10 rounded-lg transition-colors" aria-label="Zoom out" title="Zoom out">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+        <div class="julius-lightbox-controls">
+            <button id="julius-lightbox-zoom-out" class="julius-lightbox-btn" aria-label="Zoom out" title="Zoom out">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="11" cy="11" r="8"></circle>
                     <path d="m21 21-4.3-4.3"></path>
                     <line x1="8" x2="14" y1="11" y2="11"></line>
                 </svg>
             </button>
             
-            <button id="julius-lightbox-zoom-in" class="p-2 hover:bg-white/10 rounded-lg transition-colors" aria-label="Zoom in" title="Zoom in">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+            <button id="julius-lightbox-zoom-in" class="julius-lightbox-btn" aria-label="Zoom in" title="Zoom in">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="11" cy="11" r="8"></circle>
                     <path d="m21 21-4.3-4.3"></path>
                     <line x1="11" x2="11" y1="8" y2="14"></line>
@@ -277,8 +277,8 @@ if ( get_theme_mod( 'julius_float_icons_enable', true ) ) :
                 </svg>
             </button>
             
-            <button id="julius-lightbox-fullscreen" class="p-2 hover:bg-white/10 rounded-lg transition-colors" aria-label="Fullscreen" title="Fullscreen">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+            <button id="julius-lightbox-fullscreen" class="julius-lightbox-btn" aria-label="Fullscreen" title="Fullscreen">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M8 3H5a2 2 0 0 0-2 2v3"></path>
                     <path d="M21 8V5a2 2 0 0 0-2-2h-3"></path>
                     <path d="M3 16v3a2 2 0 0 0 2 2h3"></path>
@@ -286,18 +286,18 @@ if ( get_theme_mod( 'julius_float_icons_enable', true ) ) :
                 </svg>
             </button>
             
-            <button id="julius-lightbox-download" class="p-2 hover:bg-white/10 rounded-lg transition-colors" aria-label="Download" title="Download image">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+            <button id="julius-lightbox-download" class="julius-lightbox-btn" aria-label="Download" title="Download image">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                     <polyline points="7 10 12 15 17 10"></polyline>
                     <line x1="12" x2="12" y1="15" y2="3"></line>
                 </svg>
             </button>
             
-            <div class="w-px h-6 bg-white/20 mx-1"></div>
+            <div class="julius-lightbox-separator"></div>
             
-            <button id="julius-lightbox-close" class="p-2 hover:bg-white/10 rounded-lg transition-colors" aria-label="Close" title="Close (Esc)">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+            <button id="julius-lightbox-close" class="julius-lightbox-btn" aria-label="Close" title="Close (Esc)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M18 6 6 18"></path>
                     <path d="m6 6 12 12"></path>
                 </svg>
@@ -306,21 +306,21 @@ if ( get_theme_mod( 'julius_float_icons_enable', true ) ) :
     </div>
     
     <!-- Navigation Arrows -->
-    <button id="julius-lightbox-prev" class="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-3 hover:bg-white/10 rounded-full transition-colors" aria-label="Previous image" title="Previous (←)">
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+    <button id="julius-lightbox-prev" class="julius-lightbox-nav prev" aria-label="Previous image" title="Previous (←)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="m15 18-6-6 6-6"></path>
         </svg>
     </button>
     
-    <button id="julius-lightbox-next" class="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-3 hover:bg-white/10 rounded-full transition-colors" aria-label="Next image" title="Next (→)">
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+    <button id="julius-lightbox-next" class="julius-lightbox-nav next" aria-label="Next image" title="Next (→)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="m9 18 6-6-6-6"></path>
         </svg>
     </button>
     
     <!-- Image Container -->
-    <div id="julius-lightbox-container" class="relative w-full h-full flex items-center justify-center overflow-hidden cursor-move">
-        <img id="julius-lightbox-image" src="" alt="" class="max-w-full max-h-full object-contain transition-transform duration-200" style="transform: scale(1) translate(0, 0);">
+    <div id="julius-lightbox-container" class="julius-lightbox-container">
+        <img id="julius-lightbox-image" src="" alt="" class="julius-lightbox-image">
     </div>
 </div>
 

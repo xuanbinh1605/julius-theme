@@ -285,7 +285,7 @@
             updateImageTransform();
             
             // Hide dark overlay initially
-            $darkOverlay.removeClass('opacity-0').addClass('opacity-0');
+            $darkOverlay.removeClass('visible');
             
             // Hide header and disable scrolling
             $header.css('transform', 'translateY(-100%)');
@@ -298,7 +298,7 @@
             $totalCounter.text(galleryImages.length);
             
             // Show lightbox
-            $lightbox.removeClass('hidden').css('display', 'flex');
+            $lightbox.removeClass('julius-lightbox-hidden').addClass('show');
         }
 
         function closeLightbox() {
@@ -309,19 +309,23 @@
             $header.css('transform', 'translateY(0)');
             $('body').css('overflow', '');
             
-            $lightbox.addClass('hidden').css('display', 'none');
+            $lightbox.addClass('julius-lightbox-hidden').removeClass('show');
         }
 
         function updateImageTransform() {
             const $lightboxImage = $('#julius-lightbox-image');
+            const $lightboxContainer = $('#julius-lightbox-container');
             const $darkOverlay = $('#julius-lightbox-dark-overlay');
+            
             $lightboxImage.css('transform', `scale(${currentScale}) translate(${currentX}px, ${currentY}px)`);
             
             // Show dark overlay when zoomed
             if (currentScale > 1) {
-                $darkOverlay.removeClass('opacity-0').addClass('opacity-100');
+                $darkOverlay.addClass('visible');
+                $lightboxContainer.addClass('draggable');
             } else {
-                $darkOverlay.removeClass('opacity-100').addClass('opacity-0');
+                $darkOverlay.removeClass('visible');
+                $lightboxContainer.removeClass('draggable');
             }
         }
 
