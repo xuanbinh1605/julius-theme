@@ -39,7 +39,7 @@ while ( have_posts() ) : the_post();
     ?>
 
     <!-- Hero Section -->
-    <section class="relative h-[45vh] min-h-[380px] mt-[120px]">
+    <section class="relative h-[45vh] min-h-[380px] mt-[120px] julius-hero-section">
         <img 
             alt="<?php echo esc_attr( get_the_title() ); ?>" 
             decoding="async" 

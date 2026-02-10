@@ -5809,3 +5809,10 @@ html {
         top: 0;
     }
 }
+
+/* Hero Section Responsive Styles */
+@media (max-width: 768px) {
+    .julius-hero-section {
+        margin-top: 98px !important;
+    }
+}
