@@ -5839,3 +5839,11 @@ html {
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
+
+/* Hero Slider Navigation - Hide on Mobile */
+@media (max-width: 768px) {
+    .hero-prev,
+    .hero-next {
+        display: none;
+    }
+}
