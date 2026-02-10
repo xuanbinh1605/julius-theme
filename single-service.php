@@ -50,7 +50,7 @@ while ( have_posts() ) : the_post();
         <div class="absolute inset-0 bg-black/60"></div>
         
         <!-- Breadcrumb -->
-        <div class="absolute top-32 left-0 right-0 z-10">
+        <div class="absolute left-0 right-0 z-10 julius-breadcrumb">
             <div class="container mx-auto px-4">
                 <nav class="flex items-center gap-2 text-sm text-white/80">
                     <a class="hover:text-primary transition-colors" href="<?php echo esc_url( home_url( '/' ) ); ?>">Home</a>

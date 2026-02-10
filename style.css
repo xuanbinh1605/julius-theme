@@ -5797,3 +5797,15 @@ html {
 .julius-float-icons {
     z-index: 999;
 }
+
+/* Breadcrumb Responsive Styles */
+.julius-breadcrumb {
+    top: 32px;
+}
+
+@media (max-width: 768px) {
+    .julius-breadcrumb {
+        margin-top: 2rem;
+        top: 0;
+    }
+}
