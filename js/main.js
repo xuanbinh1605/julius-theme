@@ -144,6 +144,60 @@
             $(this).find('img').css('transform', 'scale(1)');
         });
 
+        // Service Booking Form
+        $('.julius-booking-form').on('submit', function(e) {
+            e.preventDefault();
+            
+            const $form = $(this);
+            const $button = $form.find('button[type="submit"]');
+            const $response = $form.find('.booking-response');
+            const originalButtonText = $button.html();
+            
+            // Disable button and show loading
+            $button.prop('disabled', true).html('<svg class="animate-spin w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Sending...');
+            
+            // Get form data
+            const formData = $form.serialize();
+            
+            // Send AJAX request
+            $.ajax({
+                url: $form.attr('action'),
+                type: 'POST',
+                data: formData,
+                success: function(response) {
+                    if (response.success) {
+                        // Show success message
+                        $response.html('<div class="bg-primary/10 border border-primary/30 text-primary rounded-md p-3 text-sm">' + response.data.message + '</div>');
+                        
+                        // Reset form
+                        $form[0].reset();
+                        
+                        // Scroll to response
+                        $('html, body').animate({
+                            scrollTop: $response.offset().top - 100
+                        }, 500);
+                    } else {
+                        // Show error message
+                        $response.html('<div class="bg-destructive/10 border border-destructive/30 text-destructive rounded-md p-3 text-sm">' + response.data.message + '</div>');
+                    }
+                },
+                error: function() {
+                    $response.html('<div class="bg-destructive/10 border border-destructive/30 text-destructive rounded-md p-3 text-sm">An error occurred. Please try again later.</div>');
+                },
+                complete: function() {
+                    // Re-enable button
+                    $button.prop('disabled', false).html(originalButtonText);
+                    
+                    // Hide message after 5 seconds
+                    setTimeout(function() {
+                        $response.fadeOut(function() {
+                            $(this).html('').show();
+                        });
+                    }, 5000);
+                }
+            });
+        });
+
         console.log('Julius Theme loaded');
     });
 
