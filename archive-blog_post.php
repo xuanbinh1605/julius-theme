@@ -133,7 +133,7 @@ function julius_calculate_reading_time( $content ) {
         alt="Julius Spa Blog" 
         decoding="async" 
         class="object-cover" 
-        src="<?php echo esc_url( get_template_directory_uri() . '/images/julius-exterior-night.jpg' ); ?>" 
+        src="https://picsum.photos/seed/blog-hero/1920/800" 
         style="position: absolute; height: 100%; width: 100%; inset: 0px; color: transparent;">
     <div class="absolute inset-0 bg-black/60"></div>
     <div class="relative z-10 text-center text-white px-4">
@@ -220,9 +220,9 @@ function julius_calculate_reading_time( $content ) {
                             $reading_time = julius_calculate_reading_time( $post_content );
                             $post_excerpt = get_the_excerpt( $post_id );
                         ?>
-                            <a class="group" href="<?php echo esc_url( get_permalink( $post_id ) ); ?>">
-                                <article class="bg-card border border-border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                                    <div class="relative h-48 overflow-hidden">
+                            <a class="group h-full" href="<?php echo esc_url( get_permalink( $post_id ) ); ?>">
+                                <article class="bg-card border border-border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow h-full flex flex-col">
+                                    <div class="relative h-48 overflow-hidden flex-shrink-0">
                                         <img 
                                             alt="<?php echo esc_attr( $post->post_title ); ?>" 
                                             loading="lazy" 
@@ -236,14 +236,14 @@ function julius_calculate_reading_time( $content ) {
                                             </span>
                                         <?php endif; ?>
                                     </div>
-                                    <div class="p-6">
+                                    <div class="p-6 flex flex-col flex-grow">
                                         <h3 class="text-xl font-semibold text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">
                                             <?php echo esc_html( $post->post_title ); ?>
                                         </h3>
-                                        <p class="text-muted-foreground text-sm mb-4 line-clamp-2">
+                                        <p class="text-muted-foreground text-sm mb-4 line-clamp-2 flex-grow">
                                             <?php echo esc_html( $post_excerpt ); ?>
                                         </p>
-                                        <div class="flex items-center justify-between text-sm text-muted-foreground">
+                                        <div class="flex items-center justify-between text-sm text-muted-foreground mt-auto">
                                             <span class="flex items-center gap-1">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar w-4 h-4">
                                                     <path d="M8 2v4"></path>
