@@ -524,7 +524,7 @@ function julius_calculate_reading_time( $content ) {
                 <div class="bg-primary/10 border border-primary/20 rounded-xl p-6">
                     <h3 class="text-lg font-semibold text-foreground mb-2">Newsletter</h3>
                     <p class="text-sm text-muted-foreground mb-4">Subscribe to get wellness tips and exclusive offers.</p>
-                    <form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+                    <form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="julius-newsletter-form">
                         <input type="hidden" name="action" value="julius_newsletter_subscribe">
                         <?php wp_nonce_field( 'julius_newsletter', 'julius_newsletter_nonce' ); ?>
                         <input 
@@ -536,7 +536,27 @@ function julius_calculate_reading_time( $content ) {
                         <button type="submit" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] h-9 px-4 py-2 w-full bg-primary hover:bg-primary/90 text-primary-foreground">
                             Subscribe
                         </button>
+                        <div class="newsletter-message" style="display: none; margin-top: 12px;"></div>
                     </form>
+                    <style>
+                        .newsletter-message p {
+                            margin: 0;
+                            padding: 12px 16px;
+                            border-radius: 6px;
+                            font-size: 14px;
+                            line-height: 1.5;
+                        }
+                        .newsletter-message.success p {
+                            background-color: #d1fae5;
+                            color: #065f46;
+                            border: 1px solid #10b981;
+                        }
+                        .newsletter-message.error p {
+                            background-color: #fee2e2;
+                            color: #991b1b;
+                            border: 1px solid #ef4444;
+                        }
+                    </style>
                 </div>
             </aside>
         </div>

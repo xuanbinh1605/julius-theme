@@ -69,6 +69,14 @@ function julius_enqueue_scripts() {
             'nonce' => wp_create_nonce( 'julius-search-nonce' )
         ) );
     }
+    
+    // Newsletter AJAX (enqueue on all pages that show newsletter form)
+    wp_enqueue_script( 'julius-newsletter', JULIUS_THEME_URI . '/js/newsletter.js', array( 'jquery' ), filemtime( JULIUS_THEME_DIR . '/js/newsletter.js' ), true );
+    
+    wp_localize_script( 'julius-newsletter', 'juliusNewsletter', array(
+        'ajaxurl' => admin_url( 'admin-ajax.php' ),
+        'nonce' => wp_create_nonce( 'julius-newsletter-ajax' )
+    ) );
 }
 add_action( 'wp_enqueue_scripts', 'julius_enqueue_scripts' );
 
@@ -105,6 +113,13 @@ if ( file_exists( JULIUS_THEME_DIR . '/customizer/customizer-init.php' ) ) {
  */
 if ( file_exists( JULIUS_THEME_DIR . '/admin/admin-init.php' ) ) {
     require_once JULIUS_THEME_DIR . '/admin/admin-init.php';
+}
+
+/**
+ * Include Newsletter Module
+ */
+if ( file_exists( JULIUS_THEME_DIR . '/newsletter/newsletter-init.php' ) ) {
+    require_once JULIUS_THEME_DIR . '/newsletter/newsletter-init.php';
 }
 
 /**
