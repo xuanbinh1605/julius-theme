@@ -7,12 +7,20 @@
 
 get_header();
 
+// Set up post data
+if ( have_posts() ) :
+    while ( have_posts() ) : the_post();
+
 // Get current post data
 $post_id = get_the_ID();
 $post_title = get_the_title();
-$post_content = get_the_content();
 $post_excerpt = get_the_excerpt();
 $post_date = get_the_date( 'F j, Y' );
+
+// Calculate word count from content for reading time
+$post_content_for_count = get_the_content();
+$word_count = str_word_count( strip_tags( $post_content_for_count ) );
+$reading_time = ceil( $word_count / 200 );
 
 // Get featured image or Picsum fallback
 $featured_image = '';
@@ -32,10 +40,6 @@ $author = $authors && ! is_wp_error( $authors ) ? $authors[0] : null;
 
 // Get tags
 $tags = get_the_tags( $post_id );
-
-// Calculate reading time (average 200 words per minute)
-$word_count = str_word_count( strip_tags( $post_content ) );
-$reading_time = ceil( $word_count / 200 );
 
 // Get related posts (same category, excluding current post)
 $related_args = array(
@@ -152,7 +156,7 @@ $share_title = urlencode( $post_title );
             <!-- Article Content -->
             <article class="lg:col-span-2">
                 <div class="prose prose-lg max-w-none prose-headings:text-foreground prose-headings:font-bold prose-h2:text-2xl prose-h2:mt-8 prose-h2:mb-4 prose-h3:text-xl prose-h3:mt-6 prose-h3:mb-3 prose-p:text-muted-foreground prose-p:leading-relaxed prose-p:mb-4 prose-ul:text-muted-foreground prose-ul:my-4 prose-li:mb-2 prose-strong:text-foreground">
-                    <?php echo wp_kses_post( $post_content ); ?>
+                    <?php the_content(); ?>
                 </div>
 
                 <!-- Tags Section -->
@@ -372,4 +376,8 @@ $share_title = urlencode( $post_title );
     </div>
 </section>
 
-<?php get_footer(); ?>
+<?php 
+    endwhile;
+endif;
+get_footer(); 
+?>
