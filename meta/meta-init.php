@@ -76,3 +76,10 @@ add_action( 'save_post', 'julius_save_meta_box' );
 if ( file_exists( JULIUS_THEME_DIR . '/meta/meta-service.php' ) ) {
     require_once JULIUS_THEME_DIR . '/meta/meta-service.php';
 }
+
+/**
+ * Include Blog Meta Boxes
+ */
+if ( file_exists( JULIUS_THEME_DIR . '/meta/meta-blog.php' ) ) {
+    require_once JULIUS_THEME_DIR . '/meta/meta-blog.php';
+}

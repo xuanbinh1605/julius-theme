@@ -10,33 +10,107 @@ get_header();
 // Pagination
 $paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
 
-// Get all blog posts
-$args = array(
+// Get featured post (only on page 1)
+$featured_post = null;
+if ( $paged === 1 ) {
+    $featured_args = array(
+        'post_type'      => 'blog_post',
+        'posts_per_page' => 1,
+        'orderby'        => 'date',
+        'order'          => 'DESC',
+        'meta_query'     => array(
+            array(
+                'key'     => '_julius_featured_article',
+                'value'   => '1',
+                'compare' => '=',
+            ),
+        ),
+    );
+    $featured_query = new WP_Query( $featured_args );
+    if ( $featured_query->have_posts() ) {
+        while ( $featured_query->have_posts() ) {
+            $featured_query->the_post();
+            $featured_post = get_post();
+        }
+        wp_reset_postdata();
+    }
+}
+
+// Calculate offset for regular posts
+// Page 1: Show 5 regular posts (0 offset)
+// Page 2: Show 6 regular posts (5 offset)
+// Page 3: Show 6 regular posts (11 offset)
+// Formula: offset = ($paged - 1) * 6 - ($paged > 1 && $featured_post ? 1 : 0)
+$posts_per_page = 6;
+$offset = 0;
+if ( $paged === 1 ) {
+    $offset = 0;
+    $posts_to_show = $featured_post ? 5 : 6;
+} else {
+    $offset = $featured_post ? (($paged - 1) * 6 - 1) : (($paged - 1) * 6);
+    $posts_to_show = 6;
+}
+
+// Get regular posts (excluding featured post)
+$regular_args = array(
     'post_type'      => 'blog_post',
-    'posts_per_page' => 6,
-    'paged'          => $paged,
+    'posts_per_page' => $posts_to_show,
+    'offset'         => $offset,
     'orderby'        => 'date',
     'order'          => 'DESC',
+    'meta_query'     => array(
+        'relation' => 'OR',
+        array(
+            'key'     => '_julius_featured_article',
+            'compare' => 'NOT EXISTS',
+        ),
+        array(
+            'key'     => '_julius_featured_article',
+            'value'   => '1',
+            'compare' => '!=',
+        ),
+    ),
 );
 
-$blog_query = new WP_Query( $args );
-
-// Get featured post (latest post)
-$featured_post = null;
+$blog_query = new WP_Query( $regular_args );
 $regular_posts = array();
 
 if ( $blog_query->have_posts() ) {
-    $counter = 0;
     while ( $blog_query->have_posts() ) {
         $blog_query->the_post();
-        if ( $counter === 0 && $paged === 1 ) {
-            $featured_post = get_post();
-        } else {
-            $regular_posts[] = get_post();
-        }
-        $counter++;
+        $regular_posts[] = get_post();
     }
     wp_reset_postdata();
+}
+
+// Calculate total pages manually for pagination
+// Get count of non-featured posts
+$count_args = array(
+    'post_type'      => 'blog_post',
+    'posts_per_page' => -1,
+    'fields'         => 'ids',
+    'meta_query'     => array(
+        'relation' => 'OR',
+        array(
+            'key'     => '_julius_featured_article',
+            'compare' => 'NOT EXISTS',
+        ),
+        array(
+            'key'     => '_julius_featured_article',
+            'value'   => '1',
+            'compare' => '!=',
+        ),
+    ),
+);
+$count_query = new WP_Query( $count_args );
+$total_regular_posts = $count_query->found_posts;
+wp_reset_postdata();
+
+// Calculate max pages: first page shows 5 (if featured exists), rest show 6
+if ( $featured_post ) {
+    $max_num_pages = $total_regular_posts <= 5 ? 1 : 1 + ceil( ( $total_regular_posts - 5 ) / 6 );
+} else {
+    $max_num_pages = ceil( $total_regular_posts / 6 );
 }
 
 // Get categories with post count
@@ -204,11 +278,11 @@ function julius_calculate_reading_time( $content ) {
                     </div>
 
                     <!-- Pagination -->
-                    <?php if ( $blog_query->max_num_pages > 1 ) : ?>
+                    <?php if ( $max_num_pages > 1 ) : ?>
                         <div class="flex items-center justify-center gap-2 mt-12">
                             <?php
                             $prev_link = get_previous_posts_page_link();
-                            $next_link = get_next_posts_page_link( $blog_query->max_num_pages );
+                            $next_link = get_next_posts_page_link( $max_num_pages );
                             ?>
                             
                             <!-- Previous Button -->
@@ -223,7 +297,7 @@ function julius_calculate_reading_time( $content ) {
                             <?php endif; ?>
 
                             <!-- Page Numbers -->
-                            <?php for ( $i = 1; $i <= $blog_query->max_num_pages; $i++ ) : ?>
+                            <?php for ( $i = 1; $i <= $max_num_pages; $i++ ) : ?>
                                 <?php if ( $i == $paged ) : ?>
                                     <button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all h-8 rounded-md gap-1.5 px-3 bg-primary text-primary-foreground">
                                         <?php echo $i; ?>
@@ -236,7 +310,7 @@ function julius_calculate_reading_time( $content ) {
                             <?php endfor; ?>
 
                             <!-- Next Button -->
-                            <?php if ( $paged < $blog_query->max_num_pages ) : ?>
+                            <?php if ( $paged < $max_num_pages ) : ?>
                                 <a href="<?php echo esc_url( $next_link ); ?>" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md gap-1.5 px-3">
                                     Next
                                 </a>
