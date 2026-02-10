@@ -6110,28 +6110,6 @@ html {
     color: #9ca3af;
 }
 
-.search-view-all {
-    padding: 0.75rem;
-    border-top: 1px solid #f3f4f6;
-}
-
-.search-view-all-btn {
-    width: 100%;
-    padding: 0.5rem 1rem;
-    background-color: #e40014;
-    color: white;
-    border: none;
-    border-radius: 0.5rem;
-    font-size: 0.875rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.search-view-all-btn:hover {
-    background-color: #c10012;
-}
-
 /* Scrollbar styles for autocomplete dropdown */
 .search-autocomplete-dropdown::-webkit-scrollbar {
     width: 6px;

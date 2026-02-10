@@ -83,7 +83,6 @@
         });
         
         html += '</div>';
-        html += '<div class="search-view-all"><button type="submit" class="search-view-all-btn">View All Results</button></div>';
         
         $autocompleteDropdown.html(html).show();
     }
