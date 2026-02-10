@@ -10,6 +10,9 @@ get_header();
 // Pagination - use URL parameter ?page=2
 $paged = isset( $_GET['page'] ) ? max( 1, intval( $_GET['page'] ) ) : 1;
 
+// Category filter - use URL parameter ?category=slug
+$category_slug = isset( $_GET['category'] ) ? sanitize_text_field( $_GET['category'] ) : '';
+
 // Get featured post (only on page 1)
 $featured_post = null;
 if ( $paged === 1 ) {
@@ -26,6 +29,17 @@ if ( $paged === 1 ) {
             ),
         ),
     );
+    
+    // Add category filter if set
+    if ( ! empty( $category_slug ) ) {
+        $featured_args['tax_query'] = array(
+            array(
+                'taxonomy' => 'blog_category',
+                'field'    => 'slug',
+                'terms'    => $category_slug,
+            ),
+        );
+    }
     $featured_query = new WP_Query( $featured_args );
     if ( $featured_query->have_posts() ) {
         while ( $featured_query->have_posts() ) {
@@ -66,6 +80,17 @@ $regular_args = array(
     ),
 );
 
+// Add category filter if set
+if ( ! empty( $category_slug ) ) {
+    $regular_args['tax_query'] = array(
+        array(
+            'taxonomy' => 'blog_category',
+            'field'    => 'slug',
+            'terms'    => $category_slug,
+        ),
+    );
+}
+
 $blog_query = new WP_Query( $regular_args );
 $regular_posts = array();
 
@@ -96,6 +121,17 @@ $count_args = array(
         ),
     ),
 );
+
+// Add category filter if set
+if ( ! empty( $category_slug ) ) {
+    $count_args['tax_query'] = array(
+        array(
+            'taxonomy' => 'blog_category',
+            'field'    => 'slug',
+            'terms'    => $category_slug,
+        ),
+    );
+}
 $count_query = new WP_Query( $count_args );
 $total_regular_posts = $count_query->found_posts;
 wp_reset_postdata();
@@ -273,10 +309,27 @@ function julius_calculate_reading_time( $content ) {
                             <?php
                             // Generate pagination URLs with query parameters
                             $base_url = get_post_type_archive_link( 'blog_post' );
+                            
+                            // Preserve category parameter in pagination
+                            $query_args = array();
+                            if ( ! empty( $category_slug ) ) {
+                                $query_args['category'] = $category_slug;
+                            }
+                            
                             $prev_page = $paged - 1;
                             $next_page = $paged + 1;
-                            $prev_link = $prev_page > 1 ? add_query_arg( 'page', $prev_page, $base_url ) : $base_url;
-                            $next_link = add_query_arg( 'page', $next_page, $base_url );
+                            
+                            // Build prev link
+                            if ( $prev_page > 1 ) {
+                                $query_args['page'] = $prev_page;
+                                $prev_link = add_query_arg( $query_args, $base_url );
+                            } else {
+                                $prev_link = ! empty( $category_slug ) ? add_query_arg( 'category', $category_slug, $base_url ) : $base_url;
+                            }
+                            
+                            // Build next link
+                            $query_args['page'] = $next_page;
+                            $next_link = add_query_arg( $query_args, $base_url );
                             ?>
                             
                             <!-- Previous Button -->
@@ -298,7 +351,14 @@ function julius_calculate_reading_time( $content ) {
                                     </button>
                                 <?php else : ?>
                                     <?php 
-                                    $page_url = $i === 1 ? $base_url : add_query_arg( 'page', $i, $base_url );
+                                    $page_query_args = array();
+                                    if ( ! empty( $category_slug ) ) {
+                                        $page_query_args['category'] = $category_slug;
+                                    }
+                                    if ( $i > 1 ) {
+                                        $page_query_args['page'] = $i;
+                                    }
+                                    $page_url = ! empty( $page_query_args ) ? add_query_arg( $page_query_args, $base_url ) : $base_url;
                                     ?>
                                     <a href="<?php echo esc_url( $page_url ); ?>" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md gap-1.5 px-3">
                                         <?php echo $i; ?>
@@ -348,16 +408,19 @@ function julius_calculate_reading_time( $content ) {
                     <h3 class="text-lg font-semibold text-foreground mb-4">Categories</h3>
                     <ul class="space-y-2">
                         <li>
-                            <a class="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-secondary/50 transition-colors group" href="<?php echo esc_url( get_post_type_archive_link( 'blog_post' ) ); ?>">
-                                <span class="text-foreground group-hover:text-primary transition-colors">All</span>
+                            <a class="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-secondary/50 transition-colors group <?php echo empty( $category_slug ) ? 'bg-primary/10 border border-primary/20' : ''; ?>" href="<?php echo esc_url( get_post_type_archive_link( 'blog_post' ) ); ?>">
+                                <span class="text-foreground group-hover:text-primary transition-colors <?php echo empty( $category_slug ) ? 'text-primary font-medium' : ''; ?>">All</span>
                                 <span class="text-sm text-muted-foreground bg-secondary px-2 py-0.5 rounded-full"><?php echo esc_html( $total_posts ); ?></span>
                             </a>
                         </li>
                         <?php if ( $categories && ! is_wp_error( $categories ) ) : ?>
-                            <?php foreach ( $categories as $category ) : ?>
+                            <?php foreach ( $categories as $category ) : 
+                                $is_active = $category_slug === $category->slug;
+                                $category_url = add_query_arg( 'category', $category->slug, get_post_type_archive_link( 'blog_post' ) );
+                            ?>
                                 <li>
-                                    <a class="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-secondary/50 transition-colors group" href="<?php echo esc_url( get_term_link( $category ) ); ?>">
-                                        <span class="text-foreground group-hover:text-primary transition-colors"><?php echo esc_html( $category->name ); ?></span>
+                                    <a class="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-secondary/50 transition-colors group <?php echo $is_active ? 'bg-primary/10 border border-primary/20' : ''; ?>" href="<?php echo esc_url( $category_url ); ?>">
+                                        <span class="text-foreground group-hover:text-primary transition-colors <?php echo $is_active ? 'text-primary font-medium' : ''; ?>"><?php echo esc_html( $category->name ); ?></span>
                                         <span class="text-sm text-muted-foreground bg-secondary px-2 py-0.5 rounded-full"><?php echo esc_html( $category->count ); ?></span>
                                     </a>
                                 </li>
