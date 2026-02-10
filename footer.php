@@ -248,6 +248,9 @@ if ( get_theme_mod( 'julius_float_icons_enable', true ) ) :
 
 <!-- Gallery Lightbox Modal -->
 <div id="julius-gallery-lightbox" class="fixed inset-0 z-[99999] hidden items-center justify-center bg-black" style="display: none;">
+    <!-- Dark overlay for zoom state -->
+    <div id="julius-lightbox-dark-overlay" class="absolute inset-0 bg-black/50 transition-opacity duration-300 opacity-0"></div>
+    
     <!-- Top Toolbar -->
     <div class="absolute top-0 left-0 right-0 z-30 flex items-center justify-between px-6 py-4 bg-gradient-to-b from-black/80 to-transparent">
         <!-- Counter - Left -->

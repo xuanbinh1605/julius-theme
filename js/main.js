@@ -244,6 +244,12 @@
         // Gallery Lightbox
         let galleryImages = [];
         let currentImageIndex = 0;
+        let currentScale = 1;
+        let currentX = 0;
+        let currentY = 0;
+        let isDragging = false;
+        let startX = 0;
+        let startY = 0;
 
         // Initialize gallery images
         function initGalleryLightbox() {
@@ -268,8 +274,18 @@
             const $currentCounter = $('#julius-lightbox-current');
             const $totalCounter = $('#julius-lightbox-total');
             const $header = $('header');
+            const $darkOverlay = $('#julius-lightbox-dark-overlay');
             
             if (galleryImages.length === 0) return;
+            
+            // Reset zoom and pan
+            currentScale = 1;
+            currentX = 0;
+            currentY = 0;
+            updateImageTransform();
+            
+            // Hide dark overlay initially
+            $darkOverlay.removeClass('opacity-0').addClass('opacity-0');
             
             // Hide header and disable scrolling
             $header.css('transform', 'translateY(-100%)');
@@ -296,12 +312,48 @@
             $lightbox.addClass('hidden').css('display', 'none');
         }
 
+        function updateImageTransform() {
+            const $lightboxImage = $('#julius-lightbox-image');
+            const $darkOverlay = $('#julius-lightbox-dark-overlay');
+            $lightboxImage.css('transform', `scale(${currentScale}) translate(${currentX}px, ${currentY}px)`);
+            
+            // Show dark overlay when zoomed
+            if (currentScale > 1) {
+                $darkOverlay.removeClass('opacity-0').addClass('opacity-100');
+            } else {
+                $darkOverlay.removeClass('opacity-100').addClass('opacity-0');
+            }
+        }
+
+        function zoomIn() {
+            currentScale = Math.min(currentScale * 1.5, 5); // Max zoom 5x
+            updateImageTransform();
+        }
+
+        function zoomOut() {
+            currentScale = Math.max(currentScale / 1.5, 1); // Min zoom 1x
+            if (currentScale === 1) {
+                currentX = 0;
+                currentY = 0;
+            }
+            updateImageTransform();
+        }
+
+        function resetZoom() {
+            currentScale = 1;
+            currentX = 0;
+            currentY = 0;
+            updateImageTransform();
+        }
+
         function showNextImage() {
+            resetZoom();
             currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
             openLightbox();
         }
 
         function showPrevImage() {
+            resetZoom();
             currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
             openLightbox();
         }
@@ -310,10 +362,80 @@
         $('#julius-lightbox-close').on('click', closeLightbox);
         $('#julius-lightbox-next').on('click', showNextImage);
         $('#julius-lightbox-prev').on('click', showPrevImage);
+        $('#julius-lightbox-zoom-in').on('click', zoomIn);
+        $('#julius-lightbox-zoom-out').on('click', zoomOut);
+        
+        // Reset zoom when changing images - Remove duplicate functions
+
+        // Fullscreen functionality
+        $('#julius-lightbox-fullscreen').on('click', function() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
+        });
+
+        // Download functionality
+        $('#julius-lightbox-download').on('click', function() {
+            const $image = $('#julius-lightbox-image');
+            const imageUrl = $image.attr('src');
+            const link = document.createElement('a');
+            link.href = imageUrl;
+            link.download = 'julius-spa-gallery-image.jpg';
+            link.click();
+        });
+
+        // Image dragging when zoomed
+        const $lightboxImage = $('#julius-lightbox-image');
+        const $lightboxContainer = $('#julius-lightbox-container');
+
+        $lightboxContainer.on('mousedown', function(e) {
+            if (currentScale > 1) {
+                isDragging = true;
+                startX = e.clientX - currentX;
+                startY = e.clientY - currentY;
+                $lightboxContainer.css('cursor', 'grabbing');
+            }
+        });
+
+        $(document).on('mousemove', function(e) {
+            if (isDragging && currentScale > 1) {
+                currentX = e.clientX - startX;
+                currentY = e.clientY - startY;
+                updateImageTransform();
+            }
+        });
+
+        $(document).on('mouseup', function() {
+            if (isDragging) {
+                isDragging = false;
+                $lightboxContainer.css('cursor', currentScale > 1 ? 'grab' : 'default');
+            }
+        });
+
+        // Mouse wheel zoom
+        $lightboxContainer.on('wheel', function(e) {
+            e.preventDefault();
+            if (e.originalEvent.deltaY < 0) {
+                zoomIn();
+            } else {
+                zoomOut();
+            }
+        });
+
+        // Double click to zoom
+        $lightboxContainer.on('dblclick', function() {
+            if (currentScale === 1) {
+                zoomIn();
+            } else {
+                resetZoom();
+            }
+        });
         
         // Close on background click
         $('#julius-gallery-lightbox').on('click', function(e) {
-            if (e.target === this) {
+            if (e.target === this || e.target.id === 'julius-lightbox-container') {
                 closeLightbox();
             }
         });
@@ -328,6 +450,12 @@
                     showNextImage();
                 } else if (e.key === 'ArrowLeft') {
                     showPrevImage();
+                } else if (e.key === '+' || e.key === '=') {
+                    zoomIn();
+                } else if (e.key === '-') {
+                    zoomOut();
+                } else if (e.key === '0') {
+                    resetZoom();
                 }
             }
         });
