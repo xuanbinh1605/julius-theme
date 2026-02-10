@@ -11,6 +11,32 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Enqueue admin scripts for featured article meta box
+ */
+function julius_enqueue_blog_featured_scripts( $hook ) {
+    global $post_type;
+    
+    if ( ( 'post.php' === $hook || 'post-new.php' === $hook ) && 'blog_post' === $post_type ) {
+        wp_enqueue_script(
+            'julius-blog-featured-meta',
+            get_template_directory_uri() . '/assets/js/admin/blog-featured-meta.js',
+            array( 'jquery' ),
+            filemtime( get_template_directory() . '/assets/js/admin/blog-featured-meta.js' ),
+            true
+        );
+        
+        wp_localize_script(
+            'julius-blog-featured-meta',
+            'juliusBlogFeatured',
+            array(
+                'nonce' => wp_create_nonce( 'julius_check_featured_nonce' ),
+            )
+        );
+    }
+}
+add_action( 'admin_enqueue_scripts', 'julius_enqueue_blog_featured_scripts' );
+
+/**
  * Add featured article meta box
  */
 function julius_add_blog_featured_meta_box() {
@@ -71,6 +97,29 @@ function julius_save_blog_featured_meta( $post_id ) {
     
     // Save or delete meta
     if ( isset( $_POST['julius_featured_article'] ) && $_POST['julius_featured_article'] === '1' ) {
+        // Unmark any existing featured articles first
+        $existing_featured = new WP_Query( array(
+            'post_type'      => 'blog_post',
+            'posts_per_page' => -1,
+            'post__not_in'   => array( $post_id ),
+            'fields'         => 'ids',
+            'meta_query'     => array(
+                array(
+                    'key'     => '_julius_featured_article',
+                    'value'   => '1',
+                    'compare' => '=',
+                ),
+            ),
+        ) );
+        
+        if ( $existing_featured->have_posts() ) {
+            foreach ( $existing_featured->posts as $featured_id ) {
+                delete_post_meta( $featured_id, '_julius_featured_article' );
+            }
+        }
+        wp_reset_postdata();
+        
+        // Mark this post as featured
         update_post_meta( $post_id, '_julius_featured_article', '1' );
     } else {
         delete_post_meta( $post_id, '_julius_featured_article' );
@@ -110,3 +159,46 @@ function julius_blog_featured_column_content( $column, $post_id ) {
     }
 }
 add_action( 'manage_blog_post_posts_custom_column', 'julius_blog_featured_column_content', 10, 2 );
+
+/**
+ * AJAX handler to check if there's already a featured article
+ */
+function julius_check_featured_article_ajax() {
+    check_ajax_referer( 'julius_check_featured_nonce', 'nonce' );
+    
+    $current_post_id = isset( $_POST['current_post_id'] ) ? intval( $_POST['current_post_id'] ) : 0;
+    
+    // Check for existing featured articles (excluding current post)
+    $args = array(
+        'post_type'      => 'blog_post',
+        'posts_per_page' => 1,
+        'post__not_in'   => array( $current_post_id ),
+        'meta_query'     => array(
+            array(
+                'key'     => '_julius_featured_article',
+                'value'   => '1',
+                'compare' => '=',
+            ),
+        ),
+    );
+    
+    $featured_query = new WP_Query( $args );
+    
+    if ( $featured_query->have_posts() ) {
+        $featured_post = $featured_query->posts[0];
+        wp_send_json_success( array(
+            'has_featured'  => true,
+            'featured_post' => array(
+                'id'    => $featured_post->ID,
+                'title' => $featured_post->post_title,
+            ),
+        ) );
+    } else {
+        wp_send_json_success( array(
+            'has_featured' => false,
+        ) );
+    }
+    
+    wp_reset_postdata();
+}
+add_action( 'wp_ajax_julius_check_featured_article', 'julius_check_featured_article_ajax' );
