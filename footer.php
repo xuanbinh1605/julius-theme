@@ -204,210 +204,49 @@
     </div>
 </footer>
 
-</div><!-- #page -->
-
-<?php 
-// Float Social Icons
+<?php
+// Display Floating Social Icons
 if ( get_theme_mod( 'julius_float_icons_enable', true ) ) :
-    $messenger_link = get_theme_mod( 'julius_float_messenger_link', '' );
-    $phone_number = get_theme_mod( 'julius_float_phone_number', '' );
-    $zalo_link = get_theme_mod( 'julius_float_zalo_link', '' );
+    $messenger_icon_id = get_theme_mod( 'julius_float_messenger_icon', 60 );
+    $phone_icon_id = get_theme_mod( 'julius_float_phone_icon', 61 );
+    $zalo_icon_id = get_theme_mod( 'julius_float_zalo_icon', 62 );
+    
+    $messenger_icon_url = wp_get_attachment_image_url( $messenger_icon_id, 'thumbnail' );
+    $phone_icon_url = wp_get_attachment_image_url( $phone_icon_id, 'thumbnail' );
+    $zalo_icon_url = wp_get_attachment_image_url( $zalo_icon_id, 'thumbnail' );
+    
+    $messenger_link = get_theme_mod( 'julius_float_messenger_link', 'https://m.me/yourusername' );
+    $phone_number = get_theme_mod( 'julius_float_phone_number', '+84123456789' );
+    $zalo_phone = get_theme_mod( 'julius_float_zalo_phone', '84123456789' );
     $position = get_theme_mod( 'julius_float_icons_position', 'right' );
     
-    $has_icons = $messenger_link || $phone_number || $zalo_link;
-    
-    if ( $has_icons ) :
+    $position_class = $position === 'left' ? 'left-6' : 'right-6';
 ?>
-<div class="floating-icons floating-icons-<?php echo esc_attr( $position ); ?>">
-    <?php if ( $messenger_link ) : ?>
-    <a href="<?php echo esc_url( $messenger_link ); ?>" target="_blank" rel="noopener noreferrer" class="floating-icon floating-icon-messenger" aria-label="Chat on Messenger">
-        <div class="ripple"></div>
-        <div class="ripple"></div>
-        <div class="ripple"></div>
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2C6.48 2 2 6.15 2 11.33c0 2.92 1.46 5.52 3.75 7.23V22l3.26-1.79c.87.24 1.79.37 2.74.37 5.52 0 10-4.15 10-9.25C22 6.15 17.52 2 12 2zm1.03 12.41l-2.58-2.75-5.03 2.75 5.53-5.87 2.64 2.75 4.97-2.75-5.53 5.87z"/>
-        </svg>
+<div class="julius-float-icons fixed bottom-6 <?php echo esc_attr( $position_class ); ?> z-50 flex flex-col gap-4">
+    <?php if ( $messenger_icon_url ) : ?>
+    <a href="<?php echo esc_url( $messenger_link ); ?>" target="_blank" rel="noopener noreferrer" class="julius-float-icon group relative" aria-label="Contact via Messenger">
+        <div class="julius-ripple"></div>
+        <img src="<?php echo esc_url( $messenger_icon_url ); ?>" alt="Messenger" class="w-14 h-14 rounded-full object-cover shadow-lg transition-transform duration-300 group-hover:scale-110">
     </a>
     <?php endif; ?>
     
-    <?php if ( $phone_number ) : ?>
-    <a href="tel:<?php echo esc_attr( str_replace( ' ', '', $phone_number ) ); ?>" class="floating-icon floating-icon-phone" aria-label="Call Us">
-        <div class="ripple"></div>
-        <div class="ripple"></div>
-        <div class="ripple"></div>
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-        </svg>
+    <?php if ( $phone_icon_url ) : ?>
+    <a href="tel:<?php echo esc_attr( $phone_number ); ?>" class="julius-float-icon group relative" aria-label="Call us">
+        <div class="julius-ripple"></div>
+        <img src="<?php echo esc_url( $phone_icon_url ); ?>" alt="Phone" class="w-14 h-14 rounded-full object-cover shadow-lg transition-transform duration-300 group-hover:scale-110">
     </a>
     <?php endif; ?>
     
-    <?php if ( $zalo_link ) : ?>
-    <a href="<?php echo esc_url( $zalo_link ); ?>" target="_blank" rel="noopener noreferrer" class="floating-icon floating-icon-zalo" aria-label="Chat on Zalo">
-        <div class="ripple"></div>
-        <div class="ripple"></div>
-        <div class="ripple"></div>
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2C6.477 2 2 6.145 2 11.243c0 2.855 1.506 5.416 3.856 7.138v3.619l3.39-1.86c.858.192 1.762.303 2.754.303 5.523 0 10-4.145 10-9.243S17.523 2 12 2zm5.598 7.686c.193.205.193.525 0 .73l-3.383 3.538a.494.494 0 0 1-.717 0l-1.803-1.886-3.383 3.538c-.193.205-.524.205-.717 0a.544.544 0 0 1 0-.73l3.383-3.538a.494.494 0 0 1 .717 0l1.803 1.886 3.383-3.538c.193-.205.524-.205.717 0z"/>
-        </svg>
+    <?php if ( $zalo_icon_url ) : ?>
+    <a href="https://zalo.me/<?php echo esc_attr( $zalo_phone ); ?>" target="_blank" rel="noopener noreferrer" class="julius-float-icon group relative" aria-label="Contact via Zalo">
+        <div class="julius-ripple"></div>
+        <img src="<?php echo esc_url( $zalo_icon_url ); ?>" alt="Zalo" class="w-14 h-14 rounded-full object-cover shadow-lg transition-transform duration-300 group-hover:scale-110">
     </a>
     <?php endif; ?>
 </div>
+<?php endif; ?>
 
-<style>
-.floating-icons {
-    position: fixed;
-    bottom: 30px;
-    z-index: 9999;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.floating-icons-left {
-    left: 20px;
-}
-
-.floating-icons-right {
-    right: 20px;
-}
-
-.floating-icon {
-    position: relative;
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    text-decoration: none;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
-    overflow: hidden;
-    cursor: pointer;
-}
-
-.floating-icon svg {
-    position: relative;
-    z-index: 2;
-    width: 28px;
-    height: 28px;
-}
-
-.floating-icon:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-}
-
-.floating-icon:active {
-    transform: scale(1.05);
-}
-
-/* Messenger Icon */
-.floating-icon-messenger {
-    background: linear-gradient(135deg, #00B2FF 0%, #006AFF 100%);
-}
-
-/* Phone Icon */
-.floating-icon-phone {
-    background: linear-gradient(135deg, #34D399 0%, #10B981 100%);
-}
-
-/* Zalo Icon */
-.floating-icon-zalo {
-    background: linear-gradient(135deg, #0068FF 0%, #0052CC 100%);
-}
-
-/* Ripple Animation */
-.floating-icon .ripple {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    border: 2px solid currentColor;
-    opacity: 0;
-    animation: ripple 3s infinite;
-}
-
-.floating-icon .ripple:nth-child(2) {
-    animation-delay: 1s;
-}
-
-.floating-icon .ripple:nth-child(3) {
-    animation-delay: 2s;
-}
-
-@keyframes ripple {
-    0% {
-        transform: scale(1);
-        opacity: 0.6;
-    }
-    50% {
-        opacity: 0.3;
-    }
-    100% {
-        transform: scale(1.8);
-        opacity: 0;
-    }
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .floating-icons {
-        bottom: 20px;
-    }
-    
-    .floating-icons-left {
-        left: 15px;
-    }
-    
-    .floating-icons-right {
-        right: 15px;
-    }
-    
-    .floating-icon {
-        width: 50px;
-        height: 50px;
-    }
-    
-    .floating-icon svg {
-        width: 24px;
-        height: 24px;
-    }
-}
-
-/* Smooth entrance animation */
-@keyframes float-in {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.floating-icon {
-    animation: float-in 0.6s ease-out backwards;
-}
-
-.floating-icon:nth-child(1) {
-    animation-delay: 0.1s;
-}
-
-.floating-icon:nth-child(2) {
-    animation-delay: 0.2s;
-}
-
-.floating-icon:nth-child(3) {
-    animation-delay: 0.3s;
-}
-</style>
-<?php 
-    endif;
-endif;
-?>
+</div><!-- #page -->
 
 <?php wp_footer(); ?>
 

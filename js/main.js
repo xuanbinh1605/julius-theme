@@ -118,6 +118,32 @@
             $('.hero-slider').on('mouseleave', startAutoplay);
         }
 
+        // Floating Social Icons Ripple Animation
+        $('.julius-float-icon').each(function() {
+            const $icon = $(this);
+            
+            // Create ripple animation on interval
+            setInterval(function() {
+                const $ripple = $icon.find('.julius-ripple');
+                
+                // Reset animation by removing and re-adding class
+                $ripple.removeClass('julius-ripple-animate');
+                
+                // Force reflow to restart animation
+                void $ripple[0].offsetWidth;
+                
+                // Add animation class
+                $ripple.addClass('julius-ripple-animate');
+            }, 3000); // Ripple every 3 seconds
+        });
+        
+        // Add scale effect on hover
+        $('.julius-float-icon').on('mouseenter', function() {
+            $(this).find('img').css('transform', 'scale(1.1)');
+        }).on('mouseleave', function() {
+            $(this).find('img').css('transform', 'scale(1)');
+        });
+
         console.log('Julius Theme loaded');
     });
 

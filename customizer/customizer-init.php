@@ -153,7 +153,7 @@ if ( file_exists( JULIUS_THEME_DIR . '/customizer/customizer-contact.php' ) ) {
 }
 
 /**
- * Include Float Social Icons Customizer Settings
+ * Include Floating Social Icons Customizer Settings
  */
 if ( file_exists( JULIUS_THEME_DIR . '/customizer/customizer-float-icons.php' ) ) {
     require_once JULIUS_THEME_DIR . '/customizer/customizer-float-icons.php';
