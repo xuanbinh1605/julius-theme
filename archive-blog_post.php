@@ -510,24 +510,6 @@ function julius_calculate_reading_time( $content ) {
                     </ul>
                 </div>
 
-                <!-- Tags -->
-                <?php if ( $tags && ! is_wp_error( $tags ) && count( $tags ) > 0 ) : ?>
-                    <div class="bg-card border border-border rounded-xl p-6">
-                        <h3 class="text-lg font-semibold text-foreground mb-4">Tags</h3>
-                        <div class="flex flex-wrap gap-2">
-                            <?php foreach ( $tags as $tag ) : 
-                                $is_active_tag = $tag_slug === $tag->slug;
-                                $tag_url = add_query_arg( 'tag', $tag->slug, get_post_type_archive_link( 'blog_post' ) );
-                            ?>
-                                <a href="<?php echo esc_url( $tag_url ); ?>" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm transition-colors <?php echo $is_active_tag ? 'bg-primary text-primary-foreground' : 'bg-secondary hover:bg-secondary/80 text-foreground'; ?>">
-                                    <span><?php echo esc_html( $tag->name ); ?></span>
-                                    <span class="text-xs <?php echo $is_active_tag ? 'text-primary-foreground/80' : 'text-muted-foreground'; ?>">(<?php echo esc_html( $tag->count ); ?>)</span>
-                                </a>
-                            <?php endforeach; ?>
-                        </div>
-                    </div>
-                <?php endif; ?>
-
                 <!-- Recent Posts -->
                 <?php if ( $recent_posts->have_posts() ) : ?>
                     <div class="bg-card border border-border rounded-xl p-6">
