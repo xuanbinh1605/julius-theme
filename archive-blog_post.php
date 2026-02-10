@@ -17,9 +17,9 @@ $category_slug = isset( $_GET['category'] ) ? sanitize_text_field( $_GET['catego
 $tag_slug = isset( $_GET['tag'] ) ? sanitize_text_field( $_GET['tag'] ) : '';
 
 // Debug: Uncomment to see what's being filtered
-// if ( ! empty( $tag_slug ) ) {
-//     echo '<div style="padding: 20px; background: #f0f0f0; margin: 20px;">Debug: Filtering by tag slug: "' . esc_html( $tag_slug ) . '"</div>';
-// }
+if ( ! empty( $tag_slug ) ) {
+    echo '<div style="padding: 20px; background: #f0f0f0; margin: 20px; position: relative; z-index: 9999;">Debug: Filtering by tag slug: "' . esc_html( $tag_slug ) . '"</div>';
+}
 
 // Get featured post (only on page 1)
 $featured_post = null;
@@ -133,12 +133,19 @@ $blog_query = new WP_Query( $regular_args );
 $regular_posts = array();
 
 // Debug: Uncomment to see query results
-// if ( ! empty( $tag_slug ) || ! empty( $category_slug ) ) {
-//     echo '<div style="padding: 20px; background: #ffffcc; margin: 20px;">';
-//     echo 'Debug: Found ' . $blog_query->found_posts . ' posts<br>';
-//     echo 'Query args: <pre>' . print_r( $regular_args, true ) . '</pre>';
-//     echo '</div>';
-// }
+if ( ! empty( $tag_slug ) || ! empty( $category_slug ) ) {
+    echo '<div style="padding: 20px; background: #ffffcc; margin: 20px; position: relative; z-index: 9999;">';
+    echo 'Debug: Found ' . $blog_query->found_posts . ' posts<br>';
+    echo 'Tag slug from URL: "' . esc_html( $tag_slug ) . '"<br>';
+    echo 'Category slug from URL: "' . esc_html( $category_slug ) . '"<br>';
+    echo 'Query args: <pre>' . print_r( $regular_args, true ) . '</pre>';
+    
+    // Check if taxonomy exists and has terms
+    $term_check = get_term_by( 'slug', $tag_slug, 'blog_tag' );
+    echo 'Tag term check: <pre>' . print_r( $term_check, true ) . '</pre>';
+    
+    echo '</div>';
+}
 
 if ( $blog_query->have_posts() ) {
     while ( $blog_query->have_posts() ) {

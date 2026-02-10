@@ -106,3 +106,25 @@ if ( file_exists( JULIUS_THEME_DIR . '/customizer/customizer-init.php' ) ) {
 if ( file_exists( JULIUS_THEME_DIR . '/admin/admin-init.php' ) ) {
     require_once JULIUS_THEME_DIR . '/admin/admin-init.php';
 }
+
+/**
+ * Force blog archive template for tag/category filtering
+ */
+function julius_force_blog_archive_template( $template ) {
+    // Check if we're on blog archive with tag or category parameters
+    if ( isset( $_GET['tag'] ) || isset( $_GET['category'] ) ) {
+        $current_url = $_SERVER['REQUEST_URI'];
+        
+        // Check if URL contains /blog/ (the blog archive slug)
+        if ( strpos( $current_url, '/blog/' ) !== false || strpos( $current_url, '/blog?' ) !== false ) {
+            $archive_template = locate_template( 'archive-blog_post.php' );
+            
+            if ( $archive_template ) {
+                return $archive_template;
+            }
+        }
+    }
+    
+    return $template;
+}
+add_filter( 'template_include', 'julius_force_blog_archive_template', 99 );
