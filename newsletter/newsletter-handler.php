@@ -271,3 +271,63 @@ function julius_newsletter_display_messages() {
     }
 }
 add_action( 'wp_footer', 'julius_newsletter_display_messages' );
+
+/**
+ * Automatically send newsletter when a blog post is published
+ */
+function julius_newsletter_send_on_publish( $new_status, $old_status, $post ) {
+    // Only process blog_post custom post type
+    if ( $post->post_type !== 'blog_post' ) {
+        return;
+    }
+    
+    // Only send when post is newly published or updated from draft/pending
+    if ( $new_status !== 'publish' ) {
+        return;
+    }
+    
+    // Don't send if already published (updating existing post)
+    if ( $old_status === 'publish' ) {
+        return;
+    }
+    
+    // Check if this post has already been sent (to avoid duplicates)
+    $already_sent = get_post_meta( $post->ID, '_julius_newsletter_sent', true );
+    if ( $already_sent ) {
+        return;
+    }
+    
+    // Send to all subscribers
+    $sent_count = julius_newsletter_send_to_all_subscribers( $post->ID );
+    
+    // Mark as sent
+    update_post_meta( $post->ID, '_julius_newsletter_sent', true );
+    update_post_meta( $post->ID, '_julius_newsletter_sent_count', $sent_count );
+    update_post_meta( $post->ID, '_julius_newsletter_sent_date', current_time( 'mysql' ) );
+    
+    // Add admin notice (for next page load)
+    if ( $sent_count > 0 ) {
+        set_transient( 'julius_newsletter_sent_notice', $sent_count, 30 );
+    }
+}
+add_action( 'transition_post_status', 'julius_newsletter_send_on_publish', 10, 3 );
+
+/**
+ * Display admin notice after newsletter is sent
+ */
+function julius_newsletter_admin_notice() {
+    $sent_count = get_transient( 'julius_newsletter_sent_notice' );
+    
+    if ( $sent_count ) {
+        ?>
+        <div class="notice notice-success is-dismissible">
+            <p>
+                <strong><?php _e( 'Newsletter sent!', 'julius-theme' ); ?></strong>
+                <?php printf( __( 'Blog post notification sent to %d subscribers.', 'julius-theme' ), $sent_count ); ?>
+            </p>
+        </div>
+        <?php
+        delete_transient( 'julius_newsletter_sent_notice' );
+    }
+}
+add_action( 'admin_notices', 'julius_newsletter_admin_notice' );
