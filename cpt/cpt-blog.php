@@ -49,7 +49,7 @@ function julius_register_blog_post_type() {
         'description'           => __( 'Blog posts and articles', 'julius-theme' ),
         'labels'                => $labels,
         'supports'              => array( 'title', 'editor', 'thumbnail', 'excerpt', 'post-tag' ),
-        'taxonomies'            => array( 'blog_author', 'blog_category' ),
+        'taxonomies'            => array( 'blog_author', 'blog_category', 'blog_tag' ),
         'hierarchical'          => false,
         'public'                => true,
         'show_ui'               => true,
@@ -156,3 +156,46 @@ function julius_register_blog_category_taxonomy() {
     register_taxonomy( 'blog_category', array( 'blog_post' ), $args );
 }
 add_action( 'init', 'julius_register_blog_category_taxonomy' );
+
+/**
+ * Register Blog Tag Taxonomy (Non-Hierarchical)
+ */
+function julius_register_blog_tag_taxonomy() {
+    $labels = array(
+        'name'                       => _x( 'Blog Tags', 'Taxonomy General Name', 'julius-theme' ),
+        'singular_name'              => _x( 'Blog Tag', 'Taxonomy Singular Name', 'julius-theme' ),
+        'menu_name'                  => __( 'Tags', 'julius-theme' ),
+        'all_items'                  => __( 'All Tags', 'julius-theme' ),
+        'parent_item'                => null,
+        'parent_item_colon'          => null,
+        'new_item_name'              => __( 'New Tag Name', 'julius-theme' ),
+        'add_new_item'               => __( 'Add New Tag', 'julius-theme' ),
+        'edit_item'                  => __( 'Edit Tag', 'julius-theme' ),
+        'update_item'                => __( 'Update Tag', 'julius-theme' ),
+        'view_item'                  => __( 'View Tag', 'julius-theme' ),
+        'separate_items_with_commas' => __( 'Separate tags with commas', 'julius-theme' ),
+        'add_or_remove_items'        => __( 'Add or remove tags', 'julius-theme' ),
+        'choose_from_most_used'      => __( 'Choose from the most used', 'julius-theme' ),
+        'popular_items'              => __( 'Popular Tags', 'julius-theme' ),
+        'search_items'               => __( 'Search Tags', 'julius-theme' ),
+        'not_found'                  => __( 'Not Found', 'julius-theme' ),
+        'no_terms'                   => __( 'No tags', 'julius-theme' ),
+        'items_list'                 => __( 'Tags list', 'julius-theme' ),
+        'items_list_navigation'      => __( 'Tags list navigation', 'julius-theme' ),
+    );
+    
+    $args = array(
+        'labels'                     => $labels,
+        'hierarchical'               => false,
+        'public'                     => true,
+        'show_ui'                    => true,
+        'show_admin_column'          => true,
+        'show_in_nav_menus'          => true,
+        'show_tagcloud'              => true,
+        'show_in_rest'               => true,
+        'rewrite'                    => array( 'slug' => 'blog-tag' ),
+    );
+    
+    register_taxonomy( 'blog_tag', array( 'blog_post' ), $args );
+}
+add_action( 'init', 'julius_register_blog_tag_taxonomy' );

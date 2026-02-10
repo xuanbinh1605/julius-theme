@@ -13,6 +13,9 @@ $paged = isset( $_GET['page'] ) ? max( 1, intval( $_GET['page'] ) ) : 1;
 // Category filter - use URL parameter ?category=slug
 $category_slug = isset( $_GET['category'] ) ? sanitize_text_field( $_GET['category'] ) : '';
 
+// Tag filter - use URL parameter ?tag=slug
+$tag_slug = isset( $_GET['tag'] ) ? sanitize_text_field( $_GET['tag'] ) : '';
+
 // Get featured post (only on page 1)
 $featured_post = null;
 if ( $paged === 1 ) {
@@ -30,15 +33,30 @@ if ( $paged === 1 ) {
         ),
     );
     
-    // Add category filter if set
-    if ( ! empty( $category_slug ) ) {
-        $featured_args['tax_query'] = array(
-            array(
+    // Add category or tag filter if set
+    if ( ! empty( $category_slug ) || ! empty( $tag_slug ) ) {
+        $featured_args['tax_query'] = array();
+        
+        if ( ! empty( $category_slug ) ) {
+            $featured_args['tax_query'][] = array(
                 'taxonomy' => 'blog_category',
                 'field'    => 'slug',
                 'terms'    => $category_slug,
-            ),
-        );
+            );
+        }
+        
+        if ( ! empty( $tag_slug ) ) {
+            $featured_args['tax_query'][] = array(
+                'taxonomy' => 'blog_tag',
+                'field'    => 'slug',
+                'terms'    => $tag_slug,
+            );
+        }
+        
+        // If both filters, use AND relation
+        if ( ! empty( $category_slug ) && ! empty( $tag_slug ) ) {
+            $featured_args['tax_query']['relation'] = 'AND';
+        }
     }
     $featured_query = new WP_Query( $featured_args );
     if ( $featured_query->have_posts() ) {
@@ -80,15 +98,30 @@ $regular_args = array(
     ),
 );
 
-// Add category filter if set
-if ( ! empty( $category_slug ) ) {
-    $regular_args['tax_query'] = array(
-        array(
+// Add category or tag filter if set
+if ( ! empty( $category_slug ) || ! empty( $tag_slug ) ) {
+    $regular_args['tax_query'] = array();
+    
+    if ( ! empty( $category_slug ) ) {
+        $regular_args['tax_query'][] = array(
             'taxonomy' => 'blog_category',
             'field'    => 'slug',
             'terms'    => $category_slug,
-        ),
-    );
+        );
+    }
+    
+    if ( ! empty( $tag_slug ) ) {
+        $regular_args['tax_query'][] = array(
+            'taxonomy' => 'blog_tag',
+            'field'    => 'slug',
+            'terms'    => $tag_slug,
+        );
+    }
+    
+    // If both filters, use AND relation
+    if ( ! empty( $category_slug ) && ! empty( $tag_slug ) ) {
+        $regular_args['tax_query']['relation'] = 'AND';
+    }
 }
 
 $blog_query = new WP_Query( $regular_args );
@@ -122,15 +155,30 @@ $count_args = array(
     ),
 );
 
-// Add category filter if set
-if ( ! empty( $category_slug ) ) {
-    $count_args['tax_query'] = array(
-        array(
+// Add category or tag filter if set
+if ( ! empty( $category_slug ) || ! empty( $tag_slug ) ) {
+    $count_args['tax_query'] = array();
+    
+    if ( ! empty( $category_slug ) ) {
+        $count_args['tax_query'][] = array(
             'taxonomy' => 'blog_category',
             'field'    => 'slug',
             'terms'    => $category_slug,
-        ),
-    );
+        );
+    }
+    
+    if ( ! empty( $tag_slug ) ) {
+        $count_args['tax_query'][] = array(
+            'taxonomy' => 'blog_tag',
+            'field'    => 'slug',
+            'terms'    => $tag_slug,
+        );
+    }
+    
+    // If both filters, use AND relation
+    if ( ! empty( $category_slug ) && ! empty( $tag_slug ) ) {
+        $count_args['tax_query']['relation'] = 'AND';
+    }
 }
 $count_query = new WP_Query( $count_args );
 $total_regular_posts = $count_query->found_posts;
@@ -142,6 +190,12 @@ $max_num_pages = ceil( $total_regular_posts / 6 );
 // Get categories with post count
 $categories = get_terms( array(
     'taxonomy'   => 'blog_category',
+    'hide_empty' => true,
+) );
+
+// Get tags with post count
+$tags = get_terms( array(
+    'taxonomy'   => 'blog_tag',
     'hide_empty' => true,
 ) );
 
@@ -310,10 +364,13 @@ function julius_calculate_reading_time( $content ) {
                             // Generate pagination URLs with query parameters
                             $base_url = get_post_type_archive_link( 'blog_post' );
                             
-                            // Preserve category parameter in pagination
+                            // Preserve category and tag parameters in pagination
                             $query_args = array();
                             if ( ! empty( $category_slug ) ) {
                                 $query_args['category'] = $category_slug;
+                            }
+                            if ( ! empty( $tag_slug ) ) {
+                                $query_args['tag'] = $tag_slug;
                             }
                             
                             $prev_page = $paged - 1;
@@ -324,7 +381,8 @@ function julius_calculate_reading_time( $content ) {
                                 $query_args['page'] = $prev_page;
                                 $prev_link = add_query_arg( $query_args, $base_url );
                             } else {
-                                $prev_link = ! empty( $category_slug ) ? add_query_arg( 'category', $category_slug, $base_url ) : $base_url;
+                                unset( $query_args['page'] );
+                                $prev_link = ! empty( $query_args ) ? add_query_arg( $query_args, $base_url ) : $base_url;
                             }
                             
                             // Build next link
@@ -354,6 +412,9 @@ function julius_calculate_reading_time( $content ) {
                                     $page_query_args = array();
                                     if ( ! empty( $category_slug ) ) {
                                         $page_query_args['category'] = $category_slug;
+                                    }
+                                    if ( ! empty( $tag_slug ) ) {
+                                        $page_query_args['tag'] = $tag_slug;
                                     }
                                     if ( $i > 1 ) {
                                         $page_query_args['page'] = $i;
@@ -408,8 +469,8 @@ function julius_calculate_reading_time( $content ) {
                     <h3 class="text-lg font-semibold text-foreground mb-4">Categories</h3>
                     <ul class="space-y-2">
                         <li>
-                            <a class="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-secondary/50 transition-colors group <?php echo empty( $category_slug ) ? 'bg-primary/10 border border-primary/20' : ''; ?>" href="<?php echo esc_url( get_post_type_archive_link( 'blog_post' ) ); ?>">
-                                <span class="text-foreground group-hover:text-primary transition-colors <?php echo empty( $category_slug ) ? 'text-primary font-medium' : ''; ?>">All</span>
+                            <a class="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-secondary/50 transition-colors group <?php echo empty( $category_slug ) && empty( $tag_slug ) ? 'bg-primary/10 border border-primary/20' : ''; ?>" href="<?php echo esc_url( get_post_type_archive_link( 'blog_post' ) ); ?>">
+                                <span class="text-foreground group-hover:text-primary transition-colors <?php echo empty( $category_slug ) && empty( $tag_slug ) ? 'text-primary font-medium' : ''; ?>">All</span>
                                 <span class="text-sm text-muted-foreground bg-secondary px-2 py-0.5 rounded-full"><?php echo esc_html( $total_posts ); ?></span>
                             </a>
                         </li>
@@ -428,6 +489,24 @@ function julius_calculate_reading_time( $content ) {
                         <?php endif; ?>
                     </ul>
                 </div>
+
+                <!-- Tags -->
+                <?php if ( $tags && ! is_wp_error( $tags ) && count( $tags ) > 0 ) : ?>
+                    <div class="bg-card border border-border rounded-xl p-6">
+                        <h3 class="text-lg font-semibold text-foreground mb-4">Tags</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <?php foreach ( $tags as $tag ) : 
+                                $is_active_tag = $tag_slug === $tag->slug;
+                                $tag_url = add_query_arg( 'tag', $tag->slug, get_post_type_archive_link( 'blog_post' ) );
+                            ?>
+                                <a href="<?php echo esc_url( $tag_url ); ?>" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm transition-colors <?php echo $is_active_tag ? 'bg-primary text-primary-foreground' : 'bg-secondary hover:bg-secondary/80 text-foreground'; ?>">
+                                    <span><?php echo esc_html( $tag->name ); ?></span>
+                                    <span class="text-xs <?php echo $is_active_tag ? 'text-primary-foreground/80' : 'text-muted-foreground'; ?>">(<?php echo esc_html( $tag->count ); ?>)</span>
+                                </a>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                <?php endif; ?>
 
                 <!-- Recent Posts -->
                 <?php if ( $recent_posts->have_posts() ) : ?>
