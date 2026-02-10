@@ -7,8 +7,8 @@
 
 get_header();
 
-// Pagination
-$paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
+// Pagination - use URL parameter ?page=2
+$paged = isset( $_GET['page'] ) ? max( 1, intval( $_GET['page'] ) ) : 1;
 
 // Get featured post (only on page 1)
 $featured_post = null;
@@ -281,8 +281,12 @@ function julius_calculate_reading_time( $content ) {
                     <?php if ( $max_num_pages > 1 ) : ?>
                         <div class="flex items-center justify-center gap-2 mt-12">
                             <?php
-                            $prev_link = get_previous_posts_page_link();
-                            $next_link = get_next_posts_page_link( $max_num_pages );
+                            // Generate pagination URLs with query parameters
+                            $base_url = get_post_type_archive_link( 'blog_post' );
+                            $prev_page = $paged - 1;
+                            $next_page = $paged + 1;
+                            $prev_link = $prev_page > 1 ? add_query_arg( 'page', $prev_page, $base_url ) : $base_url;
+                            $next_link = add_query_arg( 'page', $next_page, $base_url );
                             ?>
                             
                             <!-- Previous Button -->
@@ -303,7 +307,10 @@ function julius_calculate_reading_time( $content ) {
                                         <?php echo $i; ?>
                                     </button>
                                 <?php else : ?>
-                                    <a href="<?php echo esc_url( get_pagenum_link( $i ) ); ?>" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md gap-1.5 px-3">
+                                    <?php 
+                                    $page_url = $i === 1 ? $base_url : add_query_arg( 'page', $i, $base_url );
+                                    ?>
+                                    <a href="<?php echo esc_url( $page_url ); ?>" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md gap-1.5 px-3">
                                         <?php echo $i; ?>
                                     </a>
                                 <?php endif; ?>
