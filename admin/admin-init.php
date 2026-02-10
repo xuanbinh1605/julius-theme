@@ -82,3 +82,10 @@ if ( file_exists( get_template_directory() . '/admin/admin-gallery.php' ) ) {
 if ( file_exists( get_template_directory() . '/admin/admin-our-space.php' ) ) {
     require_once get_template_directory() . '/admin/admin-our-space.php';
 }
+
+/**
+ * Include Blog Sample Generator
+ */
+if ( file_exists( get_template_directory() . '/admin/admin-blog-samples.php' ) ) {
+    require_once get_template_directory() . '/admin/admin-blog-samples.php';
+}
