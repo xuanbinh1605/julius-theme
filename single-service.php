@@ -32,7 +32,8 @@ while ( have_posts() ) : the_post();
     // Get featured image
     $featured_image = get_the_post_thumbnail_url( get_the_ID(), 'full' );
     if ( ! $featured_image ) {
-        $featured_image = get_template_directory_uri() . '/assets/images/default-service.jpg';
+        // Use Picsum placeholder with service ID as seed for consistency
+        $featured_image = 'https://picsum.photos/seed/' . get_the_ID() . '/1920/600';
     }
     ?>
 
