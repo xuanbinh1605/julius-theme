@@ -59,6 +59,16 @@ function julius_enqueue_scripts() {
         'ajaxurl' => admin_url( 'admin-ajax.php' ),
         'nonce' => wp_create_nonce( 'julius-nonce' )
     ) );
+    
+    // Blog Search Autocomplete (only on blog archive and search pages)
+    if ( is_post_type_archive( 'blog_post' ) || ( is_search() && get_query_var( 'post_type' ) === 'blog_post' ) ) {
+        wp_enqueue_script( 'julius-blog-search', JULIUS_THEME_URI . '/js/blog-search.js', array( 'jquery' ), filemtime( JULIUS_THEME_DIR . '/js/blog-search.js' ), true );
+        
+        wp_localize_script( 'julius-blog-search', 'juliusSearch', array(
+            'ajaxurl' => admin_url( 'admin-ajax.php' ),
+            'nonce' => wp_create_nonce( 'julius-search-nonce' )
+        ) );
+    }
 }
 add_action( 'wp_enqueue_scripts', 'julius_enqueue_scripts' );
 

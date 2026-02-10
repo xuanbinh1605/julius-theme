@@ -332,3 +332,56 @@ function julius_filter_services_handler() {
 }
 add_action( 'wp_ajax_julius_filter_services', 'julius_filter_services_handler' );
 add_action( 'wp_ajax_nopriv_julius_filter_services', 'julius_filter_services_handler' );
+
+/**
+ * Blog Search Autocomplete AJAX Handler
+ */
+function julius_blog_search_autocomplete_handler() {
+    // Check nonce
+    check_ajax_referer( 'julius-search-nonce', 'nonce' );
+    
+    // Get search query
+    $search_query = isset( $_POST['query'] ) ? sanitize_text_field( $_POST['query'] ) : '';
+    
+    if ( empty( $search_query ) || strlen( $search_query ) < 2 ) {
+        wp_send_json_success( array( 'results' => array() ) );
+    }
+    
+    // Search blog posts
+    $args = array(
+        'post_type'      => 'blog_post',
+        'posts_per_page' => 5,
+        's'              => $search_query,
+        'orderby'        => 'relevance',
+        'post_status'    => 'publish',
+    );
+    
+    $search_query_obj = new WP_Query( $args );
+    $results = array();
+    
+    if ( $search_query_obj->have_posts() ) {
+        while ( $search_query_obj->have_posts() ) {
+            $search_query_obj->the_post();
+            
+            $post_id = get_the_ID();
+            $thumbnail = has_post_thumbnail() ? get_the_post_thumbnail_url( $post_id, 'thumbnail' ) : 'https://picsum.photos/seed/blog-' . $post_id . '/100/100';
+            $categories = get_the_terms( $post_id, 'blog_category' );
+            $category = $categories && ! is_wp_error( $categories ) ? $categories[0]->name : '';
+            
+            $results[] = array(
+                'id'        => $post_id,
+                'title'     => get_the_title(),
+                'excerpt'   => wp_trim_words( get_the_excerpt(), 15, '...' ),
+                'url'       => get_permalink(),
+                'thumbnail' => $thumbnail,
+                'category'  => $category,
+                'date'      => get_the_date( 'F j, Y' ),
+            );
+        }
+        wp_reset_postdata();
+    }
+    
+    wp_send_json_success( array( 'results' => $results ) );
+}
+add_action( 'wp_ajax_julius_blog_search', 'julius_blog_search_autocomplete_handler' );
+add_action( 'wp_ajax_nopriv_julius_blog_search', 'julius_blog_search_autocomplete_handler' );

@@ -328,11 +328,12 @@ function julius_calculate_reading_time( $content ) {
                 <!-- Search -->
                 <div class="bg-card border border-border rounded-xl p-6">
                     <h3 class="text-lg font-semibold text-foreground mb-4">Search</h3>
-                    <form role="search" method="get" action="<?php echo esc_url( home_url( '/' ) ); ?>" class="relative">
+                    <form role="search" method="get" action="<?php echo esc_url( home_url( '/' ) ); ?>" class="relative blog-search-form">
                         <input 
                             type="search" 
                             name="s" 
                             placeholder="Search articles..." 
+                            autocomplete="off"
                             class="w-full px-4 py-3 pr-10 border border-border rounded-lg bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50">
                         <input type="hidden" name="post_type" value="blog_post">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none">
