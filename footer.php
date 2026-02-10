@@ -247,7 +247,7 @@ if ( get_theme_mod( 'julius_float_icons_enable', true ) ) :
 <?php endif; ?>
 
 <!-- Gallery Lightbox Modal -->
-<div id="julius-gallery-lightbox" class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/95 p-4" style="display: none;">
+<div id="julius-gallery-lightbox" class="fixed inset-0 z-[99999] hidden items-center justify-center bg-black/98 p-4" style="display: none;">
     <button id="julius-lightbox-close" class="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors" aria-label="Close">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 text-white">
             <path d="M18 6 6 18"></path>
