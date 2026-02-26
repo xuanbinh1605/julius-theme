@@ -338,15 +338,15 @@ get_header();
                             <div class="space-y-3">
                                 <div class="flex items-start gap-2.5">
                                     <div class="w-2 h-2 rounded-full mt-1.5 flex-shrink-0 bg-primary"></div>
-                                    <p class="text-sm leading-relaxed text-foreground font-semibold"><span class="text-red-500 font-bold"><?php echo esc_html( get_theme_mod( 'julius_promo_happy_discount', '30% OFF' ) ); ?></span> <?php echo esc_html( get_theme_mod( 'julius_promo_happy_text1', 'all services' ) ); ?></p>
+                                    <p class="text-xs sm:text-sm leading-relaxed text-foreground font-semibold"><span class="text-red-500 font-bold"><?php echo esc_html( get_theme_mod( 'julius_promo_happy_discount', '30% OFF' ) ); ?></span> <?php echo esc_html( get_theme_mod( 'julius_promo_happy_text1', 'all services' ) ); ?></p>
                                 </div>
                                 <div class="flex items-start gap-2.5">
                                     <div class="w-2 h-2 rounded-full mt-1.5 flex-shrink-0 bg-muted-foreground/40"></div>
-                                    <p class="text-sm leading-relaxed text-muted-foreground"><?php echo esc_html( get_theme_mod( 'julius_promo_happy_text2', 'No pick-drop service' ) ); ?></p>
+                                    <p class="text-xs sm:text-sm leading-relaxed text-muted-foreground"><?php echo esc_html( get_theme_mod( 'julius_promo_happy_text2', 'No pick-drop service' ) ); ?></p>
                                 </div>
                                 <div class="flex items-start gap-2.5">
                                     <div class="w-2 h-2 rounded-full mt-1.5 flex-shrink-0 bg-muted-foreground/40"></div>
-                                    <p class="text-sm leading-relaxed text-muted-foreground"><?php echo esc_html( get_theme_mod( 'julius_promo_happy_text3', 'Aroma 90min only 343,000 VND (Tip separate)' ) ); ?></p>
+                                    <p class="text-xs sm:text-sm leading-relaxed text-muted-foreground"><?php echo esc_html( get_theme_mod( 'julius_promo_happy_text3', 'Aroma 90min only 343,000 VND (Tip separate)' ) ); ?></p>
                                 </div>
                             </div>
                         </div>
@@ -367,11 +367,11 @@ get_header();
                             <div class="space-y-3">
                                 <div class="flex items-start gap-2.5">
                                     <div class="w-2 h-2 rounded-full mt-1.5 flex-shrink-0 bg-primary"></div>
-                                    <p class="text-sm leading-relaxed text-foreground font-semibold"><?php echo esc_html( get_theme_mod( 'julius_promo_evening_option1_label', 'Option 1:' ) ); ?> <span class="text-red-500 font-bold"><?php echo esc_html( get_theme_mod( 'julius_promo_evening_option1_discount', '20% OFF' ) ); ?></span> <?php echo esc_html( get_theme_mod( 'julius_promo_evening_option1_text', 'all courses on menu (No pick-drop)' ) ); ?></p>
+                                    <p class="text-xs sm:text-sm leading-relaxed text-foreground font-semibold"><?php echo esc_html( get_theme_mod( 'julius_promo_evening_option1_label', 'Option 1:' ) ); ?> <span class="text-red-500 font-bold"><?php echo esc_html( get_theme_mod( 'julius_promo_evening_option1_discount', '20% OFF' ) ); ?></span> <?php echo esc_html( get_theme_mod( 'julius_promo_evening_option1_text', 'all courses on menu (No pick-drop)' ) ); ?></p>
                                 </div>
                                 <div class="flex items-start gap-2.5">
                                     <div class="w-2 h-2 rounded-full mt-1.5 flex-shrink-0 bg-primary"></div>
-                                    <p class="text-sm leading-relaxed text-foreground font-semibold"><?php echo esc_html( get_theme_mod( 'julius_promo_evening_option2_label', 'Option 2:' ) ); ?> <span class="text-primary font-bold"><?php echo esc_html( get_theme_mod( 'julius_promo_evening_option2_highlight', 'FREE pick-drop service' ) ); ?></span> <?php echo esc_html( get_theme_mod( 'julius_promo_evening_option2_text', 'for 2+ people within Da Nang city (No discount)' ) ); ?></p>
+                                    <p class="text-xs sm:text-sm leading-relaxed text-foreground font-semibold"><?php echo esc_html( get_theme_mod( 'julius_promo_evening_option2_label', 'Option 2:' ) ); ?> <span class="text-primary font-bold"><?php echo esc_html( get_theme_mod( 'julius_promo_evening_option2_highlight', 'FREE pick-drop service' ) ); ?></span> <?php echo esc_html( get_theme_mod( 'julius_promo_evening_option2_text', 'for 2+ people within Da Nang city (No discount)' ) ); ?></p>
                                 </div>
                             </div>
                         </div>
@@ -392,7 +392,7 @@ get_header();
                             <div class="space-y-3">
                                 <div class="flex items-start gap-2.5">
                                     <div class="w-2 h-2 rounded-full mt-1.5 flex-shrink-0 bg-muted-foreground/40"></div>
-                                    <p class="text-sm leading-relaxed text-muted-foreground"><?php echo esc_html( get_theme_mod( 'julius_promo_night_text', 'NO discount & NO pick-drop service' ) ); ?></p>
+                                    <p class="text-xs sm:text-sm leading-relaxed text-muted-foreground"><?php echo esc_html( get_theme_mod( 'julius_promo_night_text', 'NO discount & NO pick-drop service' ) ); ?></p>
                                 </div>
                             </div>
                         </div>
@@ -411,11 +411,11 @@ get_header();
                                     </svg>
                                 </div>
                                 <div>
-                                    <p class="text-foreground font-semibold text-sm"><?php echo esc_html( get_theme_mod( 'julius_promo_group_title', 'Julius Signature Spa (Julius 2)' ) ); ?></p>
+                                    <p class="text-foreground font-semibold text-xs sm:text-sm"><?php echo esc_html( get_theme_mod( 'julius_promo_group_title', 'Julius Signature Spa (Julius 2)' ) ); ?></p>
                                     <p class="text-muted-foreground text-xs mt-0.5"><?php echo esc_html( get_theme_mod( 'julius_promo_group_subtitle', 'Group Special' ) ); ?></p>
                                 </div>
                             </div>
-                            <div class="md:ml-auto text-foreground text-sm">
+                            <div class="md:ml-auto text-foreground text-xs sm:text-sm">
                                 <span class="text-primary font-bold"><?php echo esc_html( get_theme_mod( 'julius_promo_group_offer1', 'FREE pickup' ) ); ?></span> <?php echo esc_html( get_theme_mod( 'julius_promo_group_offer1_text', 'within Da Nang for group of 4' ) ); ?> | <span class="text-primary font-bold"><?php echo esc_html( get_theme_mod( 'julius_promo_group_offer2', 'FREE 1 person' ) ); ?></span> <?php echo esc_html( get_theme_mod( 'julius_promo_group_offer2_text', 'for group of 5+ (no pickup)' ) ); ?>
                             </div>
                         </div>
@@ -429,19 +429,19 @@ get_header();
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star w-4 h-4 text-primary flex-shrink-0">
                                 <path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path>
                             </svg>
-                            <span class="text-muted-foreground text-sm"><?php echo esc_html( get_theme_mod( 'julius_promo_note1', '5% more discount for re-visit (not for happy hour event)' ) ); ?></span>
+                            <span class="text-muted-foreground text-xs sm:text-sm"><?php echo esc_html( get_theme_mod( 'julius_promo_note1', '5% more discount for re-visit (not for happy hour event)' ) ); ?></span>
                         </div>
                         <div class="flex items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star w-4 h-4 text-primary flex-shrink-0">
                                 <path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path>
                             </svg>
-                            <span class="text-muted-foreground text-sm"><?php echo esc_html( get_theme_mod( 'julius_promo_note2', '5% more discount if review (not for re-visit) - 1 review DC for 2-3 people' ) ); ?></span>
+                            <span class="text-muted-foreground text-xs sm:text-sm"><?php echo esc_html( get_theme_mod( 'julius_promo_note2', '5% more discount if review (not for re-visit) - 1 review DC for 2-3 people' ) ); ?></span>
                         </div>
                         <div class="flex items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star w-4 h-4 text-primary flex-shrink-0">
                                 <path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path>
                             </svg>
-                            <span class="text-muted-foreground text-sm"><?php echo esc_html( get_theme_mod( 'julius_promo_note3', 'Car surcharge in case pick-drop address outside Da Nang city' ) ); ?></span>
+                            <span class="text-muted-foreground text-xs sm:text-sm"><?php echo esc_html( get_theme_mod( 'julius_promo_note3', 'Car surcharge in case pick-drop address outside Da Nang city' ) ); ?></span>
                         </div>
                     </div>
                 </div>
@@ -456,8 +456,8 @@ get_header();
                                     <circle cx="12" cy="10" r="3"></circle>
                                 </svg>
                                 <div>
-                                    <p class="text-foreground font-bold"><?php echo esc_html( get_theme_mod( 'julius_promo_loc1_name', 'Julius 1' ) ); ?></p>
-                                    <p class="text-muted-foreground text-sm"><?php echo esc_html( get_theme_mod( 'julius_promo_loc1_address', '05 An Thuong 38, Da Nang' ) ); ?></p>
+                                    <p class="text-foreground font-bold text-sm"><?php echo esc_html( get_theme_mod( 'julius_promo_loc1_name', 'Julius 1' ) ); ?></p>
+                                    <p class="text-muted-foreground text-xs sm:text-sm"><?php echo esc_html( get_theme_mod( 'julius_promo_loc1_address', '05 An Thuong 38, Da Nang' ) ); ?></p>
                                     <div class="flex items-center gap-1.5 mt-1">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone w-3.5 h-3.5 text-primary">
                                             <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
@@ -472,8 +472,8 @@ get_header();
                                     <circle cx="12" cy="10" r="3"></circle>
                                 </svg>
                                 <div>
-                                    <p class="text-foreground font-bold"><?php echo esc_html( get_theme_mod( 'julius_promo_loc2_name', 'Julius 2' ) ); ?></p>
-                                    <p class="text-muted-foreground text-sm"><?php echo esc_html( get_theme_mod( 'julius_promo_loc2_address', '61 Ta My Duat, Da Nang' ) ); ?></p>
+                                    <p class="text-foreground font-bold text-sm"><?php echo esc_html( get_theme_mod( 'julius_promo_loc2_name', 'Julius 2' ) ); ?></p>
+                                    <p class="text-muted-foreground text-xs sm:text-sm"><?php echo esc_html( get_theme_mod( 'julius_promo_loc2_address', '61 Ta My Duat, Da Nang' ) ); ?></p>
                                     <div class="flex items-center gap-1.5 mt-1">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone w-3.5 h-3.5 text-primary">
                                             <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
