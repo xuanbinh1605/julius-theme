@@ -139,6 +139,13 @@ if ( file_exists( JULIUS_THEME_DIR . '/customizer/customizer-frontpage.php' ) ) 
 }
 
 /**
+ * Include Promotions Section Customizer Settings
+ */
+if ( file_exists( JULIUS_THEME_DIR . '/customizer/customizer-promotions.php' ) ) {
+    require_once JULIUS_THEME_DIR . '/customizer/customizer-promotions.php';
+}
+
+/**
  * Include About Us Page Customizer Settings
  */
 if ( file_exists( JULIUS_THEME_DIR . '/customizer/customizer-about-us.php' ) ) {

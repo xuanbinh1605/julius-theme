@@ -309,6 +309,187 @@ get_header();
         </div>
     </section>
 
+    <!-- Special Promotions Section -->
+    <section class="py-16 md:py-24 bg-background">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <p class="text-primary text-sm tracking-[0.2em] uppercase mb-3 font-medium"><?php echo esc_html( get_theme_mod( 'julius_promo_subtitle', 'Special Offers' ) ); ?></p>
+                <h2 class="text-3xl md:text-4xl font-bold text-foreground mb-4 text-balance"><?php echo esc_html( get_theme_mod( 'julius_promo_title', 'Julius Promotion' ) ); ?></h2>
+                <p class="text-muted-foreground max-w-xl mx-auto"><?php echo esc_html( get_theme_mod( 'julius_promo_description', 'Julius 1 & Julius Signature (Julius 2)' ) ); ?></p>
+            </div>
+
+            <div class="max-w-4xl mx-auto">
+                <div class="bg-card rounded-2xl border border-border shadow-lg overflow-hidden">
+                    <div class="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-border">
+                        <!-- Happy Hour -->
+                        <div class="relative p-6 md:p-8 bg-primary/5">
+                            <div class="absolute -top-0 left-1/2 -translate-x-1/2 bg-red-500 text-white text-xs font-bold px-4 py-1 rounded-b-lg uppercase tracking-wider"><?php echo esc_html( get_theme_mod( 'julius_promo_happy_badge', 'Best Deal' ) ); ?></div>
+                            <div class="text-center mb-4 mt-2">
+                                <div class="inline-flex items-center gap-2 bg-foreground text-background rounded-full px-4 py-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock w-4 h-4">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <polyline points="12 6 12 12 16 14"></polyline>
+                                    </svg>
+                                    <span class="font-bold text-sm"><?php echo esc_html( get_theme_mod( 'julius_promo_happy_time', '9:00 - 16:00' ) ); ?></span>
+                                </div>
+                            </div>
+                            <p class="text-center text-xs uppercase tracking-widest text-muted-foreground mb-5 font-medium"><?php echo esc_html( get_theme_mod( 'julius_promo_happy_label', 'Happy Hour' ) ); ?></p>
+                            <div class="h-px bg-border mb-5"></div>
+                            <div class="space-y-3">
+                                <div class="flex items-start gap-2.5">
+                                    <div class="w-2 h-2 rounded-full mt-1.5 flex-shrink-0 bg-primary"></div>
+                                    <p class="text-sm leading-relaxed text-foreground font-semibold"><span class="text-red-500 font-bold"><?php echo esc_html( get_theme_mod( 'julius_promo_happy_discount', '30% OFF' ) ); ?></span> <?php echo esc_html( get_theme_mod( 'julius_promo_happy_text1', 'all services' ) ); ?></p>
+                                </div>
+                                <div class="flex items-start gap-2.5">
+                                    <div class="w-2 h-2 rounded-full mt-1.5 flex-shrink-0 bg-muted-foreground/40"></div>
+                                    <p class="text-sm leading-relaxed text-muted-foreground"><?php echo esc_html( get_theme_mod( 'julius_promo_happy_text2', 'No pick-drop service' ) ); ?></p>
+                                </div>
+                                <div class="flex items-start gap-2.5">
+                                    <div class="w-2 h-2 rounded-full mt-1.5 flex-shrink-0 bg-muted-foreground/40"></div>
+                                    <p class="text-sm leading-relaxed text-muted-foreground"><?php echo esc_html( get_theme_mod( 'julius_promo_happy_text3', 'Aroma 90min only 343,000 VND (Tip separate)' ) ); ?></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Evening -->
+                        <div class="relative p-6 md:p-8">
+                            <div class="text-center mb-4 mt-2">
+                                <div class="inline-flex items-center gap-2 bg-foreground text-background rounded-full px-4 py-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock w-4 h-4">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <polyline points="12 6 12 12 16 14"></polyline>
+                                    </svg>
+                                    <span class="font-bold text-sm"><?php echo esc_html( get_theme_mod( 'julius_promo_evening_time', '16:01 - 22:00' ) ); ?></span>
+                                </div>
+                            </div>
+                            <p class="text-center text-xs uppercase tracking-widest text-muted-foreground mb-5 font-medium"><?php echo esc_html( get_theme_mod( 'julius_promo_evening_label', 'Evening' ) ); ?></p>
+                            <div class="h-px bg-border mb-5"></div>
+                            <div class="space-y-3">
+                                <div class="flex items-start gap-2.5">
+                                    <div class="w-2 h-2 rounded-full mt-1.5 flex-shrink-0 bg-primary"></div>
+                                    <p class="text-sm leading-relaxed text-foreground font-semibold"><?php echo esc_html( get_theme_mod( 'julius_promo_evening_option1_label', 'Option 1:' ) ); ?> <span class="text-red-500 font-bold"><?php echo esc_html( get_theme_mod( 'julius_promo_evening_option1_discount', '20% OFF' ) ); ?></span> <?php echo esc_html( get_theme_mod( 'julius_promo_evening_option1_text', 'all courses on menu (No pick-drop)' ) ); ?></p>
+                                </div>
+                                <div class="flex items-start gap-2.5">
+                                    <div class="w-2 h-2 rounded-full mt-1.5 flex-shrink-0 bg-primary"></div>
+                                    <p class="text-sm leading-relaxed text-foreground font-semibold"><?php echo esc_html( get_theme_mod( 'julius_promo_evening_option2_label', 'Option 2:' ) ); ?> <span class="text-primary font-bold"><?php echo esc_html( get_theme_mod( 'julius_promo_evening_option2_highlight', 'FREE pick-drop service' ) ); ?></span> <?php echo esc_html( get_theme_mod( 'julius_promo_evening_option2_text', 'for 2+ people within Da Nang city (No discount)' ) ); ?></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Late Night -->
+                        <div class="relative p-6 md:p-8">
+                            <div class="text-center mb-4 mt-2">
+                                <div class="inline-flex items-center gap-2 bg-foreground text-background rounded-full px-4 py-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock w-4 h-4">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <polyline points="12 6 12 12 16 14"></polyline>
+                                    </svg>
+                                    <span class="font-bold text-sm"><?php echo esc_html( get_theme_mod( 'julius_promo_night_time', 'After 22:00' ) ); ?></span>
+                                </div>
+                            </div>
+                            <p class="text-center text-xs uppercase tracking-widest text-muted-foreground mb-5 font-medium"><?php echo esc_html( get_theme_mod( 'julius_promo_night_label', 'Late Night' ) ); ?></p>
+                            <div class="h-px bg-border mb-5"></div>
+                            <div class="space-y-3">
+                                <div class="flex items-start gap-2.5">
+                                    <div class="w-2 h-2 rounded-full mt-1.5 flex-shrink-0 bg-muted-foreground/40"></div>
+                                    <p class="text-sm leading-relaxed text-muted-foreground"><?php echo esc_html( get_theme_mod( 'julius_promo_night_text', 'NO discount & NO pick-drop service' ) ); ?></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Julius 2 Group Special -->
+                    <div class="border-t border-border bg-primary/5 px-6 md:px-8 py-5">
+                        <div class="flex flex-col md:flex-row items-start md:items-center gap-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-primary/15 flex items-center justify-center flex-shrink-0">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users w-5 h-5 text-primary">
+                                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="9" cy="7" r="4"></circle>
+                                        <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="text-foreground font-semibold text-sm"><?php echo esc_html( get_theme_mod( 'julius_promo_group_title', 'Julius Signature Spa (Julius 2)' ) ); ?></p>
+                                    <p class="text-muted-foreground text-xs mt-0.5"><?php echo esc_html( get_theme_mod( 'julius_promo_group_subtitle', 'Group Special' ) ); ?></p>
+                                </div>
+                            </div>
+                            <div class="md:ml-auto text-foreground text-sm">
+                                <span class="text-primary font-bold"><?php echo esc_html( get_theme_mod( 'julius_promo_group_offer1', 'FREE pickup' ) ); ?></span> <?php echo esc_html( get_theme_mod( 'julius_promo_group_offer1_text', 'within Da Nang for group of 4' ) ); ?> | <span class="text-primary font-bold"><?php echo esc_html( get_theme_mod( 'julius_promo_group_offer2', 'FREE 1 person' ) ); ?></span> <?php echo esc_html( get_theme_mod( 'julius_promo_group_offer2_text', 'for group of 5+ (no pickup)' ) ); ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Notes -->
+                <div class="mt-8 mb-8">
+                    <div class="flex flex-col md:flex-row flex-wrap justify-center gap-x-8 gap-y-3">
+                        <div class="flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star w-4 h-4 text-primary flex-shrink-0">
+                                <path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path>
+                            </svg>
+                            <span class="text-muted-foreground text-sm"><?php echo esc_html( get_theme_mod( 'julius_promo_note1', '5% more discount for re-visit (not for happy hour event)' ) ); ?></span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star w-4 h-4 text-primary flex-shrink-0">
+                                <path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path>
+                            </svg>
+                            <span class="text-muted-foreground text-sm"><?php echo esc_html( get_theme_mod( 'julius_promo_note2', '5% more discount if review (not for re-visit) - 1 review DC for 2-3 people' ) ); ?></span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star w-4 h-4 text-primary flex-shrink-0">
+                                <path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path>
+                            </svg>
+                            <span class="text-muted-foreground text-sm"><?php echo esc_html( get_theme_mod( 'julius_promo_note3', 'Car surcharge in case pick-drop address outside Da Nang city' ) ); ?></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Location Info -->
+                <div class="bg-card rounded-2xl border border-border shadow-sm p-6 md:p-8">
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                        <div class="flex flex-col sm:flex-row gap-6 sm:gap-10">
+                            <div class="flex items-start gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin w-5 h-5 text-primary mt-0.5 flex-shrink-0">
+                                    <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path>
+                                    <circle cx="12" cy="10" r="3"></circle>
+                                </svg>
+                                <div>
+                                    <p class="text-foreground font-bold"><?php echo esc_html( get_theme_mod( 'julius_promo_loc1_name', 'Julius 1' ) ); ?></p>
+                                    <p class="text-muted-foreground text-sm"><?php echo esc_html( get_theme_mod( 'julius_promo_loc1_address', '05 An Thuong 38, Da Nang' ) ); ?></p>
+                                    <div class="flex items-center gap-1.5 mt-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone w-3.5 h-3.5 text-primary">
+                                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                                        </svg>
+                                        <a href="tel:<?php echo esc_attr( get_theme_mod( 'julius_promo_loc1_phone', '0775509057' ) ); ?>" class="text-primary text-sm font-medium hover:underline"><?php echo esc_html( get_theme_mod( 'julius_promo_loc1_phone_display', '0775 509 057' ) ); ?></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin w-5 h-5 text-primary mt-0.5 flex-shrink-0">
+                                    <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path>
+                                    <circle cx="12" cy="10" r="3"></circle>
+                                </svg>
+                                <div>
+                                    <p class="text-foreground font-bold"><?php echo esc_html( get_theme_mod( 'julius_promo_loc2_name', 'Julius 2' ) ); ?></p>
+                                    <p class="text-muted-foreground text-sm"><?php echo esc_html( get_theme_mod( 'julius_promo_loc2_address', '61 Ta My Duat, Da Nang' ) ); ?></p>
+                                    <div class="flex items-center gap-1.5 mt-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone w-3.5 h-3.5 text-primary">
+                                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                                        </svg>
+                                        <a href="tel:<?php echo esc_attr( get_theme_mod( 'julius_promo_loc2_phone', '0787509157' ) ); ?>" class="text-primary text-sm font-medium hover:underline"><?php echo esc_html( get_theme_mod( 'julius_promo_loc2_phone_display', '0787 509 157' ) ); ?></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a data-slot="button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-10 rounded-md px-6 has-[>svg]:px-4 flex-shrink-0" href="<?php echo esc_url( get_theme_mod( 'julius_promo_button_link', '/contact' ) ); ?>"><?php echo esc_html( get_theme_mod( 'julius_promo_button_text', 'Book Now' ) ); ?></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- About Us Section -->
     <section class="py-20 md:py-28 bg-background">
         <div class="container mx-auto px-4">
