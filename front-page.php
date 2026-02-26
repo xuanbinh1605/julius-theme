@@ -325,7 +325,7 @@ get_header();
                         <div class="relative p-6 md:p-8 bg-primary/5">
                             <div class="absolute -top-0 left-1/2 -translate-x-1/2 bg-red-500 text-white text-xs font-bold px-4 py-1 rounded-b-lg uppercase tracking-wider"><?php echo esc_html( get_theme_mod( 'julius_promo_happy_badge', 'Best Deal' ) ); ?></div>
                             <div class="text-center mb-4 mt-2">
-                                <div class="inline-flex items-center gap-2 bg-foreground text-background rounded-full px-4 py-2">
+                                <div class="inline-flex flex-col md:flex-row items-center gap-1 md:gap-2 bg-foreground text-background rounded-full px-4 py-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock w-4 h-4">
                                         <circle cx="12" cy="12" r="10"></circle>
                                         <polyline points="12 6 12 12 16 14"></polyline>
@@ -354,7 +354,7 @@ get_header();
                         <!-- Evening -->
                         <div class="relative p-6 md:p-8">
                             <div class="text-center mb-4 mt-2">
-                                <div class="inline-flex items-center gap-2 bg-foreground text-background rounded-full px-4 py-2">
+                                <div class="inline-flex flex-col md:flex-row items-center gap-1 md:gap-2 bg-foreground text-background rounded-full px-4 py-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock w-4 h-4">
                                         <circle cx="12" cy="12" r="10"></circle>
                                         <polyline points="12 6 12 12 16 14"></polyline>
@@ -379,7 +379,7 @@ get_header();
                         <!-- Late Night -->
                         <div class="relative p-6 md:p-8">
                             <div class="text-center mb-4 mt-2">
-                                <div class="inline-flex items-center gap-2 bg-foreground text-background rounded-full px-4 py-2">
+                                <div class="inline-flex flex-col md:flex-row items-center gap-1 md:gap-2 bg-foreground text-background rounded-full px-4 py-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock w-4 h-4">
                                         <circle cx="12" cy="12" r="10"></circle>
                                         <polyline points="12 6 12 12 16 14"></polyline>
@@ -450,8 +450,8 @@ get_header();
                 <div class="bg-card rounded-2xl border border-border shadow-sm p-6 md:p-8">
                     <div class="flex flex-col md:flex-row items-center justify-between gap-6">
                         <div class="flex flex-col sm:flex-row gap-6 sm:gap-10">
-                            <div class="flex items-start gap-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin w-5 h-5 text-primary mt-0.5 flex-shrink-0">
+                            <div class="flex flex-col sm:flex-row items-start gap-2 sm:gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin w-5 h-5 text-primary flex-shrink-0">
                                     <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path>
                                     <circle cx="12" cy="10" r="3"></circle>
                                 </svg>
@@ -466,8 +466,8 @@ get_header();
                                     </div>
                                 </div>
                             </div>
-                            <div class="flex items-start gap-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin w-5 h-5 text-primary mt-0.5 flex-shrink-0">
+                            <div class="flex flex-col sm:flex-row items-start gap-2 sm:gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin w-5 h-5 text-primary flex-shrink-0">
                                     <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path>
                                     <circle cx="12" cy="10" r="3"></circle>
                                 </svg>
