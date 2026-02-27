@@ -2232,6 +2232,16 @@ Tags: custom
         }
     }
 
+    .bg-muted-foreground\/40 {
+        background-color: var(--muted-foreground)
+    }
+
+    @supports (color: color-mix(in lab, red, red)) {
+        .bg-muted-foreground\/40 {
+            background-color:color-mix(in oklab,var(--muted-foreground)40%,transparent)
+        }
+    }
+
     .bg-popover {
         background-color: var(--popover)
     }
@@ -2982,6 +2992,10 @@ Tags: custom
 
     .text-primary {
         color: var(--primary)
+    }
+
+    .text-red-500 {
+        color: var(--color-red-500)
     }
 
     .text-primary-foreground,.text-primary-foreground\/80 {
