@@ -627,6 +627,10 @@ Tags: custom
         bottom: calc(var(--spacing)*0)
     }
 
+    .bottom-2 {
+        bottom: calc(var(--spacing)*2)
+    }
+
     .bottom-3 {
         bottom: calc(var(--spacing)*3)
     }
@@ -972,6 +976,10 @@ Tags: custom
 
     .aspect-video {
         aspect-ratio: var(--aspect-video)
+    }
+
+    .aspect-\[4\/3\] {
+        aspect-ratio: 4 / 3
     }
 
     .size-\(--cell-size\) {
@@ -3225,6 +3233,12 @@ Tags: custom
     .drop-shadow-md {
         --tw-drop-shadow-size: drop-shadow(0 3px 3px var(--tw-drop-shadow-color,#0000001f));
         --tw-drop-shadow: drop-shadow(var(--drop-shadow-md));
+        filter: var(--tw-blur,)var(--tw-brightness,)var(--tw-contrast,)var(--tw-grayscale,)var(--tw-hue-rotate,)var(--tw-invert,)var(--tw-saturate,)var(--tw-sepia,)var(--tw-drop-shadow,)
+    }
+
+    .drop-shadow-lg {
+        --tw-drop-shadow-size: drop-shadow(0 4px 4px var(--tw-drop-shadow-color,#00000026));
+        --tw-drop-shadow: drop-shadow(var(--drop-shadow-lg));
         filter: var(--tw-blur,)var(--tw-brightness,)var(--tw-contrast,)var(--tw-grayscale,)var(--tw-hue-rotate,)var(--tw-invert,)var(--tw-saturate,)var(--tw-sepia,)var(--tw-drop-shadow,)
     }
 
