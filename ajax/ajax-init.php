@@ -158,7 +158,7 @@ function julius_filter_services_handler() {
         // Get featured image or placeholder
         $featured_img = get_the_post_thumbnail_url( get_the_ID(), 'full' );
         if ( ! $featured_img ) {
-            $featured_img = 'https://picsum.photos/seed/' . get_the_ID() . '/800/600';
+            $featured_img = 'https://picsum.photos/800/600?random=' . get_the_ID();
         }
         
         // Get up to 3 pricing options
@@ -265,7 +265,7 @@ function julius_search_services_handler() {
         // Get featured image or placeholder
         $featured_img = get_the_post_thumbnail_url( get_the_ID(), 'full' );
         if ( ! $featured_img ) {
-            $featured_img = 'https://picsum.photos/seed/' . get_the_ID() . '/800/600';
+            $featured_img = 'https://picsum.photos/800/600?random=' . get_the_ID();
         }
         
         // Get up to 3 pricing options

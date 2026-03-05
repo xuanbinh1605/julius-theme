@@ -110,7 +110,7 @@ if ( ! empty( $first_service ) ) {
                             // Get featured image or placeholder
                             $featured_img = get_the_post_thumbnail_url( get_the_ID(), 'full' );
                             if ( ! $featured_img ) {
-                                $featured_img = 'https://picsum.photos/seed/' . get_the_ID() . '/800/600';
+                                $featured_img = 'https://picsum.photos/800/600?random=' . get_the_ID();
                             }
                             
                             // Get up to 3 pricing options
@@ -185,7 +185,7 @@ if ( ! empty( $first_service ) ) {
                             loading="lazy" 
                             decoding="async" 
                             class="object-cover" 
-                            src="https://picsum.photos/seed/julius-combo/800/600" 
+                            src="https://picsum.photos/800/600?random=combo" 
                             style="position: absolute; height: 100%; width: 100%; inset: 0px; color: transparent;"
                         >
                         <div class="absolute inset-0 bg-gradient-to-r from-black/40 to-transparent md:bg-gradient-to-t"></div>

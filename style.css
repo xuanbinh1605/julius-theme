@@ -2731,6 +2731,9 @@ Tags: custom
     .pr-10 {
         padding-right: calc(var(--spacing)*10)
     }
+    .pl-10 {
+        padding-left: calc(var(--spacing) * 10);
+    }
 
     .pb-3 {
         padding-bottom: calc(var(--spacing)*3)
@@ -5323,6 +5326,10 @@ Tags: custom
 
         .md\:h-\[500px\] {
             height: 500px
+        }
+
+        .md\:h-auto {
+            height: auto
         }
 
         .md\:w-8 {
