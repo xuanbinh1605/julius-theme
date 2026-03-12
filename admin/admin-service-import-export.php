@@ -115,16 +115,17 @@ function julius_service_import_export_page() {
         <!-- Import Section -->
         <div class="card" style="max-width: 800px; margin-top: 20px;">
             <h2><?php _e( 'Import Services', 'julius-theme' ); ?></h2>
-            <p><?php _e( 'Import services from a JSON file. This will create new services or update existing ones based on the service title.', 'julius-theme' ); ?></p>
+            <p><?php _e( 'Import services from a JSON or CSV file. This will create new services or update existing ones based on the service title.', 'julius-theme' ); ?></p>
             
             <form method="post" action="" enctype="multipart/form-data">
                 <?php wp_nonce_field( 'julius_import_services_nonce' ); ?>
                 
                 <p>
                     <label for="import_file">
-                        <strong><?php _e( 'Choose JSON File:', 'julius-theme' ); ?></strong>
+                        <strong><?php _e( 'Choose File:', 'julius-theme' ); ?></strong>
                     </label><br>
-                    <input type="file" id="import_file" name="import_file" accept=".json" required>
+                    <input type="file" id="import_file" name="import_file" accept=".json,.csv" required>
+                    <br><span class="description"><?php _e( 'Accepts JSON (full data) or CSV (spreadsheet) files', 'julius-theme' ); ?></span>
                 </p>
                 
                 <p>
@@ -391,7 +392,7 @@ function julius_export_services_csv() {
 }
 
 /**
- * Import Services from JSON
+ * Import Services - Router function
  */
 function julius_import_services() {
     // Check if file was uploaded
@@ -405,6 +406,28 @@ function julius_import_services() {
         return;
     }
     
+    // Detect file type
+    $filename = $_FILES['import_file']['name'];
+    $extension = strtolower( pathinfo( $filename, PATHINFO_EXTENSION ) );
+    
+    if ( $extension === 'csv' ) {
+        julius_import_services_csv();
+    } elseif ( $extension === 'json' ) {
+        julius_import_services_json();
+    } else {
+        add_settings_error(
+            'julius_import',
+            'format_error',
+            __( 'Unsupported file format. Please upload a JSON or CSV file.', 'julius-theme' ),
+            'error'
+        );
+    }
+}
+
+/**
+ * Import Services from JSON
+ */
+function julius_import_services_json() {
     // Get import options
     $update_existing = isset( $_POST['import_update_existing'] );
     $download_images = isset( $_POST['import_download_images'] );
@@ -552,6 +575,226 @@ function julius_import_services() {
     // Show success message
     $message = sprintf(
         __( 'Import completed! Imported: %d, Updated: %d, Skipped: %d', 'julius-theme' ),
+        $imported,
+        $updated,
+        $skipped
+    );
+    add_settings_error( 'julius_import', 'import_success', $message, 'success' );
+}
+
+/**
+ * Import Services from CSV
+ */
+function julius_import_services_csv() {
+    // Get import options
+    $update_existing = isset( $_POST['import_update_existing'] );
+    $download_images = isset( $_POST['import_download_images'] );
+    
+    // Open and read CSV file
+    $file_handle = fopen( $_FILES['import_file']['tmp_name'], 'r' );
+    
+    if ( ! $file_handle ) {
+        add_settings_error(
+            'julius_import',
+            'file_error',
+            __( 'Error reading CSV file. Please try again.', 'julius-theme' ),
+            'error'
+        );
+        return;
+    }
+    
+    // Read header row
+    $headers = fgetcsv( $file_handle );
+    
+    if ( ! $headers ) {
+        add_settings_error(
+            'julius_import',
+            'format_error',
+            __( 'Invalid CSV file. No headers found.', 'julius-theme' ),
+            'error'
+        );
+        fclose( $file_handle );
+        return;
+    }
+    
+    // Normalize headers (lowercase, trim)
+    $headers = array_map( function( $header ) {
+        return strtolower( trim( $header ) );
+    }, $headers );
+    
+    // Import services
+    $imported = 0;
+    $updated = 0;
+    $skipped = 0;
+    $row_number = 1;
+    
+    while ( ( $row = fgetcsv( $file_handle ) ) !== false ) {
+        $row_number++;
+        
+        // Skip empty rows
+        if ( empty( array_filter( $row ) ) ) {
+            continue;
+        }
+        
+        // Create associative array from row data
+        $data = array();
+        foreach ( $headers as $index => $header ) {
+            $data[ $header ] = isset( $row[ $index ] ) ? $row[ $index ] : '';
+        }
+        
+        // Validate required fields
+        if ( empty( $data['title'] ) ) {
+            $skipped++;
+            continue;
+        }
+        
+        // Check if service exists
+        $existing_post = get_page_by_title( $data['title'], OBJECT, 'service' );
+        
+        if ( $existing_post && ! $update_existing ) {
+            $skipped++;
+            continue;
+        }
+        
+        // Prepare post data
+        $post_data = array(
+            'post_title'   => $data['title'],
+            'post_content' => isset( $data['content'] ) ? $data['content'] : '',
+            'post_excerpt' => isset( $data['excerpt'] ) ? $data['excerpt'] : '',
+            'post_status'  => isset( $data['status'] ) && ! empty( $data['status'] ) ? $data['status'] : 'publish',
+            'post_type'    => 'service',
+        );
+        
+        if ( ! empty( $data['slug'] ) ) {
+            $post_data['post_name'] = $data['slug'];
+        }
+        
+        // Insert or update post
+        if ( $existing_post ) {
+            $post_data['ID'] = $existing_post->ID;
+            $post_id = wp_update_post( $post_data );
+            if ( $post_id ) {
+                $updated++;
+            }
+        } else {
+            $post_id = wp_insert_post( $post_data );
+            if ( $post_id ) {
+                $imported++;
+            }
+        }
+        
+        if ( ! $post_id || is_wp_error( $post_id ) ) {
+            $skipped++;
+            continue;
+        }
+        
+        // Import categories
+        if ( ! empty( $data['categories'] ) ) {
+            $categories = array_map( 'trim', explode( ',', $data['categories'] ) );
+            $term_ids = array();
+            
+            foreach ( $categories as $category_name ) {
+                if ( empty( $category_name ) ) {
+                    continue;
+                }
+                
+                // Try to find existing category
+                $term = get_term_by( 'name', $category_name, 'service_category' );
+                
+                if ( ! $term ) {
+                    // Create new category
+                    $term = wp_insert_term( $category_name, 'service_category' );
+                }
+                
+                if ( ! is_wp_error( $term ) ) {
+                    $term_ids[] = is_array( $term ) ? $term['term_id'] : $term->term_id;
+                }
+            }
+            
+            if ( ! empty( $term_ids ) ) {
+                wp_set_post_terms( $post_id, $term_ids, 'service_category' );
+            }
+        }
+        
+        // Import featured image
+        if ( $download_images && ! empty( $data['featured image url'] ) ) {
+            $image_url = $data['featured image url'];
+            $attachment_id = julius_import_featured_image( $image_url, $post_id );
+            if ( $attachment_id ) {
+                set_post_thumbnail( $post_id, $attachment_id );
+            }
+        }
+        
+        // Import meta fields
+        if ( ! empty( $data['featured'] ) ) {
+            $is_featured = ( strtolower( $data['featured'] ) === 'yes' || $data['featured'] === '1' ) ? '1' : '';
+            if ( $is_featured ) {
+                update_post_meta( $post_id, '_julius_service_featured', '1' );
+            }
+        }
+        
+        if ( ! empty( $data['duration'] ) ) {
+            update_post_meta( $post_id, '_julius_service_duration', $data['duration'] );
+        }
+        
+        if ( ! empty( $data['phone'] ) ) {
+            update_post_meta( $post_id, '_julius_service_phone', $data['phone'] );
+        }
+        
+        if ( ! empty( $data['service included'] ) ) {
+            update_post_meta( $post_id, '_julius_service_included', $data['service included'] );
+        }
+        
+        if ( ! empty( $data['note'] ) ) {
+            update_post_meta( $post_id, '_julius_service_note', $data['note'] );
+        }
+        
+        // Parse pricing options from pipe-separated string
+        if ( ! empty( $data['pricing options'] ) ) {
+            $pricing_options = array();
+            $options = explode( '|', $data['pricing options'] );
+            
+            foreach ( $options as $option ) {
+                // Format: "Option Name (60 min): $25"
+                if ( preg_match( '/^(.+?)\s*\((\d+)\s*min\):\s*(.+)$/', trim( $option ), $matches ) ) {
+                    $pricing_options[] = array(
+                        'name'  => trim( $matches[1] ),
+                        'time'  => intval( $matches[2] ),
+                        'price' => trim( $matches[3] ),
+                    );
+                }
+            }
+            
+            if ( ! empty( $pricing_options ) ) {
+                update_post_meta( $post_id, '_julius_pricing_options', $pricing_options );
+            }
+        }
+        
+        // Parse benefits from pipe-separated string
+        if ( ! empty( $data['benefits'] ) ) {
+            $benefits = array_map( 'trim', explode( '|', $data['benefits'] ) );
+            $benefits = array_filter( $benefits );
+            if ( ! empty( $benefits ) ) {
+                update_post_meta( $post_id, '_julius_service_benefits', $benefits );
+            }
+        }
+        
+        // Parse what's included from pipe-separated string
+        if ( ! empty( $data['what\'s included'] ) || ! empty( $data['whats included'] ) ) {
+            $included_str = ! empty( $data['what\'s included'] ) ? $data['what\'s included'] : $data['whats included'];
+            $included = array_map( 'trim', explode( '|', $included_str ) );
+            $included = array_filter( $included );
+            if ( ! empty( $included ) ) {
+                update_post_meta( $post_id, '_julius_service_whats_included', $included );
+            }
+        }
+    }
+    
+    fclose( $file_handle );
+    
+    // Show success message
+    $message = sprintf(
+        __( 'CSV Import completed! Imported: %d, Updated: %d, Skipped: %d', 'julius-theme' ),
         $imported,
         $updated,
         $skipped
