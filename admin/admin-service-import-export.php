@@ -53,6 +53,43 @@ function julius_handle_export_before_headers() {
 add_action( 'admin_init', 'julius_handle_export_before_headers' );
 
 /**
+ * Handle Import Before Headers (process early, store results, redirect)
+ */
+function julius_handle_import_before_headers() {
+    // Check if we're on the right page
+    if ( ! isset( $_GET['page'] ) || $_GET['page'] !== 'service-import-export' ) {
+        return;
+    }
+    
+    // Check if import button was clicked
+    if ( ! isset( $_POST['import_services'] ) ) {
+        return;
+    }
+    
+    // Verify nonce
+    if ( ! check_admin_referer( 'julius_import_services_nonce' ) ) {
+        return;
+    }
+    
+    if ( ! current_user_can( 'manage_options' ) ) {
+        return;
+    }
+    
+    error_log( 'Julius Import: admin_init handler triggered' );
+    
+    // Run import and get results
+    $result = julius_import_services();
+    
+    // Store results in transient (expires in 60 seconds)
+    set_transient( 'julius_import_result_' . get_current_user_id(), $result, 60 );
+    
+    // Redirect back to prevent form resubmission
+    wp_safe_redirect( admin_url( 'edit.php?post_type=service&page=service-import-export&imported=1' ) );
+    exit;
+}
+add_action( 'admin_init', 'julius_handle_import_before_headers' );
+
+/**
  * Render Import/Export Page
  */
 function julius_service_import_export_page() {
@@ -61,29 +98,10 @@ function julius_service_import_export_page() {
         wp_die( __( 'You do not have sufficient permissions to access this page.', 'julius-theme' ) );
     }
     
-    $import_attempted = false;
-    
-    // Handle import
-    if ( isset( $_POST['import_services'] ) ) {
-        $import_attempted = true;
-        
-        // Add prominent diagnostic marker
-        error_log( '==================== JULIUS IMPORT STARTED ====================' );
-        error_log( 'Timestamp: ' . date( 'Y-m-d H:i:s' ) );
-        error_log( 'Request URI: ' . $_SERVER['REQUEST_URI'] );
-        error_log( 'Form submitted: import_services button clicked' );
-        
-        // Verify nonce
-        if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'julius_import_services_nonce' ) ) {
-            add_settings_error(
-                'julius_import',
-                'nonce_error',
-                __( 'Security check failed. Please try again.', 'julius-theme' ),
-                'error'
-            );
-        } else {
-            julius_import_services();
-        }
+    // Check for import results from transient
+    $import_result = get_transient( 'julius_import_result_' . get_current_user_id() );
+    if ( $import_result ) {
+        delete_transient( 'julius_import_result_' . get_current_user_id() );
     }
     
     // Get service count
@@ -92,32 +110,19 @@ function julius_service_import_export_page() {
     <div class="wrap">
         <h1><?php _e( 'Import/Export Services', 'julius-theme' ); ?></h1>
         
-        <?php 
-        // DIAGNOSTIC: Show if this file was loaded correctly
-        if ( $import_attempted ) {
-            echo '<div class="notice notice-warning inline" style="margin: 15px 0; padding: 15px; border-left: 4px solid #ffb900; background: #fffbea;">';
-            echo '<h3 style="margin-top: 0;">🔍 DIAGNOSTIC MODE - Import Attempt Detected</h3>';
-            echo '<p><strong>This file is loaded correctly and the import button was clicked.</strong></p>';
-            echo '<p>Checking execution flow...</p>';
-            echo '</div>';
-        }
-        
-        // Display any messages
-        settings_errors( 'julius_import' );
-        
-        // Debug info
-        if ( $import_attempted ) {
-            echo '<div class="notice notice-info inline" style="margin: 15px 0; padding: 10px;"><p><strong>Debug Info:</strong></p>';
-            echo '<p>✓ Import button was clicked</p>';
-            echo '<p>POST keys: ' . implode( ', ', array_keys( $_POST ) ) . '</p>';
-            echo '<p>FILES keys: ' . implode( ', ', array_keys( $_FILES ) ) . '</p>';
-            if ( isset( $_FILES['import_file'] ) ) {
-                echo '<p>File name: ' . esc_html( $_FILES['import_file']['name'] ) . '</p>';
-                echo '<p>File size: ' . esc_html( $_FILES['import_file']['size'] ) . ' bytes</p>';
-                echo '<p>File type: ' . esc_html( $_FILES['import_file']['type'] ) . '</p>';
-                echo '<p>Upload error code: ' . esc_html( $_FILES['import_file']['error'] ) . '</p>';
-            } else {
-                echo '<p style="color: red;">✗ No file data in $_FILES</p>';
+        <?php
+        // Display import results
+        if ( $import_result ) {
+            $type = $import_result['success'] ? 'success' : 'error';
+            echo '<div class="notice notice-' . $type . ' inline" style="margin: 15px 0; padding: 15px;">';
+            echo '<p><strong>' . esc_html( $import_result['message'] ) . '</strong></p>';
+            
+            if ( ! empty( $import_result['log'] ) ) {
+                echo '<ul style="margin: 10px 0; padding-left: 20px;">';
+                foreach ( $import_result['log'] as $log_entry ) {
+                    echo '<li>' . wp_kses_post( $log_entry ) . '</li>';
+                }
+                echo '</ul>';
             }
             echo '</div>';
         }
@@ -479,19 +484,16 @@ function julius_export_services_csv() {
  * Import Services - Router function
  */
 function julius_import_services() {
-    // Debug: Check if we got here
     error_log( 'Julius Import: Starting import process' );
     
     // Check if file was uploaded
     if ( ! isset( $_FILES['import_file'] ) ) {
-        add_settings_error(
-            'julius_import',
-            'no_file',
-            __( 'No file was uploaded. Please select a file.', 'julius-theme' ),
-            'error'
-        );
         error_log( 'Julius Import: No file in $_FILES' );
-        return;
+        return array(
+            'success' => false,
+            'message' => 'No file was uploaded. Please select a file.',
+            'log'     => array(),
+        );
     }
     
     if ( $_FILES['import_file']['error'] !== UPLOAD_ERR_OK ) {
@@ -508,14 +510,12 @@ function julius_import_services() {
         $error_code = $_FILES['import_file']['error'];
         $error_message = isset( $error_messages[ $error_code ] ) ? $error_messages[ $error_code ] : 'Unknown upload error';
         
-        add_settings_error(
-            'julius_import',
-            'file_error',
-            sprintf( __( 'Error uploading file: %s', 'julius-theme' ), $error_message ),
-            'error'
-        );
         error_log( 'Julius Import: Upload error - ' . $error_message );
-        return;
+        return array(
+            'success' => false,
+            'message' => 'Error uploading file: ' . $error_message,
+            'log'     => array(),
+        );
     }
     
     // Detect file type
@@ -526,18 +526,17 @@ function julius_import_services() {
     
     if ( $extension === 'csv' ) {
         error_log( 'Julius Import: Routing to CSV import' );
-        julius_import_services_csv();
+        return julius_import_services_csv();
     } elseif ( $extension === 'json' ) {
         error_log( 'Julius Import: Routing to JSON import' );
-        julius_import_services_json();
+        return julius_import_services_json();
     } else {
-        add_settings_error(
-            'julius_import',
-            'format_error',
-            sprintf( __( 'Unsupported file format "%s". Please upload a JSON or CSV file.', 'julius-theme' ), $extension ),
-            'error'
-        );
         error_log( 'Julius Import: Unsupported format - ' . $extension );
+        return array(
+            'success' => false,
+            'message' => 'Unsupported file format "' . $extension . '". Please upload a JSON or CSV file.',
+            'log'     => array(),
+        );
     }
 }
 
@@ -558,23 +557,19 @@ function julius_import_services_json() {
     $import_data = json_decode( $json_content, true );
     
     if ( json_last_error() !== JSON_ERROR_NONE ) {
-        add_settings_error(
-            'julius_import',
-            'json_error',
-            __( 'Invalid JSON file. Please check the file format.', 'julius-theme' ),
-            'error'
+        return array(
+            'success' => false,
+            'message' => 'Invalid JSON file. Please check the file format.',
+            'log'     => array(),
         );
-        return;
     }
     
     if ( ! isset( $import_data['services'] ) || ! is_array( $import_data['services'] ) ) {
-        add_settings_error(
-            'julius_import',
-            'format_error',
-            __( 'Invalid file format. Missing services data.', 'julius-theme' ),
-            'error'
+        return array(
+            'success' => false,
+            'message' => 'Invalid file format. Missing services data.',
+            'log'     => array(),
         );
-        return;
     }
     
     // Import services
@@ -702,24 +697,21 @@ function julius_import_services_json() {
         }
     }
     
-    // Show success message
+    // Return success result
     $message = sprintf(
-        __( 'JSON Import completed! Imported: %d, Updated: %d, Skipped: %d', 'julius-theme' ),
+        'JSON Import completed! Imported: %d, Updated: %d, Skipped: %d',
         $imported,
         $updated,
         $skipped
     );
     
-    // Add detailed log
-    if ( ! empty( $import_log ) ) {
-        $message .= '<br><br><strong>Details:</strong><ul style="margin: 10px 0; padding-left: 20px;">';
-        foreach ( $import_log as $log_entry ) {
-            $message .= '<li>' . $log_entry . '</li>';
-        }
-        $message .= '</ul>';
-    }
+    error_log( 'Julius Import: ' . $message );
     
-    add_settings_error( 'julius_import', 'import_success', $message, 'success' );
+    return array(
+        'success' => true,
+        'message' => $message,
+        'log'     => $import_log,
+    );
 }
 
 /**
@@ -735,35 +727,39 @@ function julius_import_services_csv() {
     error_log( 'Julius Import: Update existing = ' . ( $update_existing ? 'yes' : 'no' ) );
     
     // Open and read CSV file
-    error_log( 'Julius Import: Attempting to open file: ' . $_FILES['import_file']['tmp_name'] );
-    $file_handle = fopen( $_FILES['import_file']['tmp_name'], 'r' );
+    $file_path = $_FILES['import_file']['tmp_name'];
+    error_log( 'Julius Import: Opening file: ' . $file_path );
+    
+    $file_handle = fopen( $file_path, 'r' );
     
     if ( ! $file_handle ) {
         error_log( 'Julius Import: ERROR - Failed to open CSV file' );
-        add_settings_error(
-            'julius_import',
-            'file_error',
-            __( 'Error reading CSV file. Please try again.', 'julius-theme' ),
-            'error'
+        return array(
+            'success' => false,
+            'message' => 'Error reading CSV file. Please try again.',
+            'log'     => array(),
         );
-        return;
     }
     
     error_log( 'Julius Import: File opened successfully' );
     
+    // Skip BOM if present
+    $bom = fread( $file_handle, 3 );
+    if ( $bom !== "\xEF\xBB\xBF" ) {
+        rewind( $file_handle );
+    }
+    
     // Read header row
     $headers = fgetcsv( $file_handle );
-    error_log( 'Julius Import: Headers read: ' . ( $headers ? implode( ', ', $headers ) : 'NULL' ) );
+    error_log( 'Julius Import: Headers: ' . ( $headers ? implode( ', ', $headers ) : 'NULL' ) );
     
     if ( ! $headers ) {
-        add_settings_error(
-            'julius_import',
-            'format_error',
-            __( 'Invalid CSV file. No headers found.', 'julius-theme' ),
-            'error'
-        );
         fclose( $file_handle );
-        return;
+        return array(
+            'success' => false,
+            'message' => 'Invalid CSV file. No headers found.',
+            'log'     => array(),
+        );
     }
     
     // Normalize headers (lowercase, trim)
@@ -956,26 +952,21 @@ function julius_import_services_csv() {
     
     fclose( $file_handle );
     
-    error_log( sprintf( 'Julius Import: Completed - Imported: %d, Updated: %d, Skipped: %d, Total rows: %d', $imported, $updated, $skipped, $row_number - 1 ) );
-    
-    // Show success message
+    // Return success result
     $message = sprintf(
-        __( 'CSV Import completed! Imported: %d, Updated: %d, Skipped: %d', 'julius-theme' ),
+        'CSV Import completed! Imported: %d, Updated: %d, Skipped: %d',
         $imported,
         $updated,
         $skipped
     );
     
-    // Add detailed log
-    if ( ! empty( $import_log ) ) {
-        $message .= '<br><br><strong>Details:</strong><ul style="margin: 10px 0; padding-left: 20px;">';
-        foreach ( $import_log as $log_entry ) {
-            $message .= '<li>' . $log_entry . '</li>';
-        }
-        $message .= '</ul>';
-    }
+    error_log( 'Julius Import: ' . $message );
     
-    add_settings_error( 'julius_import', 'import_success', $message, 'success' );
+    return array(
+        'success' => true,
+        'message' => $message,
+        'log'     => $import_log,
+    );
 }
 
 /**
