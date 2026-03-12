@@ -67,6 +67,12 @@ function julius_service_import_export_page() {
     if ( isset( $_POST['import_services'] ) ) {
         $import_attempted = true;
         
+        // Add prominent diagnostic marker
+        error_log( '==================== JULIUS IMPORT STARTED ====================' );
+        error_log( 'Timestamp: ' . date( 'Y-m-d H:i:s' ) );
+        error_log( 'Request URI: ' . $_SERVER['REQUEST_URI'] );
+        error_log( 'Form submitted: import_services button clicked' );
+        
         // Verify nonce
         if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'julius_import_services_nonce' ) ) {
             add_settings_error(
@@ -87,6 +93,15 @@ function julius_service_import_export_page() {
         <h1><?php _e( 'Import/Export Services', 'julius-theme' ); ?></h1>
         
         <?php 
+        // DIAGNOSTIC: Show if this file was loaded correctly
+        if ( $import_attempted ) {
+            echo '<div class="notice notice-warning inline" style="margin: 15px 0; padding: 15px; border-left: 4px solid #ffb900; background: #fffbea;">';
+            echo '<h3 style="margin-top: 0;">🔍 DIAGNOSTIC MODE - Import Attempt Detected</h3>';
+            echo '<p><strong>This file is loaded correctly and the import button was clicked.</strong></p>';
+            echo '<p>Checking execution flow...</p>';
+            echo '</div>';
+        }
+        
         // Display any messages
         settings_errors( 'julius_import' );
         
