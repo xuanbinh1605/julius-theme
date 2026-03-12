@@ -82,6 +82,19 @@ function julius_service_import_export_page() {
     <div class="wrap">
         <h1><?php _e( 'Import/Export Services', 'julius-theme' ); ?></h1>
         
+        <?php
+        // Debug info - remove this after testing
+        if ( isset( $_POST['import_services'] ) ) {
+            echo '<div class="notice notice-warning inline"><p><strong>Debug:</strong> Import button was clicked.</p>';
+            echo '<pre>POST data: ' . print_r( array_keys( $_POST ), true ) . '</pre>';
+            echo '<pre>FILES data: ' . print_r( array_keys( $_FILES ), true ) . '</pre>';
+            if ( isset( $_FILES['import_file'] ) ) {
+                echo '<pre>File info: ' . print_r( $_FILES['import_file'], true ) . '</pre>';
+            }
+            echo '</div>';
+        }
+        ?>
+        
         <!-- Export Section -->
         <div class="card" style="max-width: 800px; margin-top: 20px;">
             <h2><?php _e( 'Export Services', 'julius-theme' ); ?></h2>
@@ -127,7 +140,16 @@ function julius_service_import_export_page() {
             <h2><?php _e( 'Import Services', 'julius-theme' ); ?></h2>
             <p><?php _e( 'Import services from a JSON or CSV file. This will create new services or update existing ones based on the service title.', 'julius-theme' ); ?></p>
             
-            <form method="post" action="" enctype="multipart/form-data">
+            <?php
+            // Show server upload limits
+            $upload_max = ini_get( 'upload_max_filesize' );
+            $post_max = ini_get( 'post_max_size' );
+            ?>
+            <div class="notice notice-info inline" style="margin: 10px 0; padding: 10px;">
+                <p><strong>Server Upload Limits:</strong> Max file size: <?php echo $upload_max; ?> | Max post size: <?php echo $post_max; ?></p>
+            </div>
+            
+            <form method="post" action="" enctype="multipart/form-data" id="import-form">
                 <?php wp_nonce_field( 'julius_import_services_nonce' ); ?>
                 
                 <p>
@@ -152,10 +174,34 @@ function julius_service_import_export_page() {
                     </label>
                 </p>
                 
-                <button type="submit" name="import_services" class="button button-primary">
+                <p id="import-status" style="display: none; color: #0073aa; font-weight: bold;">
+                    <span class="spinner is-active" style="float: none; margin: 0 5px 0 0;"></span>
+                    Importing services... Please wait.
+                </p>
+                
+                <button type="submit" name="import_services" id="import-button" class="button button-primary">
                     <?php _e( 'Import Services', 'julius-theme' ); ?>
                 </button>
             </form>
+            
+            <script>
+            jQuery(document).ready(function($) {
+                $('#import-form').on('submit', function(e) {
+                    var fileInput = $('#import_file')[0];
+                    if (!fileInput.files || !fileInput.files[0]) {
+                        alert('Please select a file to import.');
+                        e.preventDefault();
+                        return false;
+                    }
+                    
+                    console.log('Form submitting with file:', fileInput.files[0].name);
+                    console.log('File size:', fileInput.files[0].size, 'bytes');
+                    
+                    $('#import-status').show();
+                    $('#import-button').prop('disabled', true);
+                });
+            });
+            </script>
         </div>
     </div>
     <?php
