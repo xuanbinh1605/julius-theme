@@ -398,7 +398,7 @@ function julius_export_services_csv() {
         'Note',
     );
     
-    fputcsv( $output, $headers );
+    fputcsv( $output, $headers, ',', '"', '' );
     
     // Export each service
     foreach ( $services as $service ) {
@@ -473,7 +473,7 @@ function julius_export_services_csv() {
             $note,
         );
         
-        fputcsv( $output, $row );
+        fputcsv( $output, $row, ',', '"', '' );
     }
     
     fclose( $output );
@@ -747,13 +747,27 @@ function julius_import_services_csv() {
     $bom = fread( $file_handle, 3 );
     if ( $bom !== "\xEF\xBB\xBF" ) {
         rewind( $file_handle );
-        error_log( 'Julius Import: No BOM found, rewound file' );
-    } else {
-        error_log( 'Julius Import: BOM detected and skipped' );
     }
     
+    // Auto-detect delimiter by reading the first line
+    $first_line = fgets( $file_handle );
+    rewind( $file_handle );
+    
+    // Skip BOM again after rewind
+    $bom = fread( $file_handle, 3 );
+    if ( $bom !== "\xEF\xBB\xBF" ) {
+        rewind( $file_handle );
+    }
+    
+    // Detect: if tabs are present and more than commas, it's tab-separated
+    $tab_count = substr_count( $first_line, "\t" );
+    $comma_count = substr_count( $first_line, "," );
+    $separator = ( $tab_count > $comma_count ) ? "\t" : ",";
+    
+    error_log( 'Julius Import: Detected delimiter: ' . ( $separator === "\t" ? 'TAB' : 'COMMA' ) . " (tabs: $tab_count, commas: $comma_count)" );
+    
     // Read header row
-    $headers = fgetcsv( $file_handle );
+    $headers = fgetcsv( $file_handle, 0, $separator, '"', '' );
     error_log( 'Julius Import: Raw headers: ' . ( $headers ? json_encode( $headers ) : 'NULL' ) );
     error_log( 'Julius Import: Header count: ' . ( $headers ? count( $headers ) : 0 ) );
     
@@ -782,7 +796,7 @@ function julius_import_services_csv() {
     
     error_log( 'Julius Import: Starting to process rows' );
     
-    while ( ( $row = fgetcsv( $file_handle ) ) !== false ) {
+    while ( ( $row = fgetcsv( $file_handle, 0, $separator, '"', '' ) ) !== false ) {
         $row_number++;
         
         error_log( sprintf( 'Julius Import: Processing row %d', $row_number ) );
@@ -800,10 +814,7 @@ function julius_import_services_csv() {
         
         // Log first row data for debugging
         if ( $row_number === 2 ) {
-            error_log( 'Julius Import: First data row raw: ' . json_encode( $row ) );
-            error_log( 'Julius Import: First data row parsed: ' . json_encode( $data ) );
-            error_log( 'Julius Import: Title value = "' . ( isset( $data['title'] ) ? $data['title'] : 'KEY NOT FOUND' ) . '"' );
-            error_log( 'Julius Import: All keys: ' . implode( ', ', array_keys( $data ) ) );
+            error_log( 'Julius Import: First row title = "' . ( isset( $data['title'] ) ? $data['title'] : 'KEY NOT FOUND' ) . '"' );
         }
         
         // Validate required fields
