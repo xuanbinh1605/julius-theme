@@ -61,8 +61,12 @@ function julius_service_import_export_page() {
         wp_die( __( 'You do not have sufficient permissions to access this page.', 'julius-theme' ) );
     }
     
+    $import_attempted = false;
+    
     // Handle import
     if ( isset( $_POST['import_services'] ) ) {
+        $import_attempted = true;
+        
         // Verify nonce
         if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'julius_import_services_nonce' ) ) {
             add_settings_error(
@@ -82,14 +86,23 @@ function julius_service_import_export_page() {
     <div class="wrap">
         <h1><?php _e( 'Import/Export Services', 'julius-theme' ); ?></h1>
         
-        <?php
-        // Debug info - remove this after testing
-        if ( isset( $_POST['import_services'] ) ) {
-            echo '<div class="notice notice-warning inline"><p><strong>Debug:</strong> Import button was clicked.</p>';
-            echo '<pre>POST data: ' . print_r( array_keys( $_POST ), true ) . '</pre>';
-            echo '<pre>FILES data: ' . print_r( array_keys( $_FILES ), true ) . '</pre>';
+        <?php 
+        // Display any messages
+        settings_errors( 'julius_import' );
+        
+        // Debug info
+        if ( $import_attempted ) {
+            echo '<div class="notice notice-info inline" style="margin: 15px 0; padding: 10px;"><p><strong>Debug Info:</strong></p>';
+            echo '<p>✓ Import button was clicked</p>';
+            echo '<p>POST keys: ' . implode( ', ', array_keys( $_POST ) ) . '</p>';
+            echo '<p>FILES keys: ' . implode( ', ', array_keys( $_FILES ) ) . '</p>';
             if ( isset( $_FILES['import_file'] ) ) {
-                echo '<pre>File info: ' . print_r( $_FILES['import_file'], true ) . '</pre>';
+                echo '<p>File name: ' . esc_html( $_FILES['import_file']['name'] ) . '</p>';
+                echo '<p>File size: ' . esc_html( $_FILES['import_file']['size'] ) . ' bytes</p>';
+                echo '<p>File type: ' . esc_html( $_FILES['import_file']['type'] ) . '</p>';
+                echo '<p>Upload error code: ' . esc_html( $_FILES['import_file']['error'] ) . '</p>';
+            } else {
+                echo '<p style="color: red;">✗ No file data in $_FILES</p>';
             }
             echo '</div>';
         }
@@ -970,11 +983,3 @@ function julius_import_featured_image( $image_url, $post_id ) {
     
     return $attachment_id;
 }
-
-/**
- * Display admin notices
- */
-function julius_import_export_admin_notices() {
-    settings_errors( 'julius_import' );
-}
-add_action( 'admin_notices', 'julius_import_export_admin_notices' );
