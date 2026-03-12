@@ -747,11 +747,15 @@ function julius_import_services_csv() {
     $bom = fread( $file_handle, 3 );
     if ( $bom !== "\xEF\xBB\xBF" ) {
         rewind( $file_handle );
+        error_log( 'Julius Import: No BOM found, rewound file' );
+    } else {
+        error_log( 'Julius Import: BOM detected and skipped' );
     }
     
     // Read header row
     $headers = fgetcsv( $file_handle );
-    error_log( 'Julius Import: Headers: ' . ( $headers ? implode( ', ', $headers ) : 'NULL' ) );
+    error_log( 'Julius Import: Raw headers: ' . ( $headers ? json_encode( $headers ) : 'NULL' ) );
+    error_log( 'Julius Import: Header count: ' . ( $headers ? count( $headers ) : 0 ) );
     
     if ( ! $headers ) {
         fclose( $file_handle );
@@ -792,6 +796,14 @@ function julius_import_services_csv() {
         $data = array();
         foreach ( $headers as $index => $header ) {
             $data[ $header ] = isset( $row[ $index ] ) ? $row[ $index ] : '';
+        }
+        
+        // Log first row data for debugging
+        if ( $row_number === 2 ) {
+            error_log( 'Julius Import: First data row raw: ' . json_encode( $row ) );
+            error_log( 'Julius Import: First data row parsed: ' . json_encode( $data ) );
+            error_log( 'Julius Import: Title value = "' . ( isset( $data['title'] ) ? $data['title'] : 'KEY NOT FOUND' ) . '"' );
+            error_log( 'Julius Import: All keys: ' . implode( ', ', array_keys( $data ) ) );
         }
         
         // Validate required fields
