@@ -89,3 +89,10 @@ if ( file_exists( get_template_directory() . '/admin/admin-our-space.php' ) ) {
 if ( file_exists( get_template_directory() . '/admin/admin-blog-samples.php' ) ) {
     require_once get_template_directory() . '/admin/admin-blog-samples.php';
 }
+
+/**
+ * Include Service Import/Export
+ */
+if ( file_exists( get_template_directory() . '/admin/admin-service-import-export.php' ) ) {
+    require_once get_template_directory() . '/admin/admin-service-import-export.php';
+}
