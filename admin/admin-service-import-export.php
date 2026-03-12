@@ -54,10 +54,22 @@ function julius_service_import_export_page() {
         <!-- Export Section -->
         <div class="card" style="max-width: 800px; margin-top: 20px;">
             <h2><?php _e( 'Export Services', 'julius-theme' ); ?></h2>
-            <p><?php printf( __( 'Export all services (%d total) to a JSON file. This includes all service content, meta fields, categories, and featured images.', 'julius-theme' ), $service_count ); ?></p>
+            <p><?php printf( __( 'Export all services (%d total). Choose between JSON (with all data) or CSV format (simplified for spreadsheets).', 'julius-theme' ), $service_count ); ?></p>
             
             <form method="post" action="">
                 <?php wp_nonce_field( 'julius_export_services_nonce' ); ?>
+                
+                <p>
+                    <label><strong><?php _e( 'Export Format:', 'julius-theme' ); ?></strong></label><br>
+                    <label>
+                        <input type="radio" name="export_format" value="json" checked>
+                        <?php _e( 'JSON (Full data, includes arrays)', 'julius-theme' ); ?>
+                    </label><br>
+                    <label>
+                        <input type="radio" name="export_format" value="csv">
+                        <?php _e( 'CSV (Spreadsheet compatible, flattened data)', 'julius-theme' ); ?>
+                    </label>
+                </p>
                 
                 <p>
                     <label>
@@ -118,9 +130,22 @@ function julius_service_import_export_page() {
 }
 
 /**
- * Export Services to JSON
+ * Export Services - Router function
  */
 function julius_export_services() {
+    $format = isset( $_POST['export_format'] ) ? $_POST['export_format'] : 'json';
+    
+    if ( $format === 'csv' ) {
+        julius_export_services_csv();
+    } else {
+        julius_export_services_json();
+    }
+}
+
+/**
+ * Export Services to JSON
+ */
+function julius_export_services_json() {
     // Get export options
     $include_drafts = isset( $_POST['export_include_drafts'] );
     $include_images = isset( $_POST['export_include_images'] );
@@ -195,6 +220,142 @@ function julius_export_services() {
     
     // Output JSON
     echo json_encode( $export_data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE );
+    exit;
+}
+
+/**
+ * Export Services to CSV
+ */
+function julius_export_services_csv() {
+    // Get export options
+    $include_drafts = isset( $_POST['export_include_drafts'] );
+    $include_images = isset( $_POST['export_include_images'] );
+    
+    // Query arguments
+    $args = array(
+        'post_type'      => 'service',
+        'posts_per_page' => -1,
+        'post_status'    => $include_drafts ? array( 'publish', 'draft', 'pending' ) : 'publish',
+        'orderby'        => 'title',
+        'order'          => 'ASC',
+    );
+    
+    $services = get_posts( $args );
+    
+    // Generate filename
+    $filename = 'julius-services-export-' . date( 'Y-m-d-H-i-s' ) . '.csv';
+    
+    // Set headers for download
+    header( 'Content-Type: text/csv; charset=utf-8' );
+    header( 'Content-Disposition: attachment; filename="' . $filename . '"' );
+    header( 'Cache-Control: no-cache, must-revalidate' );
+    header( 'Expires: 0' );
+    
+    // Create file pointer to output stream
+    $output = fopen( 'php://output', 'w' );
+    
+    // Add BOM for UTF-8 Excel compatibility
+    fprintf( $output, chr(0xEF).chr(0xBB).chr(0xBF) );
+    
+    // CSV Headers
+    $headers = array(
+        'ID',
+        'Title',
+        'Slug',
+        'Status',
+        'Excerpt',
+        'Content',
+        'Categories',
+        'Featured Image URL',
+        'Featured',
+        'Duration',
+        'Phone',
+        'Service Included',
+        'Pricing Options',
+        'Benefits',
+        'What\'s Included',
+        'Note',
+    );
+    
+    fputcsv( $output, $headers );
+    
+    // Export each service
+    foreach ( $services as $service ) {
+        // Get categories
+        $categories = wp_get_post_terms( $service->ID, 'service_category' );
+        $category_names = array();
+        foreach ( $categories as $category ) {
+            $category_names[] = $category->name;
+        }
+        $categories_string = implode( ', ', $category_names );
+        
+        // Get featured image
+        $featured_image = '';
+        if ( $include_images && has_post_thumbnail( $service->ID ) ) {
+            $featured_image = get_the_post_thumbnail_url( $service->ID, 'full' );
+        }
+        
+        // Get meta fields
+        $featured = get_post_meta( $service->ID, '_julius_service_featured', true );
+        $duration = get_post_meta( $service->ID, '_julius_service_duration', true );
+        $phone = get_post_meta( $service->ID, '_julius_service_phone', true );
+        $included = get_post_meta( $service->ID, '_julius_service_included', true );
+        $note = get_post_meta( $service->ID, '_julius_service_note', true );
+        
+        // Get pricing options (convert to readable string)
+        $pricing_options = get_post_meta( $service->ID, '_julius_pricing_options', true );
+        $pricing_string = '';
+        if ( is_array( $pricing_options ) && ! empty( $pricing_options ) ) {
+            $pricing_parts = array();
+            foreach ( $pricing_options as $option ) {
+                $pricing_parts[] = sprintf(
+                    '%s (%s min): %s',
+                    $option['name'],
+                    $option['time'],
+                    $option['price']
+                );
+            }
+            $pricing_string = implode( ' | ', $pricing_parts );
+        }
+        
+        // Get benefits (convert to readable string)
+        $benefits = get_post_meta( $service->ID, '_julius_service_benefits', true );
+        $benefits_string = '';
+        if ( is_array( $benefits ) && ! empty( $benefits ) ) {
+            $benefits_string = implode( ' | ', $benefits );
+        }
+        
+        // Get what's included (convert to readable string)
+        $whats_included = get_post_meta( $service->ID, '_julius_service_whats_included', true );
+        $whats_included_string = '';
+        if ( is_array( $whats_included ) && ! empty( $whats_included ) ) {
+            $whats_included_string = implode( ' | ', $whats_included );
+        }
+        
+        // Prepare row data
+        $row = array(
+            $service->ID,
+            $service->post_title,
+            $service->post_name,
+            $service->post_status,
+            $service->post_excerpt,
+            strip_tags( $service->post_content ),
+            $categories_string,
+            $featured_image,
+            $featured ? 'Yes' : 'No',
+            $duration,
+            $phone,
+            $included,
+            $pricing_string,
+            $benefits_string,
+            $whats_included_string,
+            $note,
+        );
+        
+        fputcsv( $output, $row );
+    }
+    
+    fclose( $output );
     exit;
 }
 
