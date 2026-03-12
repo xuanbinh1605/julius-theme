@@ -62,8 +62,18 @@ function julius_service_import_export_page() {
     }
     
     // Handle import
-    if ( isset( $_POST['import_services'] ) && check_admin_referer( 'julius_import_services_nonce' ) ) {
-        julius_import_services();
+    if ( isset( $_POST['import_services'] ) ) {
+        // Verify nonce
+        if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'julius_import_services_nonce' ) ) {
+            add_settings_error(
+                'julius_import',
+                'nonce_error',
+                __( 'Security check failed. Please try again.', 'julius-theme' ),
+                'error'
+            );
+        } else {
+            julius_import_services();
+        }
     }
     
     // Get service count
@@ -395,14 +405,42 @@ function julius_export_services_csv() {
  * Import Services - Router function
  */
 function julius_import_services() {
+    // Debug: Check if we got here
+    error_log( 'Julius Import: Starting import process' );
+    
     // Check if file was uploaded
-    if ( ! isset( $_FILES['import_file'] ) || $_FILES['import_file']['error'] !== UPLOAD_ERR_OK ) {
+    if ( ! isset( $_FILES['import_file'] ) ) {
+        add_settings_error(
+            'julius_import',
+            'no_file',
+            __( 'No file was uploaded. Please select a file.', 'julius-theme' ),
+            'error'
+        );
+        error_log( 'Julius Import: No file in $_FILES' );
+        return;
+    }
+    
+    if ( $_FILES['import_file']['error'] !== UPLOAD_ERR_OK ) {
+        $error_messages = array(
+            UPLOAD_ERR_INI_SIZE   => 'File is too large (exceeds server limit)',
+            UPLOAD_ERR_FORM_SIZE  => 'File is too large',
+            UPLOAD_ERR_PARTIAL    => 'File was only partially uploaded',
+            UPLOAD_ERR_NO_FILE    => 'No file was uploaded',
+            UPLOAD_ERR_NO_TMP_DIR => 'Missing temporary folder',
+            UPLOAD_ERR_CANT_WRITE => 'Failed to write file to disk',
+            UPLOAD_ERR_EXTENSION  => 'File upload stopped by extension',
+        );
+        
+        $error_code = $_FILES['import_file']['error'];
+        $error_message = isset( $error_messages[ $error_code ] ) ? $error_messages[ $error_code ] : 'Unknown upload error';
+        
         add_settings_error(
             'julius_import',
             'file_error',
-            __( 'Error uploading file. Please try again.', 'julius-theme' ),
+            sprintf( __( 'Error uploading file: %s', 'julius-theme' ), $error_message ),
             'error'
         );
+        error_log( 'Julius Import: Upload error - ' . $error_message );
         return;
     }
     
@@ -410,17 +448,22 @@ function julius_import_services() {
     $filename = $_FILES['import_file']['name'];
     $extension = strtolower( pathinfo( $filename, PATHINFO_EXTENSION ) );
     
+    error_log( 'Julius Import: File = ' . $filename . ', Extension = ' . $extension );
+    
     if ( $extension === 'csv' ) {
+        error_log( 'Julius Import: Routing to CSV import' );
         julius_import_services_csv();
     } elseif ( $extension === 'json' ) {
+        error_log( 'Julius Import: Routing to JSON import' );
         julius_import_services_json();
     } else {
         add_settings_error(
             'julius_import',
             'format_error',
-            __( 'Unsupported file format. Please upload a JSON or CSV file.', 'julius-theme' ),
+            sprintf( __( 'Unsupported file format "%s". Please upload a JSON or CSV file.', 'julius-theme' ), $extension ),
             'error'
         );
+        error_log( 'Julius Import: Unsupported format - ' . $extension );
     }
 }
 
@@ -428,9 +471,13 @@ function julius_import_services() {
  * Import Services from JSON
  */
 function julius_import_services_json() {
+    error_log( 'Julius Import: Starting JSON import' );
+    
     // Get import options
     $update_existing = isset( $_POST['import_update_existing'] );
     $download_images = isset( $_POST['import_download_images'] );
+    
+    error_log( 'Julius Import: Update existing = ' . ( $update_existing ? 'yes' : 'no' ) );
     
     // Read and decode JSON
     $json_content = file_get_contents( $_FILES['import_file']['tmp_name'] );
@@ -605,9 +652,13 @@ function julius_import_services_json() {
  * Import Services from CSV
  */
 function julius_import_services_csv() {
+    error_log( 'Julius Import: Starting CSV import' );
+    
     // Get import options
     $update_existing = isset( $_POST['import_update_existing'] );
     $download_images = isset( $_POST['import_download_images'] );
+    
+    error_log( 'Julius Import: Update existing = ' . ( $update_existing ? 'yes' : 'no' ) );
     
     // Open and read CSV file
     $file_handle = fopen( $_FILES['import_file']['tmp_name'], 'r' );
