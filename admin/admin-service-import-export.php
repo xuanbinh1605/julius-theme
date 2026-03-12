@@ -26,18 +26,39 @@ function julius_service_import_export_menu() {
 add_action( 'admin_menu', 'julius_service_import_export_menu' );
 
 /**
+ * Handle Export Before Headers
+ */
+function julius_handle_export_before_headers() {
+    // Check if we're on the export page and export button was clicked
+    if ( ! isset( $_GET['page'] ) || $_GET['page'] !== 'service-import-export' ) {
+        return;
+    }
+    
+    if ( ! isset( $_POST['export_services'] ) ) {
+        return;
+    }
+    
+    if ( ! check_admin_referer( 'julius_export_services_nonce' ) ) {
+        return;
+    }
+    
+    if ( ! current_user_can( 'manage_options' ) ) {
+        return;
+    }
+    
+    // Handle export immediately before any output
+    julius_export_services();
+    exit;
+}
+add_action( 'admin_init', 'julius_handle_export_before_headers' );
+
+/**
  * Render Import/Export Page
  */
 function julius_service_import_export_page() {
     // Check user capabilities
     if ( ! current_user_can( 'manage_options' ) ) {
         wp_die( __( 'You do not have sufficient permissions to access this page.', 'julius-theme' ) );
-    }
-    
-    // Handle export
-    if ( isset( $_POST['export_services'] ) && check_admin_referer( 'julius_export_services_nonce' ) ) {
-        julius_export_services();
-        return;
     }
     
     // Handle import
@@ -146,6 +167,11 @@ function julius_export_services() {
  * Export Services to JSON
  */
 function julius_export_services_json() {
+    // Clean output buffer
+    if ( ob_get_level() ) {
+        ob_end_clean();
+    }
+    
     // Get export options
     $include_drafts = isset( $_POST['export_include_drafts'] );
     $include_images = isset( $_POST['export_include_images'] );
@@ -227,6 +253,11 @@ function julius_export_services_json() {
  * Export Services to CSV
  */
 function julius_export_services_csv() {
+    // Clean output buffer
+    if ( ob_get_level() ) {
+        ob_end_clean();
+    }
+    
     // Get export options
     $include_drafts = isset( $_POST['export_include_drafts'] );
     $include_images = isset( $_POST['export_include_images'] );
