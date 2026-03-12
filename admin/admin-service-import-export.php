@@ -460,19 +460,23 @@ function julius_import_services_json() {
     $imported = 0;
     $updated = 0;
     $skipped = 0;
+    $import_log = array();
     
     foreach ( $import_data['services'] as $service_data ) {
+        $service_title = $service_data['title'];
+        
         // Check if service exists
-        $existing_post = get_page_by_title( $service_data['title'], OBJECT, 'service' );
+        $existing_post = get_page_by_title( $service_title, OBJECT, 'service' );
         
         if ( $existing_post && ! $update_existing ) {
             $skipped++;
+            $import_log[] = sprintf( '⊘ <strong>%s</strong> - Skipped (already exists)', esc_html( $service_title ) );
             continue;
         }
         
         // Prepare post data
         $post_data = array(
-            'post_title'   => $service_data['title'],
+            'post_title'   => $service_title,
             'post_content' => $service_data['content'],
             'post_excerpt' => $service_data['excerpt'],
             'post_status'  => isset( $service_data['status'] ) ? $service_data['status'] : 'publish',
@@ -489,15 +493,20 @@ function julius_import_services_json() {
             $post_id = wp_update_post( $post_data );
             if ( $post_id ) {
                 $updated++;
+                $import_log[] = sprintf( '↻ <strong>%s</strong> - Updated', esc_html( $service_title ) );
             }
         } else {
             $post_id = wp_insert_post( $post_data );
             if ( $post_id ) {
                 $imported++;
+                $import_log[] = sprintf( '✓ <strong>%s</strong> - Imported', esc_html( $service_title ) );
             }
         }
         
         if ( ! $post_id || is_wp_error( $post_id ) ) {
+            $skipped++;
+            $error_message = is_wp_error( $post_id ) ? $post_id->get_error_message() : 'Unknown error';
+            $import_log[] = sprintf( '✗ <strong>%s</strong> - Failed (%s)', esc_html( $service_title ), esc_html( $error_message ) );
             continue;
         }
         
@@ -574,11 +583,21 @@ function julius_import_services_json() {
     
     // Show success message
     $message = sprintf(
-        __( 'Import completed! Imported: %d, Updated: %d, Skipped: %d', 'julius-theme' ),
+        __( 'JSON Import completed! Imported: %d, Updated: %d, Skipped: %d', 'julius-theme' ),
         $imported,
         $updated,
         $skipped
     );
+    
+    // Add detailed log
+    if ( ! empty( $import_log ) ) {
+        $message .= '<br><br><strong>Details:</strong><ul style="margin: 10px 0; padding-left: 20px;">';
+        foreach ( $import_log as $log_entry ) {
+            $message .= '<li>' . $log_entry . '</li>';
+        }
+        $message .= '</ul>';
+    }
+    
     add_settings_error( 'julius_import', 'import_success', $message, 'success' );
 }
 
@@ -626,6 +645,7 @@ function julius_import_services_csv() {
     $imported = 0;
     $updated = 0;
     $skipped = 0;
+    $import_log = array();
     $row_number = 1;
     
     while ( ( $row = fgetcsv( $file_handle ) ) !== false ) {
@@ -645,20 +665,24 @@ function julius_import_services_csv() {
         // Validate required fields
         if ( empty( $data['title'] ) ) {
             $skipped++;
+            $import_log[] = sprintf( '⊘ Row %d - Skipped (no title)', $row_number );
             continue;
         }
         
+        $service_title = $data['title'];
+        
         // Check if service exists
-        $existing_post = get_page_by_title( $data['title'], OBJECT, 'service' );
+        $existing_post = get_page_by_title( $service_title, OBJECT, 'service' );
         
         if ( $existing_post && ! $update_existing ) {
             $skipped++;
+            $import_log[] = sprintf( '⊘ <strong>%s</strong> - Skipped (already exists)', esc_html( $service_title ) );
             continue;
         }
         
         // Prepare post data
         $post_data = array(
-            'post_title'   => $data['title'],
+            'post_title'   => $service_title,
             'post_content' => isset( $data['content'] ) ? $data['content'] : '',
             'post_excerpt' => isset( $data['excerpt'] ) ? $data['excerpt'] : '',
             'post_status'  => isset( $data['status'] ) && ! empty( $data['status'] ) ? $data['status'] : 'publish',
@@ -675,16 +699,20 @@ function julius_import_services_csv() {
             $post_id = wp_update_post( $post_data );
             if ( $post_id ) {
                 $updated++;
+                $import_log[] = sprintf( '↻ <strong>%s</strong> - Updated (Row %d)', esc_html( $service_title ), $row_number );
             }
         } else {
             $post_id = wp_insert_post( $post_data );
             if ( $post_id ) {
                 $imported++;
+                $import_log[] = sprintf( '✓ <strong>%s</strong> - Imported (Row %d)', esc_html( $service_title ), $row_number );
             }
         }
         
         if ( ! $post_id || is_wp_error( $post_id ) ) {
             $skipped++;
+            $error_message = is_wp_error( $post_id ) ? $post_id->get_error_message() : 'Unknown error';
+            $import_log[] = sprintf( '✗ <strong>%s</strong> - Failed (Row %d: %s)', esc_html( $service_title ), $row_number, esc_html( $error_message ) );
             continue;
         }
         
@@ -799,6 +827,16 @@ function julius_import_services_csv() {
         $updated,
         $skipped
     );
+    
+    // Add detailed log
+    if ( ! empty( $import_log ) ) {
+        $message .= '<br><br><strong>Details:</strong><ul style="margin: 10px 0; padding-left: 20px;">';
+        foreach ( $import_log as $log_entry ) {
+            $message .= '<li>' . $log_entry . '</li>';
+        }
+        $message .= '</ul>';
+    }
+    
     add_settings_error( 'julius_import', 'import_success', $message, 'success' );
 }
 
