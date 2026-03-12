@@ -14,10 +14,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Add Service Import/Export Menu
  */
 function julius_service_import_export_menu() {
-    add_submenu_page(
-        'edit.php?post_type=service',
+    add_management_page(
         __( 'Import/Export Services', 'julius-theme' ),
-        __( 'Import/Export', 'julius-theme' ),
+        __( 'Import/Export Services', 'julius-theme' ),
         'manage_options',
         'service-import-export',
         'julius_service_import_export_page'
@@ -84,7 +83,7 @@ function julius_handle_import_before_headers() {
     set_transient( 'julius_import_result_' . get_current_user_id(), $result, 60 );
     
     // Redirect back to prevent form resubmission
-    wp_safe_redirect( admin_url( 'edit.php?post_type=service&page=service-import-export&imported=1' ) );
+    wp_safe_redirect( admin_url( 'tools.php?page=service-import-export&imported=1' ) );
     exit;
 }
 add_action( 'admin_init', 'julius_handle_import_before_headers' );
