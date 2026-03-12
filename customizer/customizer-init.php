@@ -33,30 +33,146 @@ function julius_customize_register( $wp_customize ) {
         'mime_type' => 'image',
     ) ) );
     
-    // Phone Number
-    $wp_customize->add_setting( 'julius_phone_number', array(
-        'default'           => '+84 123 456 789',
+    // ===================================
+    // Location 1
+    // ===================================
+    $wp_customize->add_setting( 'julius_loc1_heading', array(
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( new WP_Customize_Control( $wp_customize, 'julius_loc1_heading', array(
+        'label'       => __( '── Location 1 ──', 'julius-theme' ),
+        'description' => __( 'First branch details', 'julius-theme' ),
+        'section'     => 'julius_general_settings',
+        'type'        => 'hidden',
+    ) ) );
+
+    $wp_customize->add_setting( 'julius_loc1_name', array(
+        'default'           => 'Julius 1',
         'sanitize_callback' => 'sanitize_text_field',
         'transport'         => 'refresh',
     ) );
-    
-    $wp_customize->add_control( 'julius_phone_number', array(
-        'label'    => __( 'Phone Number', 'julius-theme' ),
-        'section'  => 'julius_general_settings',
-        'type'     => 'text',
+    $wp_customize->add_control( 'julius_loc1_name', array(
+        'label'   => __( 'Location 1 Name', 'julius-theme' ),
+        'section' => 'julius_general_settings',
+        'type'    => 'text',
     ) );
-    
-    // Address
-    $wp_customize->add_setting( 'julius_address', array(
-        'default'           => 'Phan Boi Street, Da Nang, Vietnam',
+
+    $wp_customize->add_setting( 'julius_loc1_address', array(
+        'default'           => '05 An Thuong 38, Da Nang',
         'sanitize_callback' => 'sanitize_text_field',
         'transport'         => 'refresh',
     ) );
-    
-    $wp_customize->add_control( 'julius_address', array(
-        'label'    => __( 'Address', 'julius-theme' ),
-        'section'  => 'julius_general_settings',
-        'type'     => 'text',
+    $wp_customize->add_control( 'julius_loc1_address', array(
+        'label'   => __( 'Location 1 Address', 'julius-theme' ),
+        'section' => 'julius_general_settings',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'julius_loc1_phone', array(
+        'default'           => '0775509057',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+    $wp_customize->add_control( 'julius_loc1_phone', array(
+        'label'       => __( 'Location 1 Phone (for tel: link)', 'julius-theme' ),
+        'description' => __( 'No spaces or special characters', 'julius-theme' ),
+        'section'     => 'julius_general_settings',
+        'type'        => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'julius_loc1_phone_display', array(
+        'default'           => '0775 509 057',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+    $wp_customize->add_control( 'julius_loc1_phone_display', array(
+        'label'       => __( 'Location 1 Phone Display', 'julius-theme' ),
+        'description' => __( 'How the phone number appears on the site', 'julius-theme' ),
+        'section'     => 'julius_general_settings',
+        'type'        => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'julius_loc1_map_embed', array(
+        'default'           => '',
+        'sanitize_callback' => 'esc_url_raw',
+        'transport'         => 'refresh',
+    ) );
+    $wp_customize->add_control( 'julius_loc1_map_embed', array(
+        'label'       => __( 'Location 1 Google Maps Embed URL', 'julius-theme' ),
+        'description' => __( 'Paste the Google Maps embed URL for this branch', 'julius-theme' ),
+        'section'     => 'julius_general_settings',
+        'type'        => 'url',
+    ) );
+
+    // ===================================
+    // Location 2
+    // ===================================
+    $wp_customize->add_setting( 'julius_loc2_heading', array(
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( new WP_Customize_Control( $wp_customize, 'julius_loc2_heading', array(
+        'label'       => __( '── Location 2 ──', 'julius-theme' ),
+        'description' => __( 'Second branch details', 'julius-theme' ),
+        'section'     => 'julius_general_settings',
+        'type'        => 'hidden',
+    ) ) );
+
+    $wp_customize->add_setting( 'julius_loc2_name', array(
+        'default'           => 'Julius 2',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+    $wp_customize->add_control( 'julius_loc2_name', array(
+        'label'   => __( 'Location 2 Name', 'julius-theme' ),
+        'section' => 'julius_general_settings',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'julius_loc2_address', array(
+        'default'           => '61 Ta My Duat, Da Nang',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+    $wp_customize->add_control( 'julius_loc2_address', array(
+        'label'   => __( 'Location 2 Address', 'julius-theme' ),
+        'section' => 'julius_general_settings',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'julius_loc2_phone', array(
+        'default'           => '0787509157',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+    $wp_customize->add_control( 'julius_loc2_phone', array(
+        'label'       => __( 'Location 2 Phone (for tel: link)', 'julius-theme' ),
+        'description' => __( 'No spaces or special characters', 'julius-theme' ),
+        'section'     => 'julius_general_settings',
+        'type'        => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'julius_loc2_phone_display', array(
+        'default'           => '0787 509 157',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+    $wp_customize->add_control( 'julius_loc2_phone_display', array(
+        'label'       => __( 'Location 2 Phone Display', 'julius-theme' ),
+        'description' => __( 'How the phone number appears on the site', 'julius-theme' ),
+        'section'     => 'julius_general_settings',
+        'type'        => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'julius_loc2_map_embed', array(
+        'default'           => '',
+        'sanitize_callback' => 'esc_url_raw',
+        'transport'         => 'refresh',
+    ) );
+    $wp_customize->add_control( 'julius_loc2_map_embed', array(
+        'label'       => __( 'Location 2 Google Maps Embed URL', 'julius-theme' ),
+        'description' => __( 'Paste the Google Maps embed URL for this branch', 'julius-theme' ),
+        'section'     => 'julius_general_settings',
+        'type'        => 'url',
     ) );
     
     // Opening Hours

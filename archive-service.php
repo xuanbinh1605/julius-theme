@@ -252,6 +252,16 @@ if ( ! empty( $first_service ) ) {
             </div>
             
             <!-- Location Cards -->
+            <?php
+            $loc1_name    = get_theme_mod( 'julius_loc1_name', 'Julius 1' );
+            $loc1_address = get_theme_mod( 'julius_loc1_address', '05 An Thuong 38, Da Nang' );
+            $loc1_phone   = get_theme_mod( 'julius_loc1_phone', '0775509057' );
+            $loc1_display = get_theme_mod( 'julius_loc1_phone_display', '0775 509 057' );
+            $loc2_name    = get_theme_mod( 'julius_loc2_name', 'Julius 2' );
+            $loc2_address = get_theme_mod( 'julius_loc2_address', '61 Ta My Duat, Da Nang' );
+            $loc2_phone   = get_theme_mod( 'julius_loc2_phone', '0787509157' );
+            $loc2_display = get_theme_mod( 'julius_loc2_phone_display', '0787 509 157' );
+            ?>
             <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="bg-card border border-border rounded-xl p-4">
                     <div class="flex items-start gap-3">
@@ -262,9 +272,9 @@ if ( ! empty( $first_service ) ) {
                             </svg>
                         </div>
                         <div>
-                            <h4 class="font-bold text-foreground">Julius 1</h4>
-                            <p class="text-muted-foreground text-sm">5 An Thuong 38, Da Nang</p>
-                            <a href="tel:0775509057" class="text-primary text-sm font-medium hover:underline">Tel: 0775 509 057</a>
+                            <h4 class="font-bold text-foreground"><?php echo esc_html( $loc1_name ); ?></h4>
+                            <p class="text-muted-foreground text-sm"><?php echo esc_html( $loc1_address ); ?></p>
+                            <a href="tel:<?php echo esc_attr( $loc1_phone ); ?>" class="text-primary text-sm font-medium hover:underline">Tel: <?php echo esc_html( $loc1_display ); ?></a>
                         </div>
                     </div>
                 </div>
@@ -277,9 +287,9 @@ if ( ! empty( $first_service ) ) {
                             </svg>
                         </div>
                         <div>
-                            <h4 class="font-bold text-foreground">Julius 2</h4>
-                            <p class="text-muted-foreground text-sm">61 Ta My Duat, Da Nang</p>
-                            <a href="tel:0787509157" class="text-primary text-sm font-medium hover:underline">Tel: 0787 509 157</a>
+                            <h4 class="font-bold text-foreground"><?php echo esc_html( $loc2_name ); ?></h4>
+                            <p class="text-muted-foreground text-sm"><?php echo esc_html( $loc2_address ); ?></p>
+                            <a href="tel:<?php echo esc_attr( $loc2_phone ); ?>" class="text-primary text-sm font-medium hover:underline">Tel: <?php echo esc_html( $loc2_display ); ?></a>
                         </div>
                     </div>
                 </div>

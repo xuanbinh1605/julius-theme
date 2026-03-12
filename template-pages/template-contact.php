@@ -24,13 +24,21 @@ get_header();
                 
                 <div class="space-y-4">
                     <?php 
-                    $phone = get_theme_mod( 'julius_phone_number', '+84 123 456 789' );
+                    $loc1_name    = get_theme_mod( 'julius_loc1_name', 'Julius 1' );
+                    $loc1_address = get_theme_mod( 'julius_loc1_address', '05 An Thuong 38, Da Nang' );
+                    $loc1_phone   = get_theme_mod( 'julius_loc1_phone', '0775509057' );
+                    $loc1_display = get_theme_mod( 'julius_loc1_phone_display', '0775 509 057' );
+                    $loc2_name    = get_theme_mod( 'julius_loc2_name', 'Julius 2' );
+                    $loc2_address = get_theme_mod( 'julius_loc2_address', '61 Ta My Duat, Da Nang' );
+                    $loc2_phone   = get_theme_mod( 'julius_loc2_phone', '0787509157' );
+                    $loc2_display = get_theme_mod( 'julius_loc2_phone_display', '0787 509 157' );
                     $email = get_theme_mod( 'julius_email', 'info@juliusspa.com' );
-                    $address = get_theme_mod( 'julius_address', 'Phan Boi Street, Da Nang, Vietnam' );
                     $hours = get_theme_mod( 'julius_opening_hours', '9:00 AM - 10:00 PM' );
                     ?>
                     
-                    <a href="tel:<?php echo esc_attr( str_replace( ' ', '', $phone ) ); ?>" class="flex items-center gap-4 text-white hover:text-primary transition-colors group">
+                    <!-- Location 1 -->
+                    <p class="text-primary text-xs tracking-widest uppercase font-semibold"><?php echo esc_html( $loc1_name ); ?></p>
+                    <a href="tel:<?php echo esc_attr( $loc1_phone ); ?>" class="flex items-center gap-4 text-white hover:text-primary transition-colors group">
                         <div class="w-12 h-12 bg-white/10 group-hover:bg-primary/20 rounded-full flex items-center justify-center transition-colors">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone w-5 h-5">
                                 <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
@@ -38,10 +46,55 @@ get_header();
                         </div>
                         <div>
                             <p class="text-sm text-white/60">Call Us</p>
-                            <p class="font-medium"><?php echo esc_html( $phone ); ?></p>
+                            <p class="font-medium"><?php echo esc_html( $loc1_display ); ?></p>
                         </div>
                     </a>
+                    <div class="flex items-center gap-4 text-white">
+                        <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin w-5 h-5">
+                                <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path>
+                                <circle cx="12" cy="10" r="3"></circle>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-sm text-white/60">Address</p>
+                            <p class="font-medium"><?php echo esc_html( $loc1_address ); ?></p>
+                        </div>
+                    </div>
                     
+                    <!-- Divider -->
+                    <div class="border-t border-white/20 my-2"></div>
+                    
+                    <!-- Location 2 -->
+                    <p class="text-primary text-xs tracking-widest uppercase font-semibold"><?php echo esc_html( $loc2_name ); ?></p>
+                    <a href="tel:<?php echo esc_attr( $loc2_phone ); ?>" class="flex items-center gap-4 text-white hover:text-primary transition-colors group">
+                        <div class="w-12 h-12 bg-white/10 group-hover:bg-primary/20 rounded-full flex items-center justify-center transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone w-5 h-5">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-sm text-white/60">Call Us</p>
+                            <p class="font-medium"><?php echo esc_html( $loc2_display ); ?></p>
+                        </div>
+                    </a>
+                    <div class="flex items-center gap-4 text-white">
+                        <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin w-5 h-5">
+                                <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path>
+                                <circle cx="12" cy="10" r="3"></circle>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-sm text-white/60">Address</p>
+                            <p class="font-medium"><?php echo esc_html( $loc2_address ); ?></p>
+                        </div>
+                    </div>
+                    
+                    <!-- Divider -->
+                    <div class="border-t border-white/20 my-2"></div>
+                    
+                    <!-- Shared Info -->
                     <a href="mailto:<?php echo esc_attr( $email ); ?>" class="flex items-center gap-4 text-white hover:text-primary transition-colors group">
                         <div class="w-12 h-12 bg-white/10 group-hover:bg-primary/20 rounded-full flex items-center justify-center transition-colors">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail w-5 h-5">
@@ -54,19 +107,6 @@ get_header();
                             <p class="font-medium"><?php echo esc_html( $email ); ?></p>
                         </div>
                     </a>
-                    
-                    <div class="flex items-center gap-4 text-white">
-                        <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin w-5 h-5">
-                                <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path>
-                                <circle cx="12" cy="10" r="3"></circle>
-                            </svg>
-                        </div>
-                        <div>
-                            <p class="text-sm text-white/60">Address</p>
-                            <p class="font-medium"><?php echo esc_html( $address ); ?></p>
-                        </div>
-                    </div>
                     
                     <div class="flex items-center gap-4 text-white">
                         <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center">
@@ -151,8 +191,8 @@ get_header();
                     <label for="branch" class="block text-sm font-medium text-foreground mb-2">Select Branch *</label>
                     <select id="branch" name="branch" required class="w-full h-12 px-4 rounded-md border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50">
                         <option value="">Choose a branch...</option>
-                        <option value="julius-1">Julius 1 - 5 An Thuong 38, Da Nang (0775 509 057)</option>
-                        <option value="julius-2">Julius 2 - 61 Ta My Duat, Da Nang (0787 509 157)</option>
+                        <option value="julius-1"><?php echo esc_html( get_theme_mod( 'julius_loc1_name', 'Julius 1' ) . ' - ' . get_theme_mod( 'julius_loc1_address', '05 An Thuong 38, Da Nang' ) . ' (' . get_theme_mod( 'julius_loc1_phone_display', '0775 509 057' ) . ')' ); ?></option>
+                        <option value="julius-2"><?php echo esc_html( get_theme_mod( 'julius_loc2_name', 'Julius 2' ) . ' - ' . get_theme_mod( 'julius_loc2_address', '61 Ta My Duat, Da Nang' ) . ' (' . get_theme_mod( 'julius_loc2_phone_display', '0787 509 157' ) . ')' ); ?></option>
                     </select>
                     <p class="error-message hidden"></p>
                 </div>
@@ -223,7 +263,10 @@ get_header();
                 </button>
                 
                 <p class="text-center text-sm text-muted-foreground">
-                    Or call us directly at <a href="tel:<?php echo esc_attr( str_replace( ' ', '', $phone ) ); ?>" class="text-primary hover:underline font-medium"><?php echo esc_html( $phone ); ?></a>
+                    Or call us directly at 
+                    <a href="tel:<?php echo esc_attr( get_theme_mod( 'julius_loc1_phone', '0775509057' ) ); ?>" class="text-primary hover:underline font-medium"><?php echo esc_html( get_theme_mod( 'julius_loc1_phone_display', '0775 509 057' ) ); ?></a>
+                    or
+                    <a href="tel:<?php echo esc_attr( get_theme_mod( 'julius_loc2_phone', '0787509157' ) ); ?>" class="text-primary hover:underline font-medium"><?php echo esc_html( get_theme_mod( 'julius_loc2_phone_display', '0787 509 157' ) ); ?></a>
                 </p>
             </form>
         </div>
@@ -238,12 +281,95 @@ get_header();
             <h2 class="text-3xl md:text-4xl font-bold text-foreground mb-4"><?php echo esc_html( get_theme_mod( 'julius_contact_map_title', 'Find Us Here' ) ); ?></h2>
             <p class="text-muted-foreground max-w-2xl mx-auto"><?php echo esc_html( get_theme_mod( 'julius_contact_map_description', 'Located in the heart of An Thuong area, just minutes from the beautiful beaches of Da Nang.' ) ); ?></p>
         </div>
+        
+        <?php
+        $loc1_name = get_theme_mod( 'julius_loc1_name', 'Julius 1' );
+        $loc2_name = get_theme_mod( 'julius_loc2_name', 'Julius 2' );
+        $loc1_address = get_theme_mod( 'julius_loc1_address', '05 An Thuong 38, Da Nang' );
+        $loc2_address = get_theme_mod( 'julius_loc2_address', '61 Ta My Duat, Da Nang' );
+        $map1_embed = get_theme_mod( 'julius_contact_map_embed', get_theme_mod( 'julius_loc1_map_embed', '' ) );
+        $map2_embed = get_theme_mod( 'julius_loc2_map_embed', '' );
+        ?>
+        
+        <!-- Location Tabs -->
+        <div class="flex justify-center mb-6">
+            <div class="inline-flex bg-background rounded-lg border border-border p-1 shadow-sm">
+                <button type="button" id="map-tab-1" class="julius-map-tab px-6 py-3 rounded-md text-sm font-medium transition-all bg-primary text-primary-foreground shadow-sm" data-target="map-panel-1">
+                    <span class="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
+                            <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                        <?php echo esc_html( $loc1_name ); ?>
+                    </span>
+                    <span class="block text-xs opacity-75 mt-0.5"><?php echo esc_html( $loc1_address ); ?></span>
+                </button>
+                <button type="button" id="map-tab-2" class="julius-map-tab px-6 py-3 rounded-md text-sm font-medium transition-all text-muted-foreground hover:text-foreground" data-target="map-panel-2">
+                    <span class="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
+                            <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                        <?php echo esc_html( $loc2_name ); ?>
+                    </span>
+                    <span class="block text-xs opacity-75 mt-0.5"><?php echo esc_html( $loc2_address ); ?></span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Map Panels -->
         <div class="relative h-[400px] md:h-[500px] rounded-2xl overflow-hidden border border-border shadow-lg">
-            <?php $map_embed = get_theme_mod( 'julius_contact_map_embed', 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3834.0983994977997!2d108.24!3d16.05!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTbCsDAzJzAwLjAiTiAxMDjCsDE0JzI0LjAiRQ!5e0!3m2!1sen!2s!4v1234567890' ); ?>
-            <iframe src="<?php echo esc_url( $map_embed ); ?>" width="100%" height="100%" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Julius Spa Location" style="border: 0px;"></iframe>
+            <?php if ( $map1_embed ) : ?>
+                <div id="map-panel-1" class="julius-map-panel absolute inset-0">
+                    <iframe src="<?php echo esc_url( $map1_embed ); ?>" width="100%" height="100%" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="<?php echo esc_attr( $loc1_name ); ?> Location" style="border: 0px;"></iframe>
+                </div>
+            <?php else : ?>
+                <div id="map-panel-1" class="julius-map-panel absolute inset-0 flex items-center justify-center bg-secondary">
+                    <p class="text-muted-foreground">Map embed URL not configured for <?php echo esc_html( $loc1_name ); ?></p>
+                </div>
+            <?php endif; ?>
+            
+            <?php if ( $map2_embed ) : ?>
+                <div id="map-panel-2" class="julius-map-panel absolute inset-0 hidden">
+                    <iframe src="<?php echo esc_url( $map2_embed ); ?>" width="100%" height="100%" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="<?php echo esc_attr( $loc2_name ); ?> Location" style="border: 0px;"></iframe>
+                </div>
+            <?php else : ?>
+                <div id="map-panel-2" class="julius-map-panel absolute inset-0 hidden flex items-center justify-center bg-secondary">
+                    <p class="text-muted-foreground">Map embed URL not configured for <?php echo esc_html( $loc2_name ); ?></p>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 </section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var tabs = document.querySelectorAll('.julius-map-tab');
+    var panels = document.querySelectorAll('.julius-map-panel');
+    
+    tabs.forEach(function(tab) {
+        tab.addEventListener('click', function() {
+            var targetId = this.getAttribute('data-target');
+            
+            // Reset all tabs
+            tabs.forEach(function(t) {
+                t.classList.remove('bg-primary', 'text-primary-foreground', 'shadow-sm');
+                t.classList.add('text-muted-foreground', 'hover:text-foreground');
+            });
+            
+            // Activate clicked tab
+            this.classList.add('bg-primary', 'text-primary-foreground', 'shadow-sm');
+            this.classList.remove('text-muted-foreground', 'hover:text-foreground');
+            
+            // Hide all panels, show target
+            panels.forEach(function(p) {
+                p.classList.add('hidden');
+            });
+            document.getElementById(targetId).classList.remove('hidden');
+        });
+    });
+});
+</script>
 
 <!-- CTA Section -->
 <section class="relative py-20 md:py-28">

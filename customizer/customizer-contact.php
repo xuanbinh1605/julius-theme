@@ -153,8 +153,8 @@ function julius_contact_customizer_register( $wp_customize ) {
     ) );
 
     $wp_customize->add_control( 'julius_contact_map_embed', array(
-        'label'       => __( 'Google Maps Embed URL', 'julius-theme' ),
-        'description' => __( 'Paste the full Google Maps embed URL here', 'julius-theme' ),
+        'label'       => __( 'Google Maps Embed URL (Location 1)', 'julius-theme' ),
+        'description' => __( 'Falls back to Location 1 map from General Settings if empty', 'julius-theme' ),
         'section'     => 'julius_contact_map_section',
         'type'        => 'url',
         'priority'    => 40,

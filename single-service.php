@@ -207,14 +207,14 @@ while ( have_posts() ) : the_post();
                             </div>
                             <?php endif; ?>
                             <?php 
-                            $phone = get_theme_mod( 'julius_phone_number', '+84 123 456 789' );
-                            $phone_clean = str_replace( ' ', '', $phone );
+                            $loc1_phone   = get_theme_mod( 'julius_loc1_phone', '0775509057' );
+                            $loc1_display = get_theme_mod( 'julius_loc1_phone_display', '0775 509 057' );
                             ?>
-                            <a href="tel:<?php echo esc_attr( $phone_clean ); ?>" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 border shadow-xs hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2 w-full gap-2 bg-transparent mb-4">
+                            <a href="tel:<?php echo esc_attr( $loc1_phone ); ?>" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 border shadow-xs hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2 w-full gap-2 bg-transparent mb-4">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone w-4 h-4">
                                     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
                                 </svg>
-                                Call: <?php echo esc_html( $phone ); ?>
+                                Call: <?php echo esc_html( $loc1_display ); ?>
                             </a>
                         </div>
 
@@ -265,8 +265,8 @@ while ( have_posts() ) : the_post();
                                         class="w-full h-10 px-3 rounded-md border border-border bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
                                     >
                                         <option value="">Choose branch...</option>
-                                        <option value="julius-1">Julius 1 - 5 An Thuong 38</option>
-                                        <option value="julius-2">Julius 2 - 61 Ta My Duat</option>
+                                        <option value="julius-1"><?php echo esc_html( get_theme_mod( 'julius_loc1_name', 'Julius 1' ) . ' - ' . get_theme_mod( 'julius_loc1_address', '05 An Thuong 38, Da Nang' ) ); ?></option>
+                                        <option value="julius-2"><?php echo esc_html( get_theme_mod( 'julius_loc2_name', 'Julius 2' ) . ' - ' . get_theme_mod( 'julius_loc2_address', '61 Ta My Duat, Da Nang' ) ); ?></option>
                                     </select>
                                     <p class="error-message hidden text-xs text-red-500 mt-1"></p>
                                 </div>

@@ -136,50 +136,73 @@
             <!-- Contact Info -->
             <div>
                 <h3 class="text-lg font-semibold mb-6 text-accent">Contact Us</h3>
-                <ul class="space-y-4">
-                    <?php 
-                    $address = get_theme_mod( 'julius_address', 'Phan Boi Street, Da Nang, Vietnam' );
-                    $phone = get_theme_mod( 'julius_phone_number', '+84 123 456 789' );
-                    $email = get_theme_mod( 'julius_email', 'info@juliusspa.com' );
-                    $hours = get_theme_mod( 'julius_opening_hours', '9:00 AM - 10:00 PM' );
-                    ?>
-                    
-                    <?php if ( $address ) : ?>
-                        <li class="flex items-start gap-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin w-5 h-5 text-primary mt-0.5 shrink-0">
-                                <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path>
-                                <circle cx="12" cy="10" r="3"></circle>
-                            </svg>
-                            <span class="text-background/70"><?php echo esc_html( $address ); ?></span>
-                        </li>
-                    <?php endif; ?>
-                    
-                    <?php if ( $phone ) : ?>
-                        <li class="flex items-center gap-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone w-5 h-5 text-primary shrink-0">
-                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                            </svg>
-                            <a href="tel:<?php echo esc_attr( str_replace( ' ', '', $phone ) ); ?>" class="text-background/70 hover:text-primary transition-colors"><?php echo esc_html( $phone ); ?></a>
-                        </li>
-                    <?php endif; ?>
-                    
+                <?php
+                $loc1_name    = get_theme_mod( 'julius_loc1_name', 'Julius 1' );
+                $loc1_address = get_theme_mod( 'julius_loc1_address', '05 An Thuong 38, Da Nang' );
+                $loc1_phone   = get_theme_mod( 'julius_loc1_phone', '0775509057' );
+                $loc1_display = get_theme_mod( 'julius_loc1_phone_display', '0775 509 057' );
+                $loc2_name    = get_theme_mod( 'julius_loc2_name', 'Julius 2' );
+                $loc2_address = get_theme_mod( 'julius_loc2_address', '61 Ta My Duat, Da Nang' );
+                $loc2_phone   = get_theme_mod( 'julius_loc2_phone', '0787509157' );
+                $loc2_display = get_theme_mod( 'julius_loc2_phone_display', '0787 509 157' );
+                $email        = get_theme_mod( 'julius_email', 'info@juliusspa.com' );
+                $hours        = get_theme_mod( 'julius_opening_hours', '9:00 AM - 10:00 PM' );
+                ?>
+                
+                <!-- Location 1 -->
+                <p class="text-primary font-semibold text-sm mb-2"><?php echo esc_html( $loc1_name ); ?></p>
+                <ul class="space-y-2 mb-4">
+                    <li class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin w-4 h-4 text-primary mt-0.5 shrink-0">
+                            <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                        <span class="text-background/70 text-sm"><?php echo esc_html( $loc1_address ); ?></span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone w-4 h-4 text-primary shrink-0">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                        </svg>
+                        <a href="tel:<?php echo esc_attr( $loc1_phone ); ?>" class="text-background/70 text-sm hover:text-primary transition-colors"><?php echo esc_html( $loc1_display ); ?></a>
+                    </li>
+                </ul>
+                
+                <!-- Location 2 -->
+                <p class="text-primary font-semibold text-sm mb-2"><?php echo esc_html( $loc2_name ); ?></p>
+                <ul class="space-y-2 mb-4">
+                    <li class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin w-4 h-4 text-primary mt-0.5 shrink-0">
+                            <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                        <span class="text-background/70 text-sm"><?php echo esc_html( $loc2_address ); ?></span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone w-4 h-4 text-primary shrink-0">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                        </svg>
+                        <a href="tel:<?php echo esc_attr( $loc2_phone ); ?>" class="text-background/70 text-sm hover:text-primary transition-colors"><?php echo esc_html( $loc2_display ); ?></a>
+                    </li>
+                </ul>
+                
+                <!-- Shared Info -->
+                <ul class="space-y-2">
                     <?php if ( $email ) : ?>
                         <li class="flex items-center gap-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail w-5 h-5 text-primary shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail w-4 h-4 text-primary shrink-0">
                                 <rect width="20" height="16" x="2" y="4" rx="2"></rect>
                                 <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
                             </svg>
-                            <a href="mailto:<?php echo esc_attr( $email ); ?>" class="text-background/70 hover:text-primary transition-colors"><?php echo esc_html( $email ); ?></a>
+                            <a href="mailto:<?php echo esc_attr( $email ); ?>" class="text-background/70 text-sm hover:text-primary transition-colors"><?php echo esc_html( $email ); ?></a>
                         </li>
                     <?php endif; ?>
-                    
                     <?php if ( $hours ) : ?>
                         <li class="flex items-center gap-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock w-5 h-5 text-primary shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock w-4 h-4 text-primary shrink-0">
                                 <circle cx="12" cy="12" r="10"></circle>
                                 <polyline points="12 6 12 12 16 14"></polyline>
                             </svg>
-                            <span class="text-background/70"><?php echo esc_html( $hours ); ?></span>
+                            <span class="text-background/70 text-sm"><?php echo esc_html( $hours ); ?></span>
                         </li>
                     <?php endif; ?>
                 </ul>
