@@ -183,6 +183,7 @@ function julius_service_import_export_page() {
             
             <form method="post" action="" enctype="multipart/form-data" id="import-form">
                 <?php wp_nonce_field( 'julius_import_services_nonce' ); ?>
+                <input type="hidden" name="import_services" value="1">
                 
                 <p>
                     <label for="import_file">
@@ -211,7 +212,7 @@ function julius_service_import_export_page() {
                     Importing services... Please wait.
                 </p>
                 
-                <button type="submit" name="import_services" id="import-button" class="button button-primary">
+                <button type="submit" id="import-button" class="button button-primary">
                     <?php _e( 'Import Services', 'julius-theme' ); ?>
                 </button>
             </form>
@@ -230,7 +231,7 @@ function julius_service_import_export_page() {
                     console.log('File size:', fileInput.files[0].size, 'bytes');
                     
                     $('#import-status').show();
-                    $('#import-button').prop('disabled', true);
+                    $('#import-button').val('Importing...').css('opacity', '0.6');
                 });
             });
             </script>
