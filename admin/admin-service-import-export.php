@@ -720,9 +720,11 @@ function julius_import_services_csv() {
     error_log( 'Julius Import: Update existing = ' . ( $update_existing ? 'yes' : 'no' ) );
     
     // Open and read CSV file
+    error_log( 'Julius Import: Attempting to open file: ' . $_FILES['import_file']['tmp_name'] );
     $file_handle = fopen( $_FILES['import_file']['tmp_name'], 'r' );
     
     if ( ! $file_handle ) {
+        error_log( 'Julius Import: ERROR - Failed to open CSV file' );
         add_settings_error(
             'julius_import',
             'file_error',
@@ -732,8 +734,11 @@ function julius_import_services_csv() {
         return;
     }
     
+    error_log( 'Julius Import: File opened successfully' );
+    
     // Read header row
     $headers = fgetcsv( $file_handle );
+    error_log( 'Julius Import: Headers read: ' . ( $headers ? implode( ', ', $headers ) : 'NULL' ) );
     
     if ( ! $headers ) {
         add_settings_error(
@@ -751,6 +756,8 @@ function julius_import_services_csv() {
         return strtolower( trim( $header ) );
     }, $headers );
     
+    error_log( 'Julius Import: Normalized headers: ' . implode( ', ', $headers ) );
+    
     // Import services
     $imported = 0;
     $updated = 0;
@@ -758,8 +765,12 @@ function julius_import_services_csv() {
     $import_log = array();
     $row_number = 1;
     
+    error_log( 'Julius Import: Starting to process rows' );
+    
     while ( ( $row = fgetcsv( $file_handle ) ) !== false ) {
         $row_number++;
+        
+        error_log( sprintf( 'Julius Import: Processing row %d', $row_number ) );
         
         // Skip empty rows
         if ( empty( array_filter( $row ) ) ) {
@@ -929,6 +940,8 @@ function julius_import_services_csv() {
     }
     
     fclose( $file_handle );
+    
+    error_log( sprintf( 'Julius Import: Completed - Imported: %d, Updated: %d, Skipped: %d, Total rows: %d', $imported, $updated, $skipped, $row_number - 1 ) );
     
     // Show success message
     $message = sprintf(
