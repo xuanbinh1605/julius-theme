@@ -210,14 +210,17 @@ if ( get_theme_mod( 'julius_float_icons_enable', true ) ) :
     $messenger_icon_id = get_theme_mod( 'julius_float_messenger_icon', 60 );
     $phone_icon_id = get_theme_mod( 'julius_float_phone_icon', 61 );
     $zalo_icon_id = get_theme_mod( 'julius_float_zalo_icon', 62 );
+    $kakaotalk_icon_id = get_theme_mod( 'julius_float_kakaotalk_icon', 0 );
     
     $messenger_icon_url = wp_get_attachment_image_url( $messenger_icon_id, 'thumbnail' );
     $phone_icon_url = wp_get_attachment_image_url( $phone_icon_id, 'thumbnail' );
     $zalo_icon_url = wp_get_attachment_image_url( $zalo_icon_id, 'thumbnail' );
+    $kakaotalk_icon_url = $kakaotalk_icon_id ? wp_get_attachment_image_url( $kakaotalk_icon_id, 'thumbnail' ) : '';
     
     $messenger_link = get_theme_mod( 'julius_float_messenger_link', 'https://m.me/yourusername' );
     $phone_number = get_theme_mod( 'julius_float_phone_number', '+84123456789' );
     $zalo_phone = get_theme_mod( 'julius_float_zalo_phone', '84123456789' );
+    $kakaotalk_link = get_theme_mod( 'julius_float_kakaotalk_link', '' );
     $position = get_theme_mod( 'julius_float_icons_position', 'right' );
     
     $position_class = $position === 'left' ? 'left-6' : 'right-6';
@@ -241,6 +244,13 @@ if ( get_theme_mod( 'julius_float_icons_enable', true ) ) :
     <a href="https://zalo.me/<?php echo esc_attr( $zalo_phone ); ?>" target="_blank" rel="noopener noreferrer" class="julius-float-icon group relative" aria-label="Contact via Zalo">
         <div class="julius-ripple"></div>
         <img src="<?php echo esc_url( $zalo_icon_url ); ?>" alt="Zalo" class="w-14 h-14 rounded-full object-cover shadow-lg transition-transform duration-300 group-hover:scale-110">
+    </a>
+    <?php endif; ?>
+    
+    <?php if ( $kakaotalk_icon_url && $kakaotalk_link ) : ?>
+    <a href="<?php echo esc_url( $kakaotalk_link ); ?>" target="_blank" rel="noopener noreferrer" class="julius-float-icon group relative" aria-label="Contact via KakaoTalk">
+        <div class="julius-ripple"></div>
+        <img src="<?php echo esc_url( $kakaotalk_icon_url ); ?>" alt="KakaoTalk" class="w-14 h-14 rounded-full object-cover shadow-lg transition-transform duration-300 group-hover:scale-110">
     </a>
     <?php endif; ?>
 </div>

@@ -125,6 +125,36 @@ function julius_float_icons_customizer_register( $wp_customize ) {
         'priority'    => 70,
     ) );
 
+    // KakaoTalk Icon
+    $wp_customize->add_setting( 'julius_float_kakaotalk_icon', array(
+        'default'           => 0,
+        'sanitize_callback' => 'absint',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( new WP_Customize_Media_Control( $wp_customize, 'julius_float_kakaotalk_icon', array(
+        'label'       => __( 'KakaoTalk Icon', 'julius-theme' ),
+        'description' => __( 'Upload or select the KakaoTalk icon image', 'julius-theme' ),
+        'section'     => 'julius_float_icons_section',
+        'mime_type'   => 'image',
+        'priority'    => 72,
+    ) ) );
+
+    // KakaoTalk Link
+    $wp_customize->add_setting( 'julius_float_kakaotalk_link', array(
+        'default'           => '',
+        'sanitize_callback' => 'esc_url_raw',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'julius_float_kakaotalk_link', array(
+        'label'       => __( 'KakaoTalk Link', 'julius-theme' ),
+        'description' => __( 'Enter your KakaoTalk chat URL (e.g., https://open.kakao.com/o/yourlink)', 'julius-theme' ),
+        'section'     => 'julius_float_icons_section',
+        'type'        => 'url',
+        'priority'    => 74,
+    ) );
+
     // Icon Position
     $wp_customize->add_setting( 'julius_float_icons_position', array(
         'default'           => 'right',
