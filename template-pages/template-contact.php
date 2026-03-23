@@ -570,6 +570,8 @@ document.addEventListener('DOMContentLoaded', function() {
     form.addEventListener('submit', function(e) {
         e.preventDefault();
         
+        console.log('=== CONTACT FORM SUBMIT TRIGGERED ===');
+        
         // Validate all required fields
         const isNameValid = validateName(nameInput);
         const isEmailValid = validateEmail(emailInput);
@@ -577,8 +579,17 @@ document.addEventListener('DOMContentLoaded', function() {
         const isBranchValid = validateBranch(branchSelect);
         const isServiceValid = validateService(serviceSelect);
         
+        console.log('Validation results:', {
+            name: isNameValid,
+            email: isEmailValid,
+            phone: isPhoneValid,
+            branch: isBranchValid,
+            service: isServiceValid
+        });
+        
         if (!isNameValid || !isEmailValid || !isPhoneValid || !isBranchValid || !isServiceValid) {
             showNotification('Please fix the errors before submitting', 'error');
+            console.log('Validation failed, form not submitted');
             return;
         }
         
@@ -591,24 +602,53 @@ document.addEventListener('DOMContentLoaded', function() {
         // Get form data
         const formData = new FormData(form);
         
+        // Log form data for debugging
+        console.log('Form data being sent:');
+        for (let [key, value] of formData.entries()) {
+            console.log(`  ${key}: ${value}`);
+        }
+        
+        console.log('Submitting to:', form.action);
+        
         // Submit form via AJAX
         fetch(form.action, {
             method: 'POST',
             body: formData
         })
-        .then(response => response.json())
+        .then(response => {
+            console.log('Response status:', response.status);
+            console.log('Response headers:', response.headers);
+            return response.text().then(text => {
+                console.log('Raw response:', text);
+                try {
+                    return JSON.parse(text);
+                } catch (e) {
+                    console.error('Failed to parse JSON:', e);
+                    console.error('Response text was:', text);
+                    throw new Error('Invalid JSON response: ' + text.substring(0, 100));
+                }
+            });
+        })
         .then(data => {
+            console.log('Parsed response data:', data);
             if (data.success) {
                 showNotification('Thank you! Your message has been sent successfully. We will contact you soon.', 'success');
                 form.reset();
+                console.log('Form submitted successfully');
             } else {
+                console.error('Server returned error:', data.message);
+                if (data.debug) {
+                    console.error('Debug info:', data.debug);
+                }
                 showNotification(data.message || 'Something went wrong. Please try again.', 'error');
             }
         })
         .catch(error => {
+            console.error('Fetch error:', error);
             showNotification('Error sending message. Please try calling us directly.', 'error');
         })
         .finally(() => {
+            console.log('Request completed, resetting button state');
             // Reset button state
             submitBtn.disabled = false;
             buttonText.textContent = 'Send Message';

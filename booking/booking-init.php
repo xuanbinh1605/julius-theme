@@ -48,6 +48,12 @@ add_action('wp_ajax_julius_booking_contact_submit', 'julius_booking_contact_ajax
 add_action('wp_ajax_nopriv_julius_booking_contact_submit', 'julius_booking_contact_ajax_submit');
 
 /**
+ * Register contact form admin-post handlers
+ */
+add_action('admin_post_julius_contact_form', 'julius_contact_form_handler');
+add_action('admin_post_nopriv_julius_contact_form', 'julius_contact_form_handler');
+
+/**
  * Register admin menu
  */
 add_action('admin_menu', 'julius_booking_admin_menu');
