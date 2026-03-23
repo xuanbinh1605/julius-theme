@@ -135,9 +135,11 @@ function julius_booking_send_confirmation( $booking_id ) {
     </body>
     </html>';
     
+    $from_email = get_theme_mod( 'julius_email', get_option( 'admin_email' ) );
+    
     $headers = array(
         'Content-Type: text/html; charset=UTF-8',
-        'From: ' . $site_name . ' <' . get_option( 'admin_email' ) . '>'
+        'From: ' . $site_name . ' <' . $from_email . '>'
     );
     
     return wp_mail( $booking->email, $subject, $message, $headers );
@@ -154,7 +156,7 @@ function julius_booking_send_admin_notification( $booking_id ) {
     }
     
     $site_name = get_bloginfo( 'name' );
-    $admin_email = get_option( 'admin_email' );
+    $admin_email = get_theme_mod( 'julius_email', get_option( 'admin_email' ) );
     
     // Get branch details
     $branch_name = $booking->branch === 'julius-1' ? 'Julius 1 - 5 An Thuong 38' : 'Julius 2 - 61 Ta My Duat';
