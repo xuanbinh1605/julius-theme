@@ -521,8 +521,11 @@ document.addEventListener('DOMContentLoaded', function() {
         // Get form data
         const formData = new FormData(form);
         
+        // Get the action URL properly (form.action returns the input element if there's a field named "action")
+        const actionUrl = form.getAttribute('action');
+        
         // Submit form via AJAX
-        fetch(form.action, {
+        fetch(actionUrl, {
             method: 'POST',
             body: formData
         })
@@ -535,10 +538,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.querySelectorAll('.error-border').forEach(el => el.classList.remove('error-border'));
                 document.querySelectorAll('.error-message').forEach(el => el.classList.add('hidden'));
             } else {
-                showNotification(data.data.message || 'Something went wrong. Please try again.', 'error');
+                showNotification(data.data?.message || data.message || 'Something went wrong. Please try again.', 'error');
             }
         })
         .catch(error => {
+            console.error('Booking error:', error);
             showNotification('Error submitting booking. Please try calling us directly.', 'error');
         })
         .finally(() => {
