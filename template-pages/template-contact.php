@@ -602,16 +602,19 @@ document.addEventListener('DOMContentLoaded', function() {
         // Get form data
         const formData = new FormData(form);
         
+        // Get the action URL properly (form.action returns the input element if there's a field named "action")
+        const actionUrl = form.getAttribute('action');
+        
         // Log form data for debugging
         console.log('Form data being sent:');
         for (let [key, value] of formData.entries()) {
             console.log(`  ${key}: ${value}`);
         }
         
-        console.log('Submitting to:', form.action);
+        console.log('Submitting to:', actionUrl);
         
         // Submit form via AJAX
-        fetch(form.action, {
+        fetch(actionUrl, {
             method: 'POST',
             body: formData
         })
