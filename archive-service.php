@@ -236,18 +236,22 @@ if ( ! empty( $first_service ) ) {
             <!-- Notes Section -->
             <div class="mt-10 p-4 bg-secondary/20 rounded-xl border border-border">
                 <div class="space-y-2 text-sm text-muted-foreground">
+                    <?php
+                    $note_line1 = get_theme_mod( 'julius_service_note_line1', '<strong class="text-foreground">Note:</strong> Prices exclude TIP. +50,000 VND/hour after 10PM.' );
+                    $note_line2 = get_theme_mod( 'julius_service_note_line2', '<strong class="text-foreground">TIP:</strong> 60min: 50k | 90min: 70k | 120min: 100k VND' );
+                    ?>
+                    <?php if ( $note_line1 ) : ?>
                     <p class="flex items-start gap-2">
                         <span class="text-primary">*</span>
-                        <span>Applied from <strong class="text-foreground">February 15th ~ February 22th</strong></span>
+                        <span><?php echo wp_kses_post( $note_line1 ); ?></span>
                     </p>
+                    <?php endif; ?>
+                    <?php if ( $note_line2 ) : ?>
                     <p class="flex items-start gap-2">
                         <span class="text-primary">*</span>
-                        <span>After 10PM, service charge <strong class="text-foreground">100,000 VND/hour/person</strong></span>
+                        <span><?php echo wp_kses_post( $note_line2 ); ?></span>
                     </p>
-                    <p class="flex items-start gap-2">
-                        <span class="text-primary">*</span>
-                        <span>The massage price <strong class="text-foreground">included TIP</strong>. If massage therapist request tips, please tell to manager</span>
-                    </p>
+                    <?php endif; ?>
                 </div>
             </div>
             
