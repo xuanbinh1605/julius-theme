@@ -179,59 +179,65 @@ if ( ! empty( $first_service ) ) {
             </div>
             
             <!-- Julius Special Combo Section -->
+            <?php
+            $combo_post = get_post( 113 );
+            if ( $combo_post && 'publish' === $combo_post->post_status ) :
+                $combo_title    = get_the_title( $combo_post );
+                $combo_image    = get_the_post_thumbnail_url( $combo_post, 'full' );
+                if ( ! $combo_image ) {
+                    $combo_image = 'https://picsum.photos/id/42/800/600';
+                }
+                $combo_pricing  = get_post_meta( 113, '_julius_pricing_options', true );
+                $combo_link     = get_permalink( $combo_post );
+            ?>
             <div class="mt-12 bg-secondary/30 rounded-2xl overflow-hidden">
                 <div class="grid grid-cols-1 md:grid-cols-2">
                     <div class="relative h-64 md:h-auto">
                         <img 
-                            alt="Julius Special Combo" 
+                            alt="<?php echo esc_attr( $combo_title ); ?>" 
                             loading="lazy" 
                             decoding="async" 
                             class="object-cover" 
-                            src="https://picsum.photos/id/42/800/600" 
+                            src="<?php echo esc_url( $combo_image ); ?>" 
                             style="position: absolute; height: 100%; width: 100%; inset: 0px; color: transparent;"
                         >
                         <div class="absolute inset-0 bg-gradient-to-r from-black/40 to-transparent md:bg-gradient-to-t"></div>
                     </div>
                     <div class="p-6 md:p-8">
-                        <h2 class="text-xl md:text-2xl font-bold text-foreground mb-6 tracking-wide">JULIUS SPECIAL COMBO</h2>
+                        <h2 class="text-xl md:text-2xl font-bold text-foreground mb-6 tracking-wide"><?php echo esc_html( strtoupper( $combo_title ) ); ?></h2>
+                        <?php if ( ! empty( $combo_pricing ) && is_array( $combo_pricing ) ) : ?>
                         <div class="space-y-3">
-                            <a class="flex justify-between items-center py-3 px-4 bg-card hover:bg-primary/10 rounded-lg transition-colors group border border-border" href="<?php echo esc_url( home_url( '/contact' ) ); ?>">
-                                <span class="text-foreground text-sm group-hover:text-primary transition-colors">COMBO 1: Massage 90 min + Facial 30 min</span>
+                            <?php foreach ( $combo_pricing as $combo_option ) : 
+                                $option_label = '';
+                                if ( ! empty( $combo_option['name'] ) ) {
+                                    $option_label = $combo_option['name'];
+                                    if ( ! empty( $combo_option['time'] ) ) {
+                                        $option_label .= ' (' . $combo_option['time'] . ' min)';
+                                    }
+                                } elseif ( ! empty( $combo_option['time'] ) ) {
+                                    $option_label = $combo_option['time'] . ' min';
+                                }
+                            ?>
+                            <a class="flex justify-between items-center py-3 px-4 bg-card hover:bg-primary/10 rounded-lg transition-colors group border border-border" href="<?php echo esc_url( $combo_link ); ?>">
+                                <span class="text-foreground text-sm group-hover:text-primary transition-colors"><?php echo esc_html( $option_label ); ?></span>
                                 <span class="text-primary font-bold text-sm flex items-center gap-2">
-                                    800,000
+                                    <?php echo esc_html( $combo_option['price'] ?? '' ); ?>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity">
                                         <path d="M5 12h14"></path>
                                         <path d="m12 5 7 7-7 7"></path>
                                     </svg>
                                 </span>
                             </a>
-                            <a class="flex justify-between items-center py-3 px-4 bg-card hover:bg-primary/10 rounded-lg transition-colors group border border-border" href="<?php echo esc_url( home_url( '/contact' ) ); ?>">
-                                <span class="text-foreground text-sm group-hover:text-primary transition-colors">COMBO 2: Massage 90 min + Shampoo 30 min</span>
-                                <span class="text-primary font-bold text-sm flex items-center gap-2">
-                                    800,000
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                                        <path d="M5 12h14"></path>
-                                        <path d="m12 5 7 7-7 7"></path>
-                                    </svg>
-                                </span>
-                            </a>
-                            <a class="flex justify-between items-center py-3 px-4 bg-card hover:bg-primary/10 rounded-lg transition-colors group border border-border" href="<?php echo esc_url( home_url( '/contact' ) ); ?>">
-                                <span class="text-foreground text-sm group-hover:text-primary transition-colors">COMBO 3: Facial Care + Healing Shampoo</span>
-                                <span class="text-primary font-bold text-sm flex items-center gap-2">
-                                    750,000
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                                        <path d="M5 12h14"></path>
-                                        <path d="m12 5 7 7-7 7"></path>
-                                    </svg>
-                                </span>
-                            </a>
+                            <?php endforeach; ?>
                         </div>
-                        <a href="<?php echo esc_url( home_url( '/contact' ) ); ?>" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 w-full mt-6">
+                        <?php endif; ?>
+                        <a href="<?php echo esc_url( $combo_link ); ?>" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 w-full mt-6">
                             Book a Combo Package
                         </a>
                     </div>
                 </div>
             </div>
+            <?php endif; ?>
             
             <!-- Notes Section -->
             <div class="mt-10 p-4 bg-secondary/20 rounded-xl border border-border">
