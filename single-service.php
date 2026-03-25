@@ -257,6 +257,18 @@ while ( have_posts() ) : the_post();
                                 </div>
                                 
                                 <div>
+                                    <label for="booking_email" class="block text-sm font-medium text-foreground mb-1">Email Address</label>
+                                    <input 
+                                        id="booking_email" 
+                                        name="booking_email" 
+                                        placeholder="Enter your email" 
+                                        class="w-full h-10 px-3 rounded-md border border-border bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/50" 
+                                        type="email"
+                                    >
+                                    <p class="error-message hidden text-xs text-red-500 mt-1"></p>
+                                </div>
+                                
+                                <div>
                                     <label for="booking_branch" class="block text-sm font-medium text-foreground mb-1">Select Branch *</label>
                                     <select 
                                         id="booking_branch" 
