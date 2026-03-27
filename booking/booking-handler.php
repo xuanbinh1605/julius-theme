@@ -69,8 +69,12 @@ function julius_booking_ajax_submit() {
             'message' => __( 'Thank you! Your booking has been received. We will contact you shortly.', 'julius-theme' )
         ) );
     } else {
+        global $wpdb;
+        error_log( '=== JULIUS SERVICE BOOKING HANDLER: INSERT FAILED ===' );
+        error_log( 'DB Error: ' . $wpdb->last_error );
         wp_send_json_error( array(
-            'message' => __( 'Something went wrong. Please try again later.', 'julius-theme' )
+            'message' => __( 'Something went wrong. Please try again later.', 'julius-theme' ),
+            'debug'   => $wpdb->last_error
         ) );
     }
 }
@@ -274,14 +278,16 @@ function julius_contact_form_handler() {
             )
         ) );
     } else {
+        global $wpdb;
         error_log( 'JULIUS CONTACT: Database insert failed - sending error response' );
+        error_log( 'JULIUS CONTACT DB Error: ' . $wpdb->last_error );
         
         ob_end_clean();
         
         echo json_encode( array(
             'success' => false,
             'message' => 'Something went wrong. Please try again later.',
-            'debug' => 'Database insert returned false'
+            'debug' => $wpdb->last_error
         ) );
     }
     

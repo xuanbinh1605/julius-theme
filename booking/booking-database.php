@@ -65,7 +65,14 @@ function julius_booking_add( $data ) {
         ),
         array( '%s', '%s', '%s', '%d', '%s', '%s', '%s', '%s', '%s', '%s' )
     );
-    
+
+    if ( $result === false ) {
+        error_log( '=== JULIUS BOOKING INSERT FAILED ===' );
+        error_log( 'DB Error: ' . $wpdb->last_error );
+        error_log( 'Last Query: ' . $wpdb->last_query );
+        error_log( 'Data: ' . print_r( $data, true ) );
+    }
+
     return $result ? $wpdb->insert_id : false;
 }
 
