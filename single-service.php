@@ -282,7 +282,34 @@ while ( have_posts() ) : the_post();
                                     </select>
                                     <p class="error-message hidden text-xs text-red-500 mt-1"></p>
                                 </div>
-                                
+
+                                <div>
+                                    <label for="appointment_date" class="block text-sm font-medium text-foreground mb-1">Preferred Date *</label>
+                                    <input 
+                                        id="appointment_date" 
+                                        name="appointment_date" 
+                                        required 
+                                        min="<?php echo esc_attr( date( 'Y-m-d' ) ); ?>" 
+                                        class="w-full h-10 px-3 rounded-md border border-border bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/50" 
+                                        type="date"
+                                    >
+                                    <p class="error-message hidden text-xs text-red-500 mt-1"></p>
+                                </div>
+
+                                <div>
+                                    <label for="appointment_time" class="block text-sm font-medium text-foreground mb-1">Preferred Time *</label>
+                                    <select 
+                                        id="appointment_time" 
+                                        name="appointment_time" 
+                                        required 
+                                        disabled 
+                                        class="w-full h-10 px-3 rounded-md border border-border bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    >
+                                        <option value="">Select date first...</option>
+                                    </select>
+                                    <p class="error-message hidden text-xs text-red-500 mt-1"></p>
+                                </div>
+
                                 <button 
                                     id="booking-submit-btn"
                                     class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 w-full gap-2" 
@@ -411,6 +438,45 @@ document.addEventListener('DOMContentLoaded', function() {
     const nameInput = document.getElementById('booking_name');
     const phoneInput = document.getElementById('booking_phone');
     const branchSelect = document.getElementById('booking_branch');
+    const dateInput = document.getElementById('appointment_date');
+    const timeSelect = document.getElementById('appointment_time');
+
+    // Time slots 09:00 – 23:30 and 00:00 – 02:00 (every 30 min)
+    const timeSlots = [];
+    const daytimeStarts = [[9,0],[9,30],[10,0],[10,30],[11,0],[11,30],[12,0],[12,30],[13,0],[13,30],
+        [14,0],[14,30],[15,0],[15,30],[16,0],[16,30],[17,0],[17,30],[18,0],[18,30],
+        [19,0],[19,30],[20,0],[20,30],[21,0],[21,30],[22,0],[22,30],[23,0],[23,30]];
+    const overnightStarts = [[0,0],[0,30],[1,0],[1,30],[2,0]];
+    daytimeStarts.concat(overnightStarts).forEach(([h, m]) => {
+        const label = String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0');
+        timeSlots.push(label);
+    });
+
+    function populateTimeSlots() {
+        timeSelect.innerHTML = '';
+        const placeholder = document.createElement('option');
+        placeholder.value = '';
+        placeholder.textContent = 'Choose a time...';
+        timeSelect.appendChild(placeholder);
+        timeSlots.forEach(slot => {
+            const opt = document.createElement('option');
+            opt.value = slot;
+            opt.textContent = slot;
+            timeSelect.appendChild(opt);
+        });
+        timeSelect.disabled = false;
+        timeSelect.classList.remove('opacity-50', 'cursor-not-allowed');
+    }
+
+    dateInput.addEventListener('change', function() {
+        if (this.value) {
+            populateTimeSlots();
+            validateDate(this);
+        } else {
+            timeSelect.innerHTML = '<option value="">Select date first...</option>';
+            timeSelect.disabled = true;
+        }
+    });
     
     // Validation functions
     function validateName(input) {
@@ -457,6 +523,28 @@ document.addEventListener('DOMContentLoaded', function() {
             return true;
         }
     }
+
+    function validateDate(input) {
+        const value = input.value;
+        const errorMsg = input.parentElement.querySelector('.error-message');
+        if (value === '') {
+            showError(input, errorMsg, 'Please select a preferred date');
+            return false;
+        }
+        clearError(input, errorMsg);
+        return true;
+    }
+
+    function validateTime(select) {
+        const value = select.value;
+        const errorMsg = select.parentElement.querySelector('.error-message');
+        if (value === '') {
+            showError(select, errorMsg, 'Please select a preferred time');
+            return false;
+        }
+        clearError(select, errorMsg);
+        return true;
+    }
     
     function showError(element, errorMsg, message) {
         element.classList.add('error-border');
@@ -496,6 +584,8 @@ document.addEventListener('DOMContentLoaded', function() {
     nameInput.addEventListener('blur', () => validateName(nameInput));
     phoneInput.addEventListener('blur', () => validatePhone(phoneInput));
     branchSelect.addEventListener('change', () => validateBranch(branchSelect));
+    dateInput.addEventListener('blur', () => validateDate(dateInput));
+    timeSelect.addEventListener('change', () => validateTime(timeSelect));
     
     // Clear error on input
     nameInput.addEventListener('input', function() {
@@ -518,8 +608,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const isNameValid = validateName(nameInput);
         const isPhoneValid = validatePhone(phoneInput);
         const isBranchValid = validateBranch(branchSelect);
+        const isDateValid = validateDate(dateInput);
+        const isTimeValid = validateTime(timeSelect);
         
-        if (!isNameValid || !isPhoneValid || !isBranchValid) {
+        if (!isNameValid || !isPhoneValid || !isBranchValid || !isDateValid || !isTimeValid) {
             showNotification('Please fix the errors before submitting', 'error');
             return;
         }

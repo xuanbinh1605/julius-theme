@@ -33,6 +33,8 @@ function julius_booking_ajax_submit() {
     $email = isset( $_POST['booking_email'] ) ? sanitize_email( $_POST['booking_email'] ) : '';
     $message = isset( $_POST['booking_message'] ) ? sanitize_textarea_field( $_POST['booking_message'] ) : '';
     $service_id = isset( $_POST['service_id'] ) ? absint( $_POST['service_id'] ) : null;
+    $appointment_date = isset( $_POST['appointment_date'] ) ? sanitize_text_field( $_POST['appointment_date'] ) : '';
+    $appointment_time = isset( $_POST['appointment_time'] ) ? sanitize_text_field( $_POST['appointment_time'] ) : '';
     
     // Get IP address
     $ip_address = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( $_SERVER['REMOTE_ADDR'] ) : '';
@@ -46,6 +48,8 @@ function julius_booking_ajax_submit() {
         'service_name' => $service_name,
         'branch' => $branch,
         'message' => $message,
+        'appointment_date' => $appointment_date,
+        'appointment_time' => $appointment_time,
         'ip_address' => $ip_address
     );
     
@@ -94,6 +98,8 @@ function julius_booking_contact_ajax_submit() {
     
     // Get IP address
     $ip_address = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( $_SERVER['REMOTE_ADDR'] ) : '';
+    $appointment_date = isset( $_POST['appointment_date'] ) ? sanitize_text_field( $_POST['appointment_date'] ) : '';
+    $appointment_time = isset( $_POST['appointment_time'] ) ? sanitize_text_field( $_POST['appointment_time'] ) : '';
     
     // Prepare booking data
     $booking_data = array(
@@ -104,6 +110,8 @@ function julius_booking_contact_ajax_submit() {
         'service_name' => $service,
         'branch' => $branch,
         'message' => $message,
+        'appointment_date' => $appointment_date,
+        'appointment_time' => $appointment_time,
         'ip_address' => $ip_address
     );
     
@@ -200,6 +208,8 @@ function julius_contact_form_handler() {
     
     // Get IP address
     $ip_address = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( $_SERVER['REMOTE_ADDR'] ) : '';
+    $appointment_date = isset( $_POST['appointment_date'] ) ? sanitize_text_field( $_POST['appointment_date'] ) : '';
+    $appointment_time = isset( $_POST['appointment_time'] ) ? sanitize_text_field( $_POST['appointment_time'] ) : '';
     
     // Prepare booking data
     $booking_data = array(
@@ -210,6 +220,8 @@ function julius_contact_form_handler() {
         'service_name' => $service_name,
         'branch' => $branch,
         'message' => $message,
+        'appointment_date' => $appointment_date,
+        'appointment_time' => $appointment_time,
         'ip_address' => $ip_address
     );
     

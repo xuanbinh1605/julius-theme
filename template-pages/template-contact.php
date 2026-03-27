@@ -196,6 +196,21 @@ get_header();
                     </select>
                     <p class="error-message hidden"></p>
                 </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="appointment_date" class="block text-sm font-medium text-foreground mb-2">Preferred Date *</label>
+                        <input data-slot="input" class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 w-full min-w-0 rounded-md border px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-background border-border h-12" id="appointment_date" required min="<?php echo esc_attr( date( 'Y-m-d' ) ); ?>" type="date" name="appointment_date">
+                        <p class="error-message hidden"></p>
+                    </div>
+                    <div>
+                        <label for="appointment_time" class="block text-sm font-medium text-foreground mb-2">Preferred Time *</label>
+                        <select id="appointment_time" name="appointment_time" required disabled class="w-full h-12 px-4 rounded-md border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 disabled:opacity-50 disabled:cursor-not-allowed">
+                            <option value="">Select date first...</option>
+                        </select>
+                        <p class="error-message hidden"></p>
+                    </div>
+                </div>
                 
                 <div>
                     <label for="service" class="block text-sm font-medium text-foreground mb-2">Select Service *</label>
@@ -430,6 +445,43 @@ document.addEventListener('DOMContentLoaded', function() {
     const phoneInput = document.getElementById('phone');
     const branchSelect = document.getElementById('branch');
     const serviceSelect = document.getElementById('service');
+    const dateInput = document.getElementById('appointment_date');
+    const timeSelect = document.getElementById('appointment_time');
+
+    // Time slots 09:00 – 23:30 and 00:00 – 02:00
+    const timeSlots = [];
+    [[9,0],[9,30],[10,0],[10,30],[11,0],[11,30],[12,0],[12,30],[13,0],[13,30],
+     [14,0],[14,30],[15,0],[15,30],[16,0],[16,30],[17,0],[17,30],[18,0],[18,30],
+     [19,0],[19,30],[20,0],[20,30],[21,0],[21,30],[22,0],[22,30],[23,0],[23,30],
+     [0,0],[0,30],[1,0],[1,30],[2,0]].forEach(([h, m]) => {
+        timeSlots.push(String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0'));
+    });
+
+    function populateContactTimeSlots() {
+        timeSelect.innerHTML = '';
+        const placeholder = document.createElement('option');
+        placeholder.value = '';
+        placeholder.textContent = 'Choose a time...';
+        timeSelect.appendChild(placeholder);
+        timeSlots.forEach(slot => {
+            const opt = document.createElement('option');
+            opt.value = slot;
+            opt.textContent = slot;
+            timeSelect.appendChild(opt);
+        });
+        timeSelect.disabled = false;
+        timeSelect.classList.remove('opacity-50', 'cursor-not-allowed');
+    }
+
+    dateInput.addEventListener('change', function() {
+        if (this.value) {
+            populateContactTimeSlots();
+            validateDate(this);
+        } else {
+            timeSelect.innerHTML = '<option value="">Select date first...</option>';
+            timeSelect.disabled = true;
+        }
+    });
     
     // Validation functions
     function validateName(input) {
@@ -506,6 +558,28 @@ document.addEventListener('DOMContentLoaded', function() {
             return true;
         }
     }
+
+    function validateDate(input) {
+        const value = input.value;
+        const errorMsg = input.parentElement.querySelector('.error-message');
+        if (value === '') {
+            showError(input, errorMsg, 'Please select a preferred date');
+            return false;
+        }
+        clearError(input, errorMsg);
+        return true;
+    }
+
+    function validateTime(select) {
+        const value = select.value;
+        const errorMsg = select.parentElement.querySelector('.error-message');
+        if (value === '') {
+            showError(select, errorMsg, 'Please select a preferred time');
+            return false;
+        }
+        clearError(select, errorMsg);
+        return true;
+    }
     
     function showError(element, errorMsg, message) {
         element.classList.add('error-border');
@@ -546,6 +620,8 @@ document.addEventListener('DOMContentLoaded', function() {
     phoneInput.addEventListener('blur', () => validatePhone(phoneInput));
     branchSelect.addEventListener('change', () => validateBranch(branchSelect));
     serviceSelect.addEventListener('change', () => validateService(serviceSelect));
+    dateInput.addEventListener('blur', () => validateDate(dateInput));
+    timeSelect.addEventListener('change', () => validateTime(timeSelect));
     
     // Clear error on input
     nameInput.addEventListener('input', function() {
@@ -578,16 +654,20 @@ document.addEventListener('DOMContentLoaded', function() {
         const isPhoneValid = validatePhone(phoneInput);
         const isBranchValid = validateBranch(branchSelect);
         const isServiceValid = validateService(serviceSelect);
+        const isDateValid = validateDate(dateInput);
+        const isTimeValid = validateTime(timeSelect);
         
         console.log('Validation results:', {
             name: isNameValid,
             email: isEmailValid,
             phone: isPhoneValid,
             branch: isBranchValid,
-            service: isServiceValid
+            service: isServiceValid,
+            date: isDateValid,
+            time: isTimeValid
         });
         
-        if (!isNameValid || !isEmailValid || !isPhoneValid || !isBranchValid || !isServiceValid) {
+        if (!isNameValid || !isEmailValid || !isPhoneValid || !isBranchValid || !isServiceValid || !isDateValid || !isTimeValid) {
             showNotification('Please fix the errors before submitting', 'error');
             console.log('Validation failed, form not submitted');
             return;

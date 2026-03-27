@@ -81,8 +81,14 @@ function julius_booking_send_confirmation( $booking_id ) {
                                         <tr>
                                             <td style="color: #6b7280; font-size: 14px; font-weight: 600;">Booking Date:</td>
                                             <td style="color: #1f2937; font-size: 14px;">' . date( 'F j, Y g:i A', strtotime( $booking->booking_date ) ) . '</td>
+                                        </tr>';    
+    if ( ! empty( $booking->appointment_date ) ) {
+        $message .= '
+                                        <tr>
+                                            <td style="color: #6b7280; font-size: 14px; font-weight: 600;">Appointment Date:</td>
+                                            <td style="color: #1f2937; font-size: 14px; font-weight: 600; color: #667eea;">' . date( 'F j, Y', strtotime( $booking->appointment_date ) ) . ( ! empty( $booking->appointment_time ) ? ' at ' . esc_html( $booking->appointment_time ) : '' ) . '</td>
                                         </tr>';
-    
+    }    
     if ( ! empty( $booking->message ) ) {
         $message .= '
                                         <tr>
@@ -245,6 +251,18 @@ function julius_booking_send_admin_notification( $booking_id ) {
                                             ' . date( 'F j, Y g:i A', strtotime( $booking->booking_date ) ) . '
                                         </td>
                                     </tr>';
+    
+    if ( ! empty( $booking->appointment_date ) ) {
+        $message .= '
+                                    <tr>
+                                        <td style="color: #666666; font-size: 14px; font-weight: bold; border-bottom: 1px solid #e9ecef;">
+                                            Appointment:
+                                        </td>
+                                        <td style="color: #667eea; font-size: 14px; font-weight: 600; border-bottom: 1px solid #e9ecef;">
+                                            ' . date( 'F j, Y', strtotime( $booking->appointment_date ) ) . ( ! empty( $booking->appointment_time ) ? ' at ' . esc_html( $booking->appointment_time ) : '' ) . '
+                                        </td>
+                                    </tr>';
+    }
     
     if ( ! empty( $booking->message ) ) {
         $message .= '

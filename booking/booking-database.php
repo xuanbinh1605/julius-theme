@@ -28,6 +28,8 @@ function julius_create_booking_table() {
         service_name varchar(255) NOT NULL,
         branch varchar(50) NOT NULL,
         message text DEFAULT NULL,
+        appointment_date date DEFAULT NULL,
+        appointment_time varchar(10) DEFAULT NULL,
         booking_date datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
         ip_address varchar(45) DEFAULT NULL,
         PRIMARY KEY  (id),
@@ -57,9 +59,11 @@ function julius_booking_add( $data ) {
             'service_name' => sanitize_text_field( $data['service_name'] ),
             'branch' => sanitize_text_field( $data['branch'] ),
             'message' => isset( $data['message'] ) ? sanitize_textarea_field( $data['message'] ) : null,
+            'appointment_date' => isset( $data['appointment_date'] ) && ! empty( $data['appointment_date'] ) ? sanitize_text_field( $data['appointment_date'] ) : null,
+            'appointment_time' => isset( $data['appointment_time'] ) && ! empty( $data['appointment_time'] ) ? sanitize_text_field( $data['appointment_time'] ) : null,
             'ip_address' => isset( $data['ip_address'] ) ? sanitize_text_field( $data['ip_address'] ) : null,
         ),
-        array( '%s', '%s', '%s', '%d', '%s', '%s', '%s', '%s' )
+        array( '%s', '%s', '%s', '%d', '%s', '%s', '%s', '%s', '%s', '%s' )
     );
     
     return $result ? $wpdb->insert_id : false;

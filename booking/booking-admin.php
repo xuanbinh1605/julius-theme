@@ -93,7 +93,7 @@ function julius_booking_handle_admin_actions() {
         fprintf( $output, chr(0xEF).chr(0xBB).chr(0xBF) );
         
         // Add headers
-        fputcsv( $output, array( 'ID', 'Name', 'Phone', 'Email', 'Service', 'Branch', 'Message', 'Booking Date', 'IP Address' ) );
+        fputcsv( $output, array( 'ID', 'Name', 'Phone', 'Email', 'Service', 'Branch', 'Message', 'Appointment Date', 'Appointment Time', 'Booking Date', 'IP Address' ) );
         
         // Add data
         foreach ( $bookings as $booking ) {
@@ -105,6 +105,8 @@ function julius_booking_handle_admin_actions() {
                 $booking->service_name,
                 $booking->branch,
                 $booking->message,
+                $booking->appointment_date,
+                $booking->appointment_time,
                 $booking->booking_date,
                 $booking->ip_address
             ) );
@@ -240,11 +242,12 @@ function julius_booking_admin_page() {
                             <input type="checkbox" id="cb-select-all">
                         </td>
                         <th scope="col" class="manage-column" style="width: 15%;"><?php _e( 'Customer', 'julius-theme' ); ?></th>
-                        <th scope="col" class="manage-column" style="width: 20%;"><?php _e( 'Service', 'julius-theme' ); ?></th>
+                        <th scope="col" class="manage-column" style="width: 18%;"><?php _e( 'Service', 'julius-theme' ); ?></th>
                         <th scope="col" class="manage-column" style="width: 10%;"><?php _e( 'Branch', 'julius-theme' ); ?></th>
                         <th scope="col" class="manage-column" style="width: 12%;"><?php _e( 'Contact', 'julius-theme' ); ?></th>
-                        <th scope="col" class="manage-column" style="width: 25%;"><?php _e( 'Message', 'julius-theme' ); ?></th>
-                        <th scope="col" class="manage-column" style="width: 13%;"><?php _e( 'Date', 'julius-theme' ); ?></th>
+                        <th scope="col" class="manage-column" style="width: 20%;"><?php _e( 'Message', 'julius-theme' ); ?></th>
+                        <th scope="col" class="manage-column" style="width: 12%;"><?php _e( 'Appointment', 'julius-theme' ); ?></th>
+                        <th scope="col" class="manage-column" style="width: 8%;"><?php _e( 'Booked On', 'julius-theme' ); ?></th>
                         <th scope="col" class="manage-column" style="width: 5%;"><?php _e( 'Actions', 'julius-theme' ); ?></th>
                     </tr>
                 </thead>
@@ -277,6 +280,16 @@ function julius_booking_admin_page() {
                                         <div style="max-height: 60px; overflow-y: auto; font-size: 13px;">
                                             <?php echo esc_html( $booking->message ); ?>
                                         </div>
+                                    <?php else : ?>
+                                        <em style="color: #999;">-</em>
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <?php if ( ! empty( $booking->appointment_date ) ) : ?>
+                                        <strong><?php echo esc_html( date( 'M j, Y', strtotime( $booking->appointment_date ) ) ); ?></strong>
+                                        <?php if ( ! empty( $booking->appointment_time ) ) : ?>
+                                            <br><?php echo esc_html( $booking->appointment_time ); ?>
+                                        <?php endif; ?>
                                     <?php else : ?>
                                         <em style="color: #999;">-</em>
                                     <?php endif; ?>
