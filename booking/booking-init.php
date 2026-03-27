@@ -47,6 +47,9 @@ add_action('wp_ajax_nopriv_julius_booking_submit', 'julius_booking_ajax_submit')
 add_action('wp_ajax_julius_booking_contact_submit', 'julius_booking_contact_ajax_submit');
 add_action('wp_ajax_nopriv_julius_booking_contact_submit', 'julius_booking_contact_ajax_submit');
 
+add_action( 'wp_ajax_julius_check_slots', 'julius_booking_check_slots_ajax' );
+add_action( 'wp_ajax_nopriv_julius_check_slots', 'julius_booking_check_slots_ajax' );
+
 /**
  * Register contact form admin-post handlers
  */

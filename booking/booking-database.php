@@ -79,6 +79,27 @@ function julius_booking_add( $data ) {
 }
 
 /**
+ * Get taken appointment times for a given service, branch, and date.
+ * Returns an array of time strings, e.g. ['09:00', '11:30']
+ */
+function julius_booking_get_taken_slots( $service_id, $branch, $date ) {
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'julius_bookings';
+
+    return $wpdb->get_col( $wpdb->prepare(
+        "SELECT appointment_time FROM {$table_name}
+          WHERE service_id = %d
+            AND branch = %s
+            AND appointment_date = %s
+            AND appointment_time IS NOT NULL
+            AND appointment_time != ''",
+        absint( $service_id ),
+        sanitize_text_field( $branch ),
+        sanitize_text_field( $date )
+    ) );
+}
+
+/**
  * Get all bookings
  */
 function julius_booking_get_all( $filters = array() ) {

@@ -53,6 +53,16 @@ function julius_booking_ajax_submit() {
         'ip_address' => $ip_address
     );
     
+    // Check for slot conflict before inserting
+    if ( ! empty( $appointment_date ) && ! empty( $appointment_time ) && $service_id ) {
+        $taken = julius_booking_get_taken_slots( $service_id, $branch, $appointment_date );
+        if ( in_array( $appointment_time, (array) $taken, true ) ) {
+            wp_send_json_error( array(
+                'message' => __( 'Sorry, that time slot has just been booked. Please choose a different time.', 'julius-theme' )
+            ) );
+        }
+    }
+
     // Add booking to database
     $booking_id = julius_booking_add( $booking_data );
     
@@ -139,6 +149,25 @@ function julius_booking_contact_ajax_submit() {
             'message' => __( 'Something went wrong. Please try again later.', 'julius-theme' )
         ) );
     }
+}
+
+/**
+ * AJAX: Return taken time slots for a specific service + branch + date combination
+ */
+function julius_booking_check_slots_ajax() {
+    check_ajax_referer( 'julius_check_slots', 'nonce' );
+
+    $service_id = isset( $_POST['service_id'] ) ? absint( $_POST['service_id'] ) : 0;
+    $branch     = isset( $_POST['branch'] )     ? sanitize_text_field( $_POST['branch'] ) : '';
+    $date       = isset( $_POST['date'] )       ? sanitize_text_field( $_POST['date'] )   : '';
+
+    if ( ! $service_id || ! $branch || ! $date ) {
+        wp_send_json_success( array( 'taken' => array() ) );
+        return;
+    }
+
+    $taken = julius_booking_get_taken_slots( $service_id, $branch, $date );
+    wp_send_json_success( array( 'taken' => array_values( $taken ) ) );
 }
 
 /**
@@ -230,7 +259,20 @@ function julius_contact_form_handler() {
     );
     
     error_log( 'JULIUS CONTACT: Prepared booking data: ' . print_r( $booking_data, true ) );
-    
+
+    // Check for slot conflict before inserting
+    if ( ! empty( $appointment_date ) && ! empty( $appointment_time ) && $service_id ) {
+        $taken = julius_booking_get_taken_slots( $service_id, $branch, $appointment_date );
+        if ( in_array( $appointment_time, (array) $taken, true ) ) {
+            ob_end_clean();
+            echo json_encode( array(
+                'success' => false,
+                'message' => 'Sorry, that time slot has just been booked. Please choose a different time.',
+            ) );
+            exit;
+        }
+    }
+
     // Add booking to database
     $booking_id = julius_booking_add( $booking_data );
     

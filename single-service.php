@@ -441,37 +441,84 @@ document.addEventListener('DOMContentLoaded', function() {
     const dateInput = document.getElementById('appointment_date');
     const timeSelect = document.getElementById('appointment_time');
 
-    // Time slots 09:00 – 23:30 and 00:00 – 02:00 (every 30 min)
-    const timeSlots = [];
-    const daytimeStarts = [[9,0],[9,30],[10,0],[10,30],[11,0],[11,30],[12,0],[12,30],[13,0],[13,30],
-        [14,0],[14,30],[15,0],[15,30],[16,0],[16,30],[17,0],[17,30],[18,0],[18,30],
-        [19,0],[19,30],[20,0],[20,30],[21,0],[21,30],[22,0],[22,30],[23,0],[23,30]];
-    const overnightStarts = [[0,0],[0,30],[1,0],[1,30],[2,0]];
-    daytimeStarts.concat(overnightStarts).forEach(([h, m]) => {
-        const label = String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0');
-        timeSlots.push(label);
+    // Time slots 09:00 – 23:30 then 00:00 – 02:00 (every 30 min)
+    const serverToday = '<?php echo current_time( 'Y-m-d' ); ?>';
+    const serverNowMinutes = <?php echo (int) current_time( 'H' ) * 60 + (int) current_time( 'i' ); ?>;
+    const ajaxUrl = '<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>';
+    const checkSlotsNonce = '<?php echo wp_create_nonce( 'julius_check_slots' ); ?>';
+    const serviceIdVal = document.querySelector('input[name="service_id"]').value;
+
+    const allTimeSlots = [];
+    [[9,0],[9,30],[10,0],[10,30],[11,0],[11,30],[12,0],[12,30],[13,0],[13,30],
+     [14,0],[14,30],[15,0],[15,30],[16,0],[16,30],[17,0],[17,30],[18,0],[18,30],
+     [19,0],[19,30],[20,0],[20,30],[21,0],[21,30],[22,0],[22,30],[23,0],[23,30],
+     [0,0],[0,30],[1,0],[1,30],[2,0]].forEach(([h, m]) => {
+        allTimeSlots.push(String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0'));
     });
 
-    function populateTimeSlots() {
+    // Feature 1: If today is selected, filter out past slots (+ 30 min buffer).
+    // Overnight slots 00:00–02:00 are next-day context so skipped for same-day.
+    function getAvailableSlots(selectedDate) {
+        if (selectedDate !== serverToday) return allTimeSlots;
+        const cutoff = serverNowMinutes + 30;
+        return allTimeSlots.filter(slot => {
+            const [h, m] = slot.split(':').map(Number);
+            if (h <= 2) return false; // overnight = next day
+            return (h * 60 + m) > cutoff;
+        });
+    }
+
+    // Render all available slots, marking already-booked ones as disabled
+    function renderTimeSlots(selectedDate, takenSlots) {
+        const available = getAvailableSlots(selectedDate);
         timeSelect.innerHTML = '';
         const placeholder = document.createElement('option');
         placeholder.value = '';
-        placeholder.textContent = 'Choose a time...';
+        placeholder.textContent = available.length ? 'Choose a time...' : 'No available slots today';
         timeSelect.appendChild(placeholder);
-        timeSlots.forEach(slot => {
+        available.forEach(slot => {
             const opt = document.createElement('option');
             opt.value = slot;
-            opt.textContent = slot;
+            if (takenSlots.includes(slot)) {
+                opt.textContent = slot + ' — Booked';
+                opt.disabled = true;
+            } else {
+                opt.textContent = slot;
+            }
             timeSelect.appendChild(opt);
         });
         timeSelect.disabled = false;
         timeSelect.classList.remove('opacity-50', 'cursor-not-allowed');
     }
 
+    // Feature 2: Fetch taken slots for service + branch + date from server
+    function loadSlots() {
+        const selectedDate = dateInput.value;
+        const selectedBranch = branchSelect.value;
+        if (!selectedDate) return;
+        if (!selectedBranch || !serviceIdVal) {
+            renderTimeSlots(selectedDate, []);
+            return;
+        }
+        timeSelect.innerHTML = '<option value="">Checking availability...</option>';
+        timeSelect.disabled = true;
+        const fd = new FormData();
+        fd.append('action', 'julius_check_slots');
+        fd.append('nonce', checkSlotsNonce);
+        fd.append('service_id', serviceIdVal);
+        fd.append('branch', selectedBranch);
+        fd.append('date', selectedDate);
+        fetch(ajaxUrl, { method: 'POST', body: fd })
+            .then(r => r.json())
+            .then(data => renderTimeSlots(selectedDate, data.success ? data.data.taken : []))
+            .catch(() => renderTimeSlots(selectedDate, []));
+    }
+
     dateInput.addEventListener('change', function() {
         if (this.value) {
-            populateTimeSlots();
             validateDate(this);
+            timeSelect.value = '';
+            loadSlots();
         } else {
             timeSelect.innerHTML = '<option value="">Select date first...</option>';
             timeSelect.disabled = true;
@@ -583,7 +630,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Live validation on blur
     nameInput.addEventListener('blur', () => validateName(nameInput));
     phoneInput.addEventListener('blur', () => validatePhone(phoneInput));
-    branchSelect.addEventListener('change', () => validateBranch(branchSelect));
+    branchSelect.addEventListener('change', function() {
+        validateBranch(this);
+        if (dateInput.value) loadSlots();
+    });
     dateInput.addEventListener('blur', () => validateDate(dateInput));
     timeSelect.addEventListener('change', () => validateTime(timeSelect));
     
@@ -638,6 +688,9 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.success) {
                 showNotification('Thank you! Your booking has been submitted successfully. We will contact you soon.', 'success');
                 form.reset();
+                // Reset time select to initial disabled state after successful submission
+                timeSelect.innerHTML = '<option value="">Select date first...</option>';
+                timeSelect.disabled = true;
                 // Clear any remaining error states
                 document.querySelectorAll('.error-border').forEach(el => el.classList.remove('error-border'));
                 document.querySelectorAll('.error-message').forEach(el => el.classList.add('hidden'));

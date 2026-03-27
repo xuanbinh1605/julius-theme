@@ -448,35 +448,80 @@ document.addEventListener('DOMContentLoaded', function() {
     const dateInput = document.getElementById('appointment_date');
     const timeSelect = document.getElementById('appointment_time');
 
-    // Time slots 09:00 – 23:30 and 00:00 – 02:00
-    const timeSlots = [];
+    // Time slots 09:00 – 23:30 then 00:00 – 02:00 (every 30 min)
+    const serverToday = '<?php echo current_time( 'Y-m-d' ); ?>';
+    const serverNowMinutes = <?php echo (int) current_time( 'H' ) * 60 + (int) current_time( 'i' ); ?>;
+    const contactAjaxUrl = '<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>';
+    const checkSlotsNonce = '<?php echo wp_create_nonce( 'julius_check_slots' ); ?>';
+
+    const allTimeSlots = [];
     [[9,0],[9,30],[10,0],[10,30],[11,0],[11,30],[12,0],[12,30],[13,0],[13,30],
      [14,0],[14,30],[15,0],[15,30],[16,0],[16,30],[17,0],[17,30],[18,0],[18,30],
      [19,0],[19,30],[20,0],[20,30],[21,0],[21,30],[22,0],[22,30],[23,0],[23,30],
      [0,0],[0,30],[1,0],[1,30],[2,0]].forEach(([h, m]) => {
-        timeSlots.push(String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0'));
+        allTimeSlots.push(String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0'));
     });
 
-    function populateContactTimeSlots() {
+    function getAvailableSlots(selectedDate) {
+        if (selectedDate !== serverToday) return allTimeSlots;
+        const cutoff = serverNowMinutes + 30;
+        return allTimeSlots.filter(slot => {
+            const [h, m] = slot.split(':').map(Number);
+            if (h <= 2) return false;
+            return (h * 60 + m) > cutoff;
+        });
+    }
+
+    function renderContactTimeSlots(selectedDate, takenSlots) {
+        const available = getAvailableSlots(selectedDate);
         timeSelect.innerHTML = '';
         const placeholder = document.createElement('option');
         placeholder.value = '';
-        placeholder.textContent = 'Choose a time...';
+        placeholder.textContent = available.length ? 'Choose a time...' : 'No available slots today';
         timeSelect.appendChild(placeholder);
-        timeSlots.forEach(slot => {
+        available.forEach(slot => {
             const opt = document.createElement('option');
             opt.value = slot;
-            opt.textContent = slot;
+            if (takenSlots.includes(slot)) {
+                opt.textContent = slot + ' — Booked';
+                opt.disabled = true;
+            } else {
+                opt.textContent = slot;
+            }
             timeSelect.appendChild(opt);
         });
         timeSelect.disabled = false;
         timeSelect.classList.remove('opacity-50', 'cursor-not-allowed');
     }
 
+    function loadContactSlots() {
+        const selectedDate = dateInput.value;
+        const selectedBranch = branchSelect.value;
+        const selectedService = serviceSelect.value;
+        if (!selectedDate) return;
+        if (!selectedBranch || !selectedService) {
+            renderContactTimeSlots(selectedDate, []);
+            return;
+        }
+        timeSelect.innerHTML = '<option value="">Checking availability...</option>';
+        timeSelect.disabled = true;
+        const fd = new FormData();
+        fd.append('action', 'julius_check_slots');
+        fd.append('nonce', checkSlotsNonce);
+        fd.append('service_id', selectedService);
+        fd.append('branch', selectedBranch);
+        fd.append('date', selectedDate);
+        fetch(contactAjaxUrl, { method: 'POST', body: fd })
+            .then(r => r.json())
+            .then(data => renderContactTimeSlots(selectedDate, data.success ? data.data.taken : []))
+            .catch(() => renderContactTimeSlots(selectedDate, []));
+    }
+
     dateInput.addEventListener('change', function() {
         if (this.value) {
-            populateContactTimeSlots();
             validateDate(this);
+            timeSelect.value = '';
+            loadContactSlots();
         } else {
             timeSelect.innerHTML = '<option value="">Select date first...</option>';
             timeSelect.disabled = true;
@@ -618,8 +663,14 @@ document.addEventListener('DOMContentLoaded', function() {
     nameInput.addEventListener('blur', () => validateName(nameInput));
     emailInput.addEventListener('blur', () => validateEmail(emailInput));
     phoneInput.addEventListener('blur', () => validatePhone(phoneInput));
-    branchSelect.addEventListener('change', () => validateBranch(branchSelect));
-    serviceSelect.addEventListener('change', () => validateService(serviceSelect));
+    branchSelect.addEventListener('change', function() {
+        validateBranch(this);
+        if (dateInput.value) loadContactSlots();
+    });
+    serviceSelect.addEventListener('change', function() {
+        validateService(this);
+        if (dateInput.value) loadContactSlots();
+    });
     dateInput.addEventListener('blur', () => validateDate(dateInput));
     timeSelect.addEventListener('change', () => validateTime(timeSelect));
     
@@ -717,6 +768,9 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.success) {
                 showNotification('Thank you! Your message has been sent successfully. We will contact you soon.', 'success');
                 form.reset();
+                // Reset time select to initial disabled state after successful submission
+                timeSelect.innerHTML = '<option value="">Select date first...</option>';
+                timeSelect.disabled = true;
                 console.log('Form submitted successfully');
             } else {
                 console.error('Server returned error:', data.message);
