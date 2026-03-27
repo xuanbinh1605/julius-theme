@@ -29,11 +29,11 @@ add_action('after_switch_theme', 'julius_booking_init');
  * Check and create booking table if it doesn't exist
  */
 function julius_booking_check_table() {
-    global $wpdb;
-    $table_name = $wpdb->prefix . 'julius_bookings';
-    
-    if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
+    $installed_version = get_option( 'julius_db_version', '0' );
+
+    if ( version_compare( $installed_version, JULIUS_DB_VERSION, '<' ) ) {
         julius_create_booking_table();
+        update_option( 'julius_db_version', JULIUS_DB_VERSION );
     }
 }
 add_action('admin_init', 'julius_booking_check_table');

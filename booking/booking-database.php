@@ -10,6 +10,8 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+define( 'JULIUS_DB_VERSION', '1.1' );
+
 /**
  * Create bookings table
  */
