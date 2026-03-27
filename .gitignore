@@ -34,3 +34,5 @@ package-lock.json
 # Build files
 /dist/
 /build/
+
+clear-cache.php
