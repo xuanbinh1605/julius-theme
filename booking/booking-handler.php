@@ -70,8 +70,6 @@ function julius_booking_ajax_submit() {
         ) );
     }
 }
-add_action( 'wp_ajax_nopriv_julius_service_booking', 'julius_booking_ajax_submit' );
-add_action( 'wp_ajax_julius_service_booking', 'julius_booking_ajax_submit' );
 
 /**
  * Handle contact form booking submission via AJAX
@@ -130,8 +128,6 @@ function julius_booking_contact_ajax_submit() {
         ) );
     }
 }
-add_action( 'wp_ajax_nopriv_julius_contact_booking', 'julius_booking_contact_ajax_submit' );
-add_action( 'wp_ajax_julius_contact_booking', 'julius_booking_contact_ajax_submit' );
 
 /**
  * Handle contact page form submission (admin-post action)
