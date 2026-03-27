@@ -449,10 +449,20 @@ document.addEventListener('DOMContentLoaded', function() {
     const timeSelect = document.getElementById('appointment_time');
 
     // Time slots 09:00 – 23:30 then 00:00 – 02:00 (every 30 min)
-    const serverToday = '<?php echo current_time( 'Y-m-d' ); ?>';
-    const serverNowMinutes = <?php echo (int) current_time( 'H' ) * 60 + (int) current_time( 'i' ); ?>;
     const contactAjaxUrl = '<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>';
     const checkSlotsNonce = '<?php echo wp_create_nonce( 'julius_check_slots' ); ?>';
+
+    // Use browser local time so filtering respects the user's actual timezone
+    function getLocalToday() {
+        const d = new Date();
+        return d.getFullYear() + '-' +
+            String(d.getMonth() + 1).padStart(2, '0') + '-' +
+            String(d.getDate()).padStart(2, '0');
+    }
+    function getLocalNowMinutes() {
+        const d = new Date();
+        return d.getHours() * 60 + d.getMinutes();
+    }
 
     const allTimeSlots = [];
     [[9,0],[9,30],[10,0],[10,30],[11,0],[11,30],[12,0],[12,30],[13,0],[13,30],
@@ -463,8 +473,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function getAvailableSlots(selectedDate) {
-        if (selectedDate !== serverToday) return allTimeSlots;
-        const cutoff = serverNowMinutes + 30;
+        if (selectedDate !== getLocalToday()) return allTimeSlots;
+        const cutoff = getLocalNowMinutes() + 30;
         return allTimeSlots.filter(slot => {
             const [h, m] = slot.split(':').map(Number);
             if (h <= 2) return false;
