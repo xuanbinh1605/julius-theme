@@ -8,16 +8,16 @@
 get_header();
 ?>
 
-<main class="min-h-[80vh] flex items-center justify-center bg-background">
-    <div class="container mx-auto px-4 py-24 text-center">
+<main class="bg-background" style="padding: 10rem 0rem;">
+    <div class="container mx-auto px-4 text-center">
 
         <!-- 404 Number -->
-        <h1 class="text-[8rem] md:text-[12rem] font-bold leading-none text-primary/20 select-none">
+        <h1 class="text-[8rem] md:text-[12rem] font-bold leading-none text-primary/30 select-none">
             404
         </h1>
 
         <!-- Heading -->
-        <h2 class="text-3xl md:text-4xl font-bold text-foreground -mt-6 mb-4">
+        <h2 class="text-3xl md:text-4xl font-bold text-foreground mb-4">
             <?php esc_html_e( 'Page Not Found', 'julius-theme' ); ?>
         </h2>
 
