@@ -39,10 +39,7 @@
                 <?php endif; ?>
                 
                 <p class="text-background/70 mb-6 leading-relaxed">
-                    <?php 
-                    $description = get_bloginfo( 'description' );
-                    echo $description ? esc_html( $description ) : 'Experience authentic Vietnamese relaxation at Julius Spa. Your sanctuary of peace and wellness.';
-                    ?>
+                    <?php echo esc_html( get_theme_mod( 'julius_footer_description', 'Experience authentic Vietnamese relaxation at Julius Spa — where ancient healing traditions meet modern comfort in the heart of Da Nang.' ) ); ?>
                 </p>
                 
                 <div class="flex gap-4">

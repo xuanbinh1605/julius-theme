@@ -201,6 +201,31 @@ function julius_customize_register( $wp_customize ) {
         'type'     => 'email',
     ) );
     
+    // ===================================
+    // Footer
+    // ===================================
+    $wp_customize->add_setting( 'julius_footer_heading', array(
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( new WP_Customize_Control( $wp_customize, 'julius_footer_heading', array(
+        'label'       => __( '── Footer ──', 'julius-theme' ),
+        'description' => __( 'Footer branding & text', 'julius-theme' ),
+        'section'     => 'julius_general_settings',
+        'type'        => 'hidden',
+    ) ) );
+
+    $wp_customize->add_setting( 'julius_footer_description', array(
+        'default'           => 'Experience authentic Vietnamese relaxation at Julius Spa — where ancient healing traditions meet modern comfort in the heart of Da Nang.',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ) );
+    $wp_customize->add_control( 'julius_footer_description', array(
+        'label'       => __( 'Footer Description', 'julius-theme' ),
+        'description' => __( 'Short brand description shown below the logo in the footer', 'julius-theme' ),
+        'section'     => 'julius_general_settings',
+        'type'        => 'textarea',
+    ) );
+
     // Facebook URL
     $wp_customize->add_setting( 'julius_facebook_url', array(
         'default'           => '',
