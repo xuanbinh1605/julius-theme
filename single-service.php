@@ -269,6 +269,21 @@ while ( have_posts() ) : the_post();
                                 </div>
                                 
                                 <div>
+                                    <label for="booking_number_of_people" class="block text-sm font-medium text-foreground mb-1">Number of People *</label>
+                                    <input 
+                                        id="booking_number_of_people" 
+                                        name="booking_number_of_people" 
+                                        required 
+                                        placeholder="e.g. 2" 
+                                        min="1" 
+                                        max="50" 
+                                        class="w-full h-10 px-3 rounded-md border border-border bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/50" 
+                                        type="number"
+                                    >
+                                    <p class="error-message hidden text-xs text-red-500 mt-1"></p>
+                                </div>
+
+                                <div>
                                     <label for="booking_branch" class="block text-sm font-medium text-foreground mb-1">Select Branch *</label>
                                     <select 
                                         id="booking_branch" 
@@ -437,6 +452,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Required fields
     const nameInput = document.getElementById('booking_name');
     const phoneInput = document.getElementById('booking_phone');
+    const numberOfPeopleInput = document.getElementById('booking_number_of_people');
     const branchSelect = document.getElementById('booking_branch');
     const dateInput = document.getElementById('appointment_date');
     const timeSelect = document.getElementById('appointment_time');
@@ -568,6 +584,22 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
+    function validateNumberOfPeople(input) {
+        const value = input.value.trim();
+        const errorMsg = input.parentElement.querySelector('.error-message');
+        
+        if (value === '') {
+            showError(input, errorMsg, 'Number of people is required');
+            return false;
+        } else if (parseInt(value) < 1 || parseInt(value) > 50) {
+            showError(input, errorMsg, 'Please enter a number between 1 and 50');
+            return false;
+        } else {
+            clearError(input, errorMsg);
+            return true;
+        }
+    }
+    
     function validateBranch(select) {
         const value = select.value;
         const errorMsg = select.parentElement.querySelector('.error-message');
@@ -640,6 +672,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Live validation on blur
     nameInput.addEventListener('blur', () => validateName(nameInput));
     phoneInput.addEventListener('blur', () => validatePhone(phoneInput));
+    numberOfPeopleInput.addEventListener('blur', () => validateNumberOfPeople(numberOfPeopleInput));
     branchSelect.addEventListener('change', function() {
         validateBranch(this);
         if (dateInput.value) loadSlots();
@@ -659,6 +692,12 @@ document.addEventListener('DOMContentLoaded', function() {
             validatePhone(this);
         }
     });
+
+    numberOfPeopleInput.addEventListener('input', function() {
+        if (this.classList.contains('error-border')) {
+            validateNumberOfPeople(this);
+        }
+    });
     
     // Form submission
     form.addEventListener('submit', function(e) {
@@ -667,11 +706,12 @@ document.addEventListener('DOMContentLoaded', function() {
         // Validate all required fields
         const isNameValid = validateName(nameInput);
         const isPhoneValid = validatePhone(phoneInput);
+        const isNumberOfPeopleValid = validateNumberOfPeople(numberOfPeopleInput);
         const isBranchValid = validateBranch(branchSelect);
         const isDateValid = validateDate(dateInput);
         const isTimeValid = validateTime(timeSelect);
         
-        if (!isNameValid || !isPhoneValid || !isBranchValid || !isDateValid || !isTimeValid) {
+        if (!isNameValid || !isPhoneValid || !isNumberOfPeopleValid || !isBranchValid || !isDateValid || !isTimeValid) {
             showNotification('Please fix the errors before submitting', 'error');
             return;
         }

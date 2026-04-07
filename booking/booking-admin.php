@@ -93,7 +93,7 @@ function julius_booking_handle_admin_actions() {
         fprintf( $output, chr(0xEF).chr(0xBB).chr(0xBF) );
         
         // Add headers
-        fputcsv( $output, array( 'ID', 'Name', 'Phone', 'Email', 'Service', 'Branch', 'Message', 'Appointment Date', 'Appointment Time', 'Booking Date', 'IP Address' ) );
+        fputcsv( $output, array( 'ID', 'Name', 'Phone', 'Email', 'Service', 'Branch', 'Number of People', 'Message', 'Appointment Date', 'Appointment Time', 'Booking Date', 'IP Address' ) );
         
         // Add data
         foreach ( $bookings as $booking ) {
@@ -104,6 +104,7 @@ function julius_booking_handle_admin_actions() {
                 $booking->email,
                 $booking->service_name,
                 $booking->branch,
+                $booking->number_of_people ? $booking->number_of_people : '1',
                 $booking->message,
                 $booking->appointment_date,
                 $booking->appointment_time,
@@ -244,6 +245,7 @@ function julius_booking_admin_page() {
                         <th scope="col" class="manage-column" style="width: 15%;"><?php _e( 'Customer', 'julius-theme' ); ?></th>
                         <th scope="col" class="manage-column" style="width: 18%;"><?php _e( 'Service', 'julius-theme' ); ?></th>
                         <th scope="col" class="manage-column" style="width: 10%;"><?php _e( 'Branch', 'julius-theme' ); ?></th>
+                        <th scope="col" class="manage-column" style="width: 5%;"><?php _e( 'People', 'julius-theme' ); ?></th>
                         <th scope="col" class="manage-column" style="width: 12%;"><?php _e( 'Contact', 'julius-theme' ); ?></th>
                         <th scope="col" class="manage-column" style="width: 20%;"><?php _e( 'Message', 'julius-theme' ); ?></th>
                         <th scope="col" class="manage-column" style="width: 12%;"><?php _e( 'Appointment', 'julius-theme' ); ?></th>
@@ -254,7 +256,7 @@ function julius_booking_admin_page() {
                 <tbody>
                     <?php if ( empty( $bookings ) ) : ?>
                         <tr>
-                            <td colspan="8" style="text-align: center; padding: 40px;">
+                            <td colspan="9" style="text-align: center; padding: 40px;">
                                 <?php _e( 'No bookings found.', 'julius-theme' ); ?>
                             </td>
                         </tr>
@@ -269,6 +271,7 @@ function julius_booking_admin_page() {
                                 </td>
                                 <td><?php echo esc_html( $booking->service_name ); ?></td>
                                 <td><?php echo esc_html( $booking->branch === 'julius-1' ? 'Julius 1' : 'Julius 2' ); ?></td>
+                                <td><?php echo esc_html( $booking->number_of_people ? $booking->number_of_people : '1' ); ?></td>
                                 <td>
                                     <a href="tel:<?php echo esc_attr( $booking->phone ); ?>"><?php echo esc_html( $booking->phone ); ?></a>
                                     <?php if ( $booking->email ) : ?>

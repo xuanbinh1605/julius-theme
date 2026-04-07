@@ -197,6 +197,12 @@ get_header();
                     <p class="error-message hidden"></p>
                 </div>
 
+                <div>
+                    <label for="number_of_people" class="block text-sm font-medium text-foreground mb-2">Number of People *</label>
+                    <input data-slot="input" class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 w-full min-w-0 rounded-md border px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-background border-border h-12" id="number_of_people" required placeholder="e.g. 2" min="1" max="50" type="number" name="number_of_people">
+                    <p class="error-message hidden"></p>
+                </div>
+
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label for="appointment_date" class="block text-sm font-medium text-foreground mb-2">Preferred Date *</label>
@@ -444,6 +450,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const emailInput = document.getElementById('email');
     const phoneInput = document.getElementById('phone');
     const branchSelect = document.getElementById('branch');
+    const numberOfPeopleInput = document.getElementById('number_of_people');
     const serviceSelect = document.getElementById('service');
     const dateInput = document.getElementById('appointment_date');
     const timeSelect = document.getElementById('appointment_time');
@@ -601,6 +608,22 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
+    function validateNumberOfPeople(input) {
+        const value = input.value.trim();
+        const errorMsg = input.parentElement.querySelector('.error-message');
+        
+        if (value === '') {
+            showError(input, errorMsg, 'Number of people is required');
+            return false;
+        } else if (parseInt(value) < 1 || parseInt(value) > 50) {
+            showError(input, errorMsg, 'Please enter a number between 1 and 50');
+            return false;
+        } else {
+            clearError(input, errorMsg);
+            return true;
+        }
+    }
+    
     function validateService(select) {
         const value = select.value;
         const errorMsg = select.parentElement.querySelector('.error-message');
@@ -673,6 +696,7 @@ document.addEventListener('DOMContentLoaded', function() {
     nameInput.addEventListener('blur', () => validateName(nameInput));
     emailInput.addEventListener('blur', () => validateEmail(emailInput));
     phoneInput.addEventListener('blur', () => validatePhone(phoneInput));
+    numberOfPeopleInput.addEventListener('blur', () => validateNumberOfPeople(numberOfPeopleInput));
     branchSelect.addEventListener('change', function() {
         validateBranch(this);
         if (dateInput.value) loadContactSlots();
@@ -702,6 +726,12 @@ document.addEventListener('DOMContentLoaded', function() {
             validatePhone(this);
         }
     });
+
+    numberOfPeopleInput.addEventListener('input', function() {
+        if (this.classList.contains('error-border')) {
+            validateNumberOfPeople(this);
+        }
+    });
     
     // Form submission
     form.addEventListener('submit', function(e) {
@@ -713,6 +743,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const isNameValid = validateName(nameInput);
         const isEmailValid = validateEmail(emailInput);
         const isPhoneValid = validatePhone(phoneInput);
+        const isNumberOfPeopleValid = validateNumberOfPeople(numberOfPeopleInput);
         const isBranchValid = validateBranch(branchSelect);
         const isServiceValid = validateService(serviceSelect);
         const isDateValid = validateDate(dateInput);
@@ -722,13 +753,14 @@ document.addEventListener('DOMContentLoaded', function() {
             name: isNameValid,
             email: isEmailValid,
             phone: isPhoneValid,
+            numberOfPeople: isNumberOfPeopleValid,
             branch: isBranchValid,
             service: isServiceValid,
             date: isDateValid,
             time: isTimeValid
         });
         
-        if (!isNameValid || !isEmailValid || !isPhoneValid || !isBranchValid || !isServiceValid || !isDateValid || !isTimeValid) {
+        if (!isNameValid || !isEmailValid || !isPhoneValid || !isNumberOfPeopleValid || !isBranchValid || !isServiceValid || !isDateValid || !isTimeValid) {
             showNotification('Please fix the errors before submitting', 'error');
             console.log('Validation failed, form not submitted');
             return;

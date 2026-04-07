@@ -79,6 +79,10 @@ function julius_booking_send_confirmation( $booking_id ) {
                                             <td style="color: #1f2937; font-size: 14px;">' . esc_html( $booking->phone ) . '</td>
                                         </tr>
                                         <tr>
+                                            <td style="color: #6b7280; font-size: 14px; font-weight: 600;">Number of People:</td>
+                                            <td style="color: #1f2937; font-size: 14px;">' . esc_html( $booking->number_of_people ? $booking->number_of_people : '1' ) . '</td>
+                                        </tr>
+                                        <tr>
                                             <td style="color: #6b7280; font-size: 14px; font-weight: 600;">Booking Date:</td>
                                             <td style="color: #1f2937; font-size: 14px;">' . date( 'F j, Y g:i A', strtotime( $booking->booking_date ) ) . '</td>
                                         </tr>';    
@@ -227,6 +231,14 @@ function julius_booking_send_admin_notification( $booking_id ) {
                                         </td>
                                         <td style="color: #333333; font-size: 14px; border-bottom: 1px solid #e9ecef;">
                                             <a href="tel:' . esc_attr( $booking->phone ) . '" style="color: #667eea; text-decoration: none;">' . esc_html( $booking->phone ) . '</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="color: #666666; font-size: 14px; font-weight: bold; border-bottom: 1px solid #e9ecef;">
+                                            Number of People:
+                                        </td>
+                                        <td style="color: #333333; font-size: 14px; font-weight: 600; border-bottom: 1px solid #e9ecef;">
+                                            ' . esc_html( $booking->number_of_people ? $booking->number_of_people : '1' ) . '
                                         </td>
                                     </tr>';
     

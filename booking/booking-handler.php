@@ -35,6 +35,7 @@ function julius_booking_ajax_submit() {
     $service_id = isset( $_POST['service_id'] ) ? absint( $_POST['service_id'] ) : null;
     $appointment_date = isset( $_POST['appointment_date'] ) ? sanitize_text_field( $_POST['appointment_date'] ) : '';
     $appointment_time = isset( $_POST['appointment_time'] ) ? sanitize_text_field( $_POST['appointment_time'] ) : '';
+    $number_of_people = isset( $_POST['booking_number_of_people'] ) ? absint( $_POST['booking_number_of_people'] ) : 1;
     
     // Get IP address
     $ip_address = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( $_SERVER['REMOTE_ADDR'] ) : '';
@@ -50,6 +51,7 @@ function julius_booking_ajax_submit() {
         'message' => $message,
         'appointment_date' => $appointment_date,
         'appointment_time' => $appointment_time,
+        'number_of_people' => $number_of_people,
         'ip_address' => $ip_address
     );
     
@@ -206,8 +208,9 @@ function julius_contact_form_handler() {
     $service_id = isset( $_POST['service'] ) ? absint( $_POST['service'] ) : 0;
     $branch = isset( $_POST['branch'] ) ? sanitize_text_field( $_POST['branch'] ) : '';
     $message = isset( $_POST['message'] ) ? sanitize_textarea_field( $_POST['message'] ) : '';
+    $number_of_people = isset( $_POST['number_of_people'] ) ? absint( $_POST['number_of_people'] ) : 1;
     
-    error_log( 'JULIUS CONTACT: Parsed fields - Name: ' . $name . ', Email: ' . $email . ', Phone: ' . $phone . ', Branch: ' . $branch . ', Service ID: ' . $service_id );
+    error_log( 'JULIUS CONTACT: Parsed fields - Name: ' . $name . ', Email: ' . $email . ', Phone: ' . $phone . ', Branch: ' . $branch . ', Service ID: ' . $service_id . ', Number of People: ' . $number_of_people );
     
     if ( empty( $name ) || empty( $phone ) || empty( $email ) || empty( $service_id ) || empty( $branch ) ) {
         error_log( 'JULIUS CONTACT: Validation failed - missing required fields' );
@@ -255,6 +258,7 @@ function julius_contact_form_handler() {
         'message' => $message,
         'appointment_date' => $appointment_date,
         'appointment_time' => $appointment_time,
+        'number_of_people' => $number_of_people,
         'ip_address' => $ip_address
     );
     
