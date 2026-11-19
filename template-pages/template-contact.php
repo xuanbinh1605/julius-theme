@@ -28,11 +28,9 @@ get_header();
                     $loc1_address = get_theme_mod( 'julius_loc1_address', '05 An Thuong 38, Da Nang' );
                     $loc1_phone   = get_theme_mod( 'julius_loc1_phone', '0775509057' );
                     $loc1_display = get_theme_mod( 'julius_loc1_phone_display', '0775 509 057' );
-                    $loc2_name    = get_theme_mod( 'julius_loc2_name', 'Julius 2' );
-                    $loc2_address = get_theme_mod( 'julius_loc2_address', '61 Ta My Duat, Da Nang' );
-                    $loc2_phone   = get_theme_mod( 'julius_loc2_phone', '0787509157' );
-                    $loc2_display = get_theme_mod( 'julius_loc2_phone_display', '0787 509 157' );
-                    $email = get_theme_mod( 'julius_email', 'info@juliusspa.com' );
+                    $loc2           = julius_get_location_2_settings();
+                    $has_location_2 = julius_has_location_2();
+                    $email          = get_theme_mod( 'julius_email', 'info@juliusspa.com' );
                     $hours = get_theme_mod( 'julius_opening_hours', '9:00 AM - 10:00 PM' );
                     ?>
                     
@@ -62,12 +60,16 @@ get_header();
                         </div>
                     </div>
                     
+                    <?php if ( $has_location_2 ) : ?>
                     <!-- Divider -->
                     <div class="border-t border-white/20 my-2"></div>
                     
                     <!-- Location 2 -->
-                    <p class="text-primary text-xs tracking-widest uppercase font-semibold"><?php echo esc_html( $loc2_name ); ?></p>
-                    <a href="tel:<?php echo esc_attr( $loc2_phone ); ?>" class="flex items-center gap-4 text-white hover:text-primary transition-colors group">
+                    <?php if ( $loc2['name'] !== '' ) : ?>
+                    <p class="text-primary text-xs tracking-widest uppercase font-semibold"><?php echo esc_html( $loc2['name'] ); ?></p>
+                    <?php endif; ?>
+                    <?php if ( $loc2['phone'] !== '' && $loc2['phone_display'] !== '' ) : ?>
+                    <a href="tel:<?php echo esc_attr( $loc2['phone'] ); ?>" class="flex items-center gap-4 text-white hover:text-primary transition-colors group">
                         <div class="w-12 h-12 bg-white/10 group-hover:bg-primary/20 rounded-full flex items-center justify-center transition-colors">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone w-5 h-5">
                                 <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
@@ -75,9 +77,11 @@ get_header();
                         </div>
                         <div>
                             <p class="text-sm text-white/60">Call Us</p>
-                            <p class="font-medium"><?php echo esc_html( $loc2_display ); ?></p>
+                            <p class="font-medium"><?php echo esc_html( $loc2['phone_display'] ); ?></p>
                         </div>
                     </a>
+                    <?php endif; ?>
+                    <?php if ( $loc2['address'] !== '' ) : ?>
                     <div class="flex items-center gap-4 text-white">
                         <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin w-5 h-5">
@@ -87,9 +91,11 @@ get_header();
                         </div>
                         <div>
                             <p class="text-sm text-white/60">Address</p>
-                            <p class="font-medium"><?php echo esc_html( $loc2_address ); ?></p>
+                            <p class="font-medium"><?php echo esc_html( $loc2['address'] ); ?></p>
                         </div>
                     </div>
+                    <?php endif; ?>
+                    <?php endif; ?>
                     
                     <!-- Divider -->
                     <div class="border-t border-white/20 my-2"></div>
@@ -192,7 +198,9 @@ get_header();
                     <select id="branch" name="branch" required class="w-full h-12 px-4 rounded-md border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50">
                         <option value="">Choose a branch...</option>
                         <option value="julius-1"><?php echo esc_html( get_theme_mod( 'julius_loc1_name', 'Julius 1' ) . ' - ' . get_theme_mod( 'julius_loc1_address', '05 An Thuong 38, Da Nang' ) . ' (' . get_theme_mod( 'julius_loc1_phone_display', '0775 509 057' ) . ')' ); ?></option>
-                        <option value="julius-2"><?php echo esc_html( get_theme_mod( 'julius_loc2_name', 'Julius 2' ) . ' - ' . get_theme_mod( 'julius_loc2_address', '61 Ta My Duat, Da Nang' ) . ' (' . get_theme_mod( 'julius_loc2_phone_display', '0787 509 157' ) . ')' ); ?></option>
+                        <?php if ( julius_has_location_2() && julius_get_location_2_branch_label() !== '' ) : ?>
+                        <option value="julius-2"><?php echo esc_html( julius_get_location_2_branch_label() ); ?></option>
+                        <?php endif; ?>
                     </select>
                     <p class="error-message hidden"></p>
                 </div>
@@ -270,6 +278,8 @@ get_header();
                     <label for="message" class="block text-sm font-medium text-foreground mb-2">Message</label>
                     <textarea data-slot="textarea" class="placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm bg-background border-border resize-none" id="message" name="message" rows="4" placeholder="Tell us your preferred date, time, or any special requests..."></textarea>
                 </div>
+
+                <?php julius_turnstile_render_widget( JULIUS_TURNSTILE_ACTION_CONTACT ); ?>
                 
                 <button id="submit-btn" data-slot="button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive px-4 py-2 has-[>svg]:px-3 w-full bg-primary hover:bg-primary/90 text-primary-foreground h-14 text-lg font-medium" type="submit">
                     <svg id="send-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send w-5 h-5 mr-2">
@@ -283,11 +293,16 @@ get_header();
                     <span id="button-text">Send Message</span>
                 </button>
                 
+                <?php
+                $loc2_call = julius_get_location_2_settings();
+                ?>
                 <p class="text-center text-sm text-muted-foreground">
                     Or call us directly at 
                     <a href="tel:<?php echo esc_attr( get_theme_mod( 'julius_loc1_phone', '0775509057' ) ); ?>" class="text-primary hover:underline font-medium"><?php echo esc_html( get_theme_mod( 'julius_loc1_phone_display', '0775 509 057' ) ); ?></a>
+                    <?php if ( julius_has_location_2() && $loc2_call['phone'] !== '' && $loc2_call['phone_display'] !== '' ) : ?>
                     or
-                    <a href="tel:<?php echo esc_attr( get_theme_mod( 'julius_loc2_phone', '0787509157' ) ); ?>" class="text-primary hover:underline font-medium"><?php echo esc_html( get_theme_mod( 'julius_loc2_phone_display', '0787 509 157' ) ); ?></a>
+                    <a href="tel:<?php echo esc_attr( $loc2_call['phone'] ); ?>" class="text-primary hover:underline font-medium"><?php echo esc_html( $loc2_call['phone_display'] ); ?></a>
+                    <?php endif; ?>
                 </p>
             </form>
         </div>
@@ -304,15 +319,16 @@ get_header();
         </div>
         
         <?php
-        $loc1_name = get_theme_mod( 'julius_loc1_name', 'Julius 1' );
-        $loc2_name = get_theme_mod( 'julius_loc2_name', 'Julius 2' );
+        $loc1_name    = get_theme_mod( 'julius_loc1_name', 'Julius 1' );
         $loc1_address = get_theme_mod( 'julius_loc1_address', '05 An Thuong 38, Da Nang' );
-        $loc2_address = get_theme_mod( 'julius_loc2_address', '61 Ta My Duat, Da Nang' );
-        $map1_embed = get_theme_mod( 'julius_contact_map_embed', get_theme_mod( 'julius_loc1_map_embed', '' ) );
-        $map2_embed = get_theme_mod( 'julius_loc2_map_embed', '' );
+        $loc2         = julius_get_location_2_settings();
+        $has_loc2_map = julius_has_location_2();
+        $map1_embed   = get_theme_mod( 'julius_contact_map_embed', get_theme_mod( 'julius_loc1_map_embed', '' ) );
+        $map2_embed   = $loc2['map_embed'];
         ?>
         
         <!-- Location Tabs -->
+        <?php if ( $has_loc2_map ) : ?>
         <div class="flex justify-center mb-6">
             <div class="inline-flex bg-background rounded-lg border border-border p-1 shadow-sm">
                 <button type="button" id="map-tab-1" class="julius-map-tab px-6 py-3 rounded-md text-sm font-medium transition-all bg-primary text-primary-foreground shadow-sm" data-target="map-panel-1">
@@ -331,12 +347,15 @@ get_header();
                             <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path>
                             <circle cx="12" cy="10" r="3"></circle>
                         </svg>
-                        <?php echo esc_html( $loc2_name ); ?>
+                        <?php echo esc_html( $loc2['name'] !== '' ? $loc2['name'] : __( 'Location 2', 'julius-theme' ) ); ?>
                     </span>
-                    <span class="block text-xs opacity-75 mt-0.5"><?php echo esc_html( $loc2_address ); ?></span>
+                    <?php if ( $loc2['address'] !== '' ) : ?>
+                    <span class="block text-xs opacity-75 mt-0.5"><?php echo esc_html( $loc2['address'] ); ?></span>
+                    <?php endif; ?>
                 </button>
             </div>
         </div>
+        <?php endif; ?>
         
         <!-- Map Panels -->
         <div class="relative h-[400px] md:h-[500px] rounded-2xl overflow-hidden border border-border shadow-lg">
@@ -350,14 +369,16 @@ get_header();
                 </div>
             <?php endif; ?>
             
-            <?php if ( $map2_embed ) : ?>
+            <?php if ( $has_loc2_map ) : ?>
+                <?php if ( $map2_embed ) : ?>
                 <div id="map-panel-2" class="julius-map-panel absolute inset-0 hidden">
-                    <iframe src="<?php echo esc_url( $map2_embed ); ?>" width="100%" height="100%" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="<?php echo esc_attr( $loc2_name ); ?> Location" style="border: 0px;"></iframe>
+                    <iframe src="<?php echo esc_url( $map2_embed ); ?>" width="100%" height="100%" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="<?php echo esc_attr( $loc2['name'] !== '' ? $loc2['name'] : __( 'Location 2', 'julius-theme' ) ); ?> Location" style="border: 0px;"></iframe>
                 </div>
-            <?php else : ?>
+                <?php else : ?>
                 <div id="map-panel-2" class="julius-map-panel absolute inset-0 hidden flex items-center justify-center bg-secondary">
-                    <p class="text-muted-foreground">Map embed URL not configured for <?php echo esc_html( $loc2_name ); ?></p>
+                    <p class="text-muted-foreground"><?php esc_html_e( 'Map embed URL not configured for this branch.', 'julius-theme' ); ?></p>
                 </div>
+                <?php endif; ?>
             <?php endif; ?>
         </div>
     </div>
@@ -765,6 +786,11 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('Validation failed, form not submitted');
             return;
         }
+
+        if (typeof window.juliusTurnstile !== 'undefined' && !window.juliusTurnstile.requireToken(form)) {
+            showNotification('Please complete the security verification.', 'error');
+            return;
+        }
         
         // Show loading state
         submitBtn.disabled = true;
@@ -820,11 +846,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     console.error('Debug info:', data.debug);
                 }
                 showNotification(data.message || 'Something went wrong. Please try again.', 'error');
+                if (typeof window.juliusTurnstile !== 'undefined') {
+                    window.juliusTurnstile.resetForm(form);
+                }
             }
         })
         .catch(error => {
             console.error('Fetch error:', error);
             showNotification('Error sending message. Please try calling us directly.', 'error');
+            if (typeof window.juliusTurnstile !== 'undefined') {
+                window.juliusTurnstile.resetForm(form);
+            }
         })
         .finally(() => {
             console.log('Request completed, resetting button state');

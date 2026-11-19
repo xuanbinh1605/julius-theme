@@ -14,6 +14,21 @@
             var $emailInput = $form.find('input[type="email"]');
             var $messageContainer = $form.find('.newsletter-message');
             var email = $emailInput.val();
+            var turnstileToken = '';
+
+            if (typeof window.juliusTurnstile !== 'undefined') {
+                if (!window.juliusTurnstile.requireToken($form[0])) {
+                    if ($messageContainer.length === 0) {
+                        $form.append('<div class="newsletter-message"></div>');
+                        $messageContainer = $form.find('.newsletter-message');
+                    }
+                    $messageContainer.removeClass('success').addClass('error')
+                        .html('<p>Please complete the security verification.</p>')
+                        .slideDown();
+                    return;
+                }
+                turnstileToken = window.juliusTurnstile.getToken($form[0]);
+            }
             
             // Remove existing messages
             if ($messageContainer.length === 0) {
@@ -25,15 +40,21 @@
             // Disable button
             $button.prop('disabled', true).text('Subscribing...');
             
+            var postData = {
+                action: 'julius_newsletter_subscribe',
+                nonce: juliusNewsletter.nonce,
+                email: email
+            };
+
+            if (turnstileToken) {
+                postData['cf-turnstile-response'] = turnstileToken;
+            }
+            
             // AJAX request
             $.ajax({
                 url: juliusNewsletter.ajaxurl,
                 type: 'POST',
-                data: {
-                    action: 'julius_newsletter_subscribe',
-                    nonce: juliusNewsletter.nonce,
-                    email: email
-                },
+                data: postData,
                 success: function(response) {
                     if (response.success) {
                         // Success
@@ -57,6 +78,10 @@
                             .addClass('error')
                             .html('<p>' + response.data.message + '</p>')
                             .slideDown();
+
+                        if (typeof window.juliusTurnstile !== 'undefined') {
+                            window.juliusTurnstile.resetForm($form[0]);
+                        }
                         
                         // Hide message after 5 seconds
                         setTimeout(function() {
@@ -71,6 +96,10 @@
                         .addClass('error')
                         .html('<p>Something went wrong. Please try again later.</p>')
                         .slideDown();
+
+                    if (typeof window.juliusTurnstile !== 'undefined') {
+                        window.juliusTurnstile.resetForm($form[0]);
+                    }
                     
                     setTimeout(function() {
                         $messageContainer.slideUp(function() {

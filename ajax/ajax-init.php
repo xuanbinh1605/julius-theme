@@ -36,6 +36,11 @@ function julius_service_booking_handler() {
     if ( ! isset( $_POST['booking_nonce'] ) || ! wp_verify_nonce( $_POST['booking_nonce'], 'julius_booking_nonce' ) ) {
         wp_send_json_error( array( 'message' => 'Security check failed.' ) );
     }
+
+    $turnstile = julius_turnstile_verify_request( JULIUS_TURNSTILE_ACTION_SERVICE_BOOKING_LEGACY );
+    if ( is_wp_error( $turnstile ) ) {
+        wp_send_json_error( array( 'message' => julius_turnstile_user_error_message() ) );
+    }
     
     // Get form data
     $service_id = isset( $_POST['service_id'] ) ? absint( $_POST['service_id'] ) : 0;

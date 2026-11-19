@@ -267,12 +267,10 @@ if ( ! empty( $first_service ) ) {
             $loc1_address = get_theme_mod( 'julius_loc1_address', '05 An Thuong 38, Da Nang' );
             $loc1_phone   = get_theme_mod( 'julius_loc1_phone', '0775509057' );
             $loc1_display = get_theme_mod( 'julius_loc1_phone_display', '0775 509 057' );
-            $loc2_name    = get_theme_mod( 'julius_loc2_name', 'Julius 2' );
-            $loc2_address = get_theme_mod( 'julius_loc2_address', '61 Ta My Duat, Da Nang' );
-            $loc2_phone   = get_theme_mod( 'julius_loc2_phone', '0787509157' );
-            $loc2_display = get_theme_mod( 'julius_loc2_phone_display', '0787 509 157' );
+            $loc2           = julius_get_location_2_settings();
+            $has_location_2 = julius_has_location_2();
             ?>
-            <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="mt-8 grid grid-cols-1 <?php echo $has_location_2 ? 'md:grid-cols-2' : ''; ?> gap-4">
                 <div class="bg-card border border-border rounded-xl p-4">
                     <div class="flex items-start gap-3">
                         <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
@@ -288,6 +286,7 @@ if ( ! empty( $first_service ) ) {
                         </div>
                     </div>
                 </div>
+                <?php if ( $has_location_2 ) : ?>
                 <div class="bg-card border border-border rounded-xl p-4">
                     <div class="flex items-start gap-3">
                         <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
@@ -297,12 +296,19 @@ if ( ! empty( $first_service ) ) {
                             </svg>
                         </div>
                         <div>
-                            <h4 class="font-bold text-foreground"><?php echo esc_html( $loc2_name ); ?></h4>
-                            <p class="text-muted-foreground text-sm"><?php echo esc_html( $loc2_address ); ?></p>
-                            <a href="tel:<?php echo esc_attr( $loc2_phone ); ?>" class="text-primary text-sm font-medium hover:underline">Tel: <?php echo esc_html( $loc2_display ); ?></a>
+                            <?php if ( $loc2['name'] !== '' ) : ?>
+                            <h4 class="font-bold text-foreground"><?php echo esc_html( $loc2['name'] ); ?></h4>
+                            <?php endif; ?>
+                            <?php if ( $loc2['address'] !== '' ) : ?>
+                            <p class="text-muted-foreground text-sm"><?php echo esc_html( $loc2['address'] ); ?></p>
+                            <?php endif; ?>
+                            <?php if ( $loc2['phone'] !== '' && $loc2['phone_display'] !== '' ) : ?>
+                            <a href="tel:<?php echo esc_attr( $loc2['phone'] ); ?>" class="text-primary text-sm font-medium hover:underline">Tel: <?php echo esc_html( $loc2['phone_display'] ); ?></a>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
+                <?php endif; ?>
             </div>
             
             <!-- Final CTA -->

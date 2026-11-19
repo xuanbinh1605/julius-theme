@@ -27,10 +27,8 @@
                     $loc1_phone   = get_theme_mod( 'julius_loc1_phone', '0775509057' );
                     $loc1_display = get_theme_mod( 'julius_loc1_phone_display', '0775 509 057' );
                     $loc1_address = get_theme_mod( 'julius_loc1_address', '05 An Thuong 38, Da Nang' );
-                    $loc2_name    = get_theme_mod( 'julius_loc2_name', 'Julius 2' );
-                    $loc2_phone   = get_theme_mod( 'julius_loc2_phone', '0787509157' );
-                    $loc2_display = get_theme_mod( 'julius_loc2_phone_display', '0787 509 157' );
-                    $loc2_address = get_theme_mod( 'julius_loc2_address', '61 Ta My Duat, Da Nang' );
+                    $loc2           = julius_get_location_2_settings();
+                    $has_location_2 = julius_has_location_2();
                     ?>
                     <!-- Location 1 -->
                     <div class="flex items-center gap-2">
@@ -43,6 +41,7 @@
                         <span class="mx-1">·</span>
                         <a href="tel:<?php echo esc_attr( $loc1_phone ); ?>" class="hover:underline"><?php echo esc_html( $loc1_display ); ?></a>
                     </div>
+                    <?php if ( $has_location_2 ) : ?>
                     <span class="text-primary-foreground/50">|</span>
                     <!-- Location 2 -->
                     <div class="flex items-center gap-2">
@@ -50,11 +49,18 @@
                             <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path>
                             <circle cx="12" cy="10" r="3"></circle>
                         </svg>
-                        <span class="font-semibold"><?php echo esc_html( $loc2_name ); ?>:</span>
-                        <span><?php echo esc_html( $loc2_address ); ?></span>
+                        <?php if ( $loc2['name'] !== '' ) : ?>
+                        <span class="font-semibold"><?php echo esc_html( $loc2['name'] ); ?>:</span>
+                        <?php endif; ?>
+                        <?php if ( $loc2['address'] !== '' ) : ?>
+                        <span><?php echo esc_html( $loc2['address'] ); ?></span>
+                        <?php endif; ?>
+                        <?php if ( $loc2['phone'] !== '' && $loc2['phone_display'] !== '' ) : ?>
                         <span class="mx-1">·</span>
-                        <a href="tel:<?php echo esc_attr( $loc2_phone ); ?>" class="hover:underline"><?php echo esc_html( $loc2_display ); ?></a>
+                        <a href="tel:<?php echo esc_attr( $loc2['phone'] ); ?>" class="hover:underline"><?php echo esc_html( $loc2['phone_display'] ); ?></a>
+                        <?php endif; ?>
                     </div>
+                    <?php endif; ?>
                 </div>
                 <!-- Opening Hours -->
                 <div class="flex items-center gap-4">

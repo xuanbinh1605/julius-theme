@@ -355,22 +355,34 @@ get_header();
                                     </div>
                                 </div>
                             </div>
+                            <?php
+                            $promo_loc2      = julius_get_promo_location_2_settings();
+                            $has_promo_loc2  = julius_has_promo_location_2();
+                            ?>
+                            <?php if ( $has_promo_loc2 ) : ?>
                             <div class="flex items-start gap-3">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin w-5 h-5 text-primary mt-0.5 flex-shrink-0">
                                     <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path>
                                     <circle cx="12" cy="10" r="3"></circle>
                                 </svg>
                                 <div>
-                                    <p class="text-foreground font-bold"><?php echo esc_html( get_theme_mod( 'julius_promo_loc2_name', 'Julius 2' ) ); ?></p>
-                                    <p class="text-muted-foreground text-sm"><?php echo esc_html( get_theme_mod( 'julius_promo_loc2_address', '61 Ta My Duat, Da Nang' ) ); ?></p>
+                                    <?php if ( $promo_loc2['name'] !== '' ) : ?>
+                                    <p class="text-foreground font-bold"><?php echo esc_html( $promo_loc2['name'] ); ?></p>
+                                    <?php endif; ?>
+                                    <?php if ( $promo_loc2['address'] !== '' ) : ?>
+                                    <p class="text-muted-foreground text-sm"><?php echo esc_html( $promo_loc2['address'] ); ?></p>
+                                    <?php endif; ?>
+                                    <?php if ( $promo_loc2['phone'] !== '' && $promo_loc2['phone_display'] !== '' ) : ?>
                                     <div class="flex items-center gap-1.5 mt-1">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone w-3.5 h-3.5 text-primary">
                                             <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
                                         </svg>
-                                        <a href="tel:<?php echo esc_attr( get_theme_mod( 'julius_promo_loc2_phone', '0787509157' ) ); ?>" class="text-primary text-sm font-medium hover:underline"><?php echo esc_html( get_theme_mod( 'julius_promo_loc2_phone_display', '0787 509 157' ) ); ?></a>
+                                        <a href="tel:<?php echo esc_attr( $promo_loc2['phone'] ); ?>" class="text-primary text-sm font-medium hover:underline"><?php echo esc_html( $promo_loc2['phone_display'] ); ?></a>
                                     </div>
+                                    <?php endif; ?>
                                 </div>
                             </div>
+                            <?php endif; ?>
                         </div>
                         <a data-slot="button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-10 rounded-md px-6 has-[>svg]:px-4 flex-shrink-0" href="<?php echo esc_url( get_theme_mod( 'julius_promo_button_link', '/contact' ) ); ?>"><?php echo esc_html( get_theme_mod( 'julius_promo_button_text', 'Book Now' ) ); ?></a>
                     </div>

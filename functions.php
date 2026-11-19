@@ -95,6 +95,13 @@ if ( file_exists( JULIUS_THEME_DIR . '/meta/meta-init.php' ) ) {
 }
 
 /**
+ * Include Cloudflare Turnstile Module
+ */
+if ( file_exists( JULIUS_THEME_DIR . '/turnstile/turnstile-init.php' ) ) {
+    require_once JULIUS_THEME_DIR . '/turnstile/turnstile-init.php';
+}
+
+/**
  * Include AJAX Handlers
  */
 if ( file_exists( JULIUS_THEME_DIR . '/ajax/ajax-init.php' ) ) {
@@ -127,6 +134,85 @@ if ( file_exists( JULIUS_THEME_DIR . '/newsletter/newsletter-init.php' ) ) {
  */
 if ( file_exists( JULIUS_THEME_DIR . '/booking/booking-init.php' ) ) {
     require_once JULIUS_THEME_DIR . '/booking/booking-init.php';
+}
+
+/**
+ * Location 2 customizer values (no template fallbacks).
+ *
+ * @return array{name:string,address:string,phone:string,phone_display:string,map_embed:string}
+ */
+function julius_get_location_2_settings() {
+    return array(
+        'name'          => get_theme_mod( 'julius_loc2_name', '' ),
+        'address'       => get_theme_mod( 'julius_loc2_address', '' ),
+        'phone'         => get_theme_mod( 'julius_loc2_phone', '' ),
+        'phone_display' => get_theme_mod( 'julius_loc2_phone_display', '' ),
+        'map_embed'     => get_theme_mod( 'julius_loc2_map_embed', '' ),
+    );
+}
+
+/**
+ * Whether Location 2 has any configured value.
+ *
+ * @return bool
+ */
+function julius_has_location_2() {
+    $loc = julius_get_location_2_settings();
+    foreach ( $loc as $value ) {
+        if ( $value !== '' && $value !== null ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * Branch select label for Location 2.
+ *
+ * @return string
+ */
+function julius_get_location_2_branch_label() {
+    $loc   = julius_get_location_2_settings();
+    $label = $loc['name'];
+
+    if ( $loc['address'] !== '' ) {
+        $label .= ( $label !== '' ? ' - ' : '' ) . $loc['address'];
+    }
+
+    if ( $loc['phone_display'] !== '' ) {
+        $label .= ' (' . $loc['phone_display'] . ')';
+    }
+
+    return $label;
+}
+
+/**
+ * Promo section Location 2 values (no template fallbacks).
+ *
+ * @return array{name:string,address:string,phone:string,phone_display:string}
+ */
+function julius_get_promo_location_2_settings() {
+    return array(
+        'name'          => get_theme_mod( 'julius_promo_loc2_name', '' ),
+        'address'       => get_theme_mod( 'julius_promo_loc2_address', '' ),
+        'phone'         => get_theme_mod( 'julius_promo_loc2_phone', '' ),
+        'phone_display' => get_theme_mod( 'julius_promo_loc2_phone_display', '' ),
+    );
+}
+
+/**
+ * Whether promo Location 2 has any configured value.
+ *
+ * @return bool
+ */
+function julius_has_promo_location_2() {
+    $loc = julius_get_promo_location_2_settings();
+    foreach ( $loc as $value ) {
+        if ( $value !== '' && $value !== null ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 /**

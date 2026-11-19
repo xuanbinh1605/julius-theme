@@ -6455,3 +6455,14 @@ html {
     outline: 2px solid rgba(255, 255, 255, 0.5);
     outline-offset: 2px;
 }
+
+/* Cloudflare Turnstile */
+.julius-turnstile-wrap {
+    margin: 0.75rem 0 1rem;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.julius-turnstile-wrap .cf-turnstile {
+    max-width: 100%;
+}

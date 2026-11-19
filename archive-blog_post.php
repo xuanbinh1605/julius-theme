@@ -533,6 +533,7 @@ function julius_calculate_reading_time( $content ) {
                             placeholder="Your email address" 
                             required
                             class="w-full px-4 py-3 border border-border rounded-lg bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 mb-3">
+                        <?php julius_turnstile_render_widget( JULIUS_TURNSTILE_ACTION_NEWSLETTER ); ?>
                         <button type="submit" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] h-9 px-4 py-2 w-full bg-primary hover:bg-primary/90 text-primary-foreground">
                             Subscribe
                         </button>

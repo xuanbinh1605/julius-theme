@@ -150,7 +150,7 @@ function julius_promotions_customizer_register( $wp_customize ) {
 
     // Location 2
     $wp_customize->add_setting( 'julius_promo_loc2_name', array(
-        'default'           => 'Julius 2',
+        'default'           => '',
         'sanitize_callback' => 'sanitize_text_field',
         'transport'         => 'refresh',
     ) );
@@ -163,7 +163,7 @@ function julius_promotions_customizer_register( $wp_customize ) {
     ) );
 
     $wp_customize->add_setting( 'julius_promo_loc2_address', array(
-        'default'           => '61 Ta My Duat, Da Nang',
+        'default'           => '',
         'sanitize_callback' => 'sanitize_text_field',
         'transport'         => 'refresh',
     ) );
@@ -176,7 +176,7 @@ function julius_promotions_customizer_register( $wp_customize ) {
     ) );
 
     $wp_customize->add_setting( 'julius_promo_loc2_phone', array(
-        'default'           => '0787509157',
+        'default'           => '',
         'sanitize_callback' => 'sanitize_text_field',
         'transport'         => 'refresh',
     ) );
@@ -190,7 +190,7 @@ function julius_promotions_customizer_register( $wp_customize ) {
     ) );
 
     $wp_customize->add_setting( 'julius_promo_loc2_phone_display', array(
-        'default'           => '0787 509 157',
+        'default'           => '',
         'sanitize_callback' => 'sanitize_text_field',
         'transport'         => 'refresh',
     ) );

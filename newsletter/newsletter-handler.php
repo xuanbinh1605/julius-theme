@@ -18,6 +18,12 @@ function julius_newsletter_handle_subscription() {
     if ( ! isset( $_POST['julius_newsletter_nonce'] ) || ! wp_verify_nonce( $_POST['julius_newsletter_nonce'], 'julius_newsletter' ) ) {
         wp_die( __( 'Security check failed.', 'julius-theme' ) );
     }
+
+    $turnstile = julius_turnstile_verify_request( JULIUS_TURNSTILE_ACTION_NEWSLETTER );
+    if ( is_wp_error( $turnstile ) ) {
+        wp_redirect( add_query_arg( 'newsletter_error', 'security', wp_get_referer() ? wp_get_referer() : home_url() ) );
+        exit;
+    }
     
     // Get and validate email
     $email = isset( $_POST['newsletter_email'] ) ? sanitize_email( $_POST['newsletter_email'] ) : '';
@@ -71,6 +77,13 @@ add_action( 'admin_post_julius_newsletter_subscribe', 'julius_newsletter_handle_
 function julius_newsletter_ajax_subscribe() {
     // Verify nonce
     check_ajax_referer( 'julius-newsletter-ajax', 'nonce' );
+
+    $turnstile = julius_turnstile_verify_request( JULIUS_TURNSTILE_ACTION_NEWSLETTER );
+    if ( is_wp_error( $turnstile ) ) {
+        wp_send_json_error( array(
+            'message' => julius_turnstile_user_error_message(),
+        ) );
+    }
     
     // Get and validate email
     $email = isset( $_POST['email'] ) ? sanitize_email( $_POST['email'] ) : '';
@@ -212,6 +225,9 @@ function julius_newsletter_display_messages() {
                 break;
             case 'db_error':
                 $error_message = 'Something went wrong. Please try again later.';
+                break;
+            case 'security':
+                $error_message = 'Security verification failed. Please complete the challenge and try again.';
                 break;
             default:
                 $error_message = 'An error occurred. Please try again.';

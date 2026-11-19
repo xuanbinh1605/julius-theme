@@ -293,7 +293,9 @@ while ( have_posts() ) : the_post();
                                     >
                                         <option value="">Choose branch...</option>
                                         <option value="julius-1"><?php echo esc_html( get_theme_mod( 'julius_loc1_name', 'Julius 1' ) . ' - ' . get_theme_mod( 'julius_loc1_address', '05 An Thuong 38, Da Nang' ) ); ?></option>
-                                        <option value="julius-2"><?php echo esc_html( get_theme_mod( 'julius_loc2_name', 'Julius 2' ) . ' - ' . get_theme_mod( 'julius_loc2_address', '61 Ta My Duat, Da Nang' ) ); ?></option>
+                                        <?php if ( julius_has_location_2() && julius_get_location_2_branch_label() !== '' ) : ?>
+                                        <option value="julius-2"><?php echo esc_html( julius_get_location_2_branch_label() ); ?></option>
+                                        <?php endif; ?>
                                     </select>
                                     <p class="error-message hidden text-xs text-red-500 mt-1"></p>
                                 </div>
@@ -324,6 +326,8 @@ while ( have_posts() ) : the_post();
                                     </select>
                                     <p class="error-message hidden text-xs text-red-500 mt-1"></p>
                                 </div>
+
+                                <?php julius_turnstile_render_widget( JULIUS_TURNSTILE_ACTION_BOOKING ); ?>
 
                                 <button 
                                     id="booking-submit-btn"
@@ -715,6 +719,11 @@ document.addEventListener('DOMContentLoaded', function() {
             showNotification('Please fix the errors before submitting', 'error');
             return;
         }
+
+        if (typeof window.juliusTurnstile !== 'undefined' && !window.juliusTurnstile.requireToken(form)) {
+            showNotification('Please complete the security verification.', 'error');
+            return;
+        }
         
         // Show loading state
         submitBtn.disabled = true;
@@ -746,11 +755,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.querySelectorAll('.error-message').forEach(el => el.classList.add('hidden'));
             } else {
                 showNotification(data.data?.message || data.message || 'Something went wrong. Please try again.', 'error');
+                if (typeof window.juliusTurnstile !== 'undefined') {
+                    window.juliusTurnstile.resetForm(form);
+                }
             }
         })
         .catch(error => {
             console.error('Booking error:', error);
             showNotification('Error submitting booking. Please try calling us directly.', 'error');
+            if (typeof window.juliusTurnstile !== 'undefined') {
+                window.juliusTurnstile.resetForm(form);
+            }
         })
         .finally(() => {
             // Reset button state

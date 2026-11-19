@@ -16,6 +16,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 function julius_booking_ajax_submit() {
     // Verify nonce
     check_ajax_referer( 'julius_booking_nonce', 'booking_nonce' );
+
+    $turnstile = julius_turnstile_verify_request( JULIUS_TURNSTILE_ACTION_BOOKING );
+    if ( is_wp_error( $turnstile ) ) {
+        wp_send_json_error( array(
+            'message' => julius_turnstile_user_error_message(),
+        ) );
+    }
     
     // Validate required fields
     $name = isset( $_POST['booking_name'] ) ? sanitize_text_field( $_POST['booking_name'] ) : '';
@@ -97,6 +104,13 @@ function julius_booking_ajax_submit() {
 function julius_booking_contact_ajax_submit() {
     // Verify nonce
     check_ajax_referer( 'julius_contact_nonce', 'contact_nonce' );
+
+    $turnstile = julius_turnstile_verify_request( JULIUS_TURNSTILE_ACTION_BOOKING_CONTACT );
+    if ( is_wp_error( $turnstile ) ) {
+        wp_send_json_error( array(
+            'message' => julius_turnstile_user_error_message(),
+        ) );
+    }
     
     // Validate required fields
     $name = isset( $_POST['contact_name'] ) ? sanitize_text_field( $_POST['contact_name'] ) : '';
@@ -200,6 +214,16 @@ function julius_contact_form_handler() {
     }
     
     error_log( 'JULIUS CONTACT: Nonce verified successfully' );
+
+    $turnstile = julius_turnstile_verify_request( JULIUS_TURNSTILE_ACTION_CONTACT );
+    if ( is_wp_error( $turnstile ) ) {
+        ob_end_clean();
+        echo wp_json_encode( array(
+            'success' => false,
+            'message' => julius_turnstile_user_error_message(),
+        ) );
+        exit;
+    }
     
     // Validate required fields
     $name = isset( $_POST['name'] ) ? sanitize_text_field( $_POST['name'] ) : '';

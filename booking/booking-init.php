@@ -71,7 +71,13 @@ add_action('admin_init', 'julius_booking_handle_admin_actions');
  */
 function julius_booking_enqueue_scripts() {
     // Only enqueue on service and contact pages
-    if (is_singular('service') || is_page_template('template-contact.php')) {
+    $is_contact_template = is_page() && is_page_template(
+        array(
+            'template-contact.php',
+            'template-pages/template-contact.php',
+        )
+    );
+    if ( is_singular( 'service' ) || $is_contact_template ) {
         wp_enqueue_script(
             'julius-booking',
             get_template_directory_uri() . '/js/booking.js',
